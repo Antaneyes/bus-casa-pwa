@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#6366f1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="description" content="Encuentra paradas de autobús EMT Valencia cerca de ti para volver a casa">
+
+    <title>Bus Casa - EMT Valencia</title>
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+
+    <!-- Icons -->
+    <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+    <link rel="apple-touch-icon" href="icon-192.png">
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="header-top">
+                <h1 class="title">
+                    <span class="icon">🚌</span>
+                    Bus Casa
+                </h1>
+                <button id="theme-toggle" class="btn-icon" aria-label="Cambiar tema">
+                    <span class="theme-icon">🌙</span>
+                </button>
+            </div>
+
+            <p class="subtitle">Paradas cercanas para volver a casa</p>
+
+            <!-- Radio Selector -->
+            <div class="radio-selector">
+                <button class="radio-btn" data-radius="300">300m</button>
+                <button class="radio-btn active" data-radius="500">500m</button>
+                <button class="radio-btn" data-radius="1000">1km</button>
+                <button class="radio-btn" data-radius="2000">2km</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <!-- Fake Location Controls -->
+        <div class="fake-location-panel">
+            <button id="toggle-fake-location" class="btn-toggle-fake">
+                📍 Simular Ubicación
+            </button>
+            <div id="fake-location-controls" class="fake-controls hidden">
+                <h3 class="fake-title">Ubicación Simulada</h3>
+                <p class="fake-instruction">Haz clic en el mapa para seleccionar tu ubicación</p>
+                <div class="fake-buttons">
+                    <button id="btn-select-location" class="btn-select-map">
+                        🗺️ Seleccionar en Mapa
+                    </button>
+                    <button id="reset-fake-location" class="btn-reset">
+                        📍 Usar GPS Real
+                    </button>
+                </div>
+                <div id="fake-location-info" class="fake-info hidden">
+                    <p>📍 <span id="fake-coords-display"></span></p>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Location Status -->
+        <div id="location-status" class="location-status hidden">
+            <div class="status-content">
+                <span class="status-icon">📍</span>
+                <span class="status-text">Obteniendo ubicación...</span>
+            </div>
+        </div>
+
+        <!-- Map Container -->
+        <div id="map-container" class="map-container">
+            <div id="map" class="map"></div>
+        </div>
+
+        <!-- Stops List -->
+        <div class="stops-section">
+            <div class="stops-header">
+                <h2 class="stops-title">Paradas Cercanas</h2>
+                <span id="stops-count" class="stops-count">0 paradas</span>
+            </div>
+
+            <div id="stops-list" class="stops-list">
+                <!-- Stops will be rendered here -->
+                <div class="empty-state">
+                    <div class="empty-icon">🔍</div>
+                    <p class="empty-text">Buscando paradas cercanas...</p>
+                    <p class="empty-subtext">Asegúrate de permitir el acceso a tu ubicación</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Floating Action Button -->
+    <button id="locate-btn" class="fab" aria-label="Actualizar ubicación">
+        <span class="fab-icon">📍</span>
+    </button>
+
+    <!-- Modal for Real-time Arrivals -->
+    <div id="arrivals-modal" class="modal hidden">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Próximas Llegadas</h3>
+                <button id="close-modal" class="btn-close" aria-label="Cerrar">✕</button>
+            </div>
+            <div class="modal-body">
+                <div id="arrivals-iframe" class="arrivals-iframe"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <!-- App JS -->
+    <script src="main.js?v=20260118_3"></script>
+</body>
+
+</html>
