@@ -27,13 +27,13 @@ docker-compose build
 docker-compose up -d
 ```
 
-La aplicación estará disponible en `http://localhost:8080`
+La aplicación estará disponible en `http://localhost:8091`
 
 ### Configuración con Cloudflare Tunnel
 
 La aplicación está configurada para funcionar con `emt.ombi.es` a través de Cloudflare Tunnel.
 
-Asegúrate de que tu Cloudflare Tunnel apunte al puerto `8080` del contenedor.
+Asegúrate de que tu Cloudflare Tunnel apunte al puerto `8091` del contenedor.
 
 ### Detener
 
@@ -43,7 +43,7 @@ docker-compose down
 
 ## Configuración
 
-Las coordenadas de casa y las paradas de destino están configuradas en `app.js`:
+Las coordenadas de casa y las paradas de destino están configuradas en `main.js`:
 
 - `CONFIG.HOME_COORDS`: Coordenadas de tu casa
 - `CONFIG.DESTINATION_STOPS`: Mapeo de líneas a paradas de destino
