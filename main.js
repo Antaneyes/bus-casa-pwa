@@ -783,10 +783,18 @@ function updateMapMarkers() {
                 <div style="font-size: 12px; color: #666; margin-bottom: 4px;">
                     📍 ${stop.distanceToStop}m | 🚌 ${usefulLines.join(', ')}
                 </div>
-                <div id="popup-times-${stop.id}" style="margin-top: 8px;">
+                <div id="popup-times-${stop.id}" style="margin-top: 8px; min-height: 40px;">
                     <div style="text-align: center; padding: 8px;">
                         <div class="loading-spinner-small"></div>
                     </div>
+                </div>
+                <div class="popup-footer" style="margin-top: 10px; border-top: 1px solid #eee; padding-top: 10px; display: flex; justify-content: flex-end;">
+                    <a href="https://www.google.com/maps/search/?api=1&query=${stop.coords.lat},${stop.coords.lon}" 
+                       target="_blank" 
+                       class="btn-google-maps"
+                       style="display: flex; align-items: center; gap: 5px; background: #fff; border: 1px solid #dadce0; color: #3c4043; padding: 5px 10px; border-radius: 4px; font-size: 12px; font-weight: 500; text-decoration: none; transition: background 0.2s;">
+                        <span style="font-size: 16px;">📍</span> Ir a Google Maps
+                    </a>
                 </div>
             </div>
         `;
