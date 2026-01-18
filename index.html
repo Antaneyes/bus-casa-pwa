@@ -141,7 +141,11 @@
                     <h3 id="drawer-stop-name" class="drawer-stop-name">Nombre de la Parada</h3>
                     <p id="drawer-stop-info" class="drawer-stop-info">Información de la parada</p>
                 </div>
-                <button id="close-drawer" class="btn-close-drawer" aria-label="Cerrar">✕</button>
+                <div class="drawer-header-actions">
+                    <button id="refresh-drawer" class="btn-refresh-drawer" onclick="refreshStopDrawer()"
+                        aria-label="Actualizar">🔄</button>
+                    <button id="close-drawer" class="btn-close-drawer" aria-label="Cerrar">✕</button>
+                </div>
             </div>
             <div class="drawer-body">
                 <div id="drawer-arrivals-container" class="drawer-arrivals">
@@ -158,7 +162,7 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
     <!-- App JS -->
-    <script src="main.js?v=20260118_18"></script>
+    <script src="main.js?v=20260118_26"></script>
 </body>
 
 </html>

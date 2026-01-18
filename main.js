@@ -9,8 +9,19 @@ const CONFIG = {
         lon: -0.377689
     },
 
-    // Líneas útiles para volver a casa
-    USEFUL_LINES: ['11', '6', '16', '26', '98', 'C2', 'C3', 'C1', '94', '95', '60', '64', '28'],
+    USEFUL_LINES: ['11', '6', '16', '26', '98', 'C2', 'C3', 'C1', '94', '95', '60', '64', '28', '79', '80', '89', '90', '5'],
+
+    // Mapeo de números antiguos (API) a nombres comerciales (UI)
+    LINE_ALIASES: {
+        '79': 'C2',
+        '80': 'C2',
+        '89': 'C3',
+        '90': 'C3',
+        '5': 'C1'
+    },
+
+    // Paradas a excluir (datos erróneos en dataset)
+    EXCLUDED_STOPS: [2220, 2221, 2014, 2313, 488, 1696, 2229, 1552, 1754, 1749, 1753],
 
     // Paradas de destino cerca de casa por línea
     DESTINATION_STOPS: {
@@ -26,7 +37,12 @@ const CONFIG = {
         '95': 343,    // El Pla de la Saïdia - Constitució
         '60': 1217,   // Doctor Peset Aleixandre - Felip Rinaldi
         '64': 242,    // Doctor Peset Aleixandre - Guardacostes
-        '28': 331     // Burjassot - Centre Cultural Bombas Gens
+        '28': 331,    // Burjassot - Centre Cultural Bombas Gens
+        '79': 351,    // C2 Interior
+        '80': 351,    // C2 Exterior
+        '89': 1682,   // C3 Exterior
+        '90': 1682,   // C3 Interior
+        '5': 1305     // C1
     },
 
     // API de EMT Valencia
@@ -60,7 +76,8 @@ const state = {
     useFakeLocation: false,
     fakeLocation: null,
     selectingLocation: false,
-    lastScrollY: window.scrollY
+    lastOpenedStop: null, // Para refrescar el Drawer
+    lastScrollY: 0
 };
 
 // ========================================
@@ -194,7 +211,7 @@ async function loadStops() {
 
         // Procesar y filtrar paradas
         const allProcessed = allResults
-            .filter(stop => !stop.suprimida)
+            .filter(stop => !stop.suprimida && !CONFIG.EXCLUDED_STOPS.includes(parseInt(stop.id_parada)))
             .map(stop => ({
                 id: stop.id_parada,
                 name: stop.denominacion,
@@ -314,26 +331,9 @@ function filterAndDisplayStops() {
                 stop.coords.lon
             );
 
-            // CALCULO DE PENALIZACIÓN POR "CAMINATA HACIA ATRÁS"
-            // Si para ir a la parada te alejas de tu destino final (casa), penalizamos el score.
-            let directionPenalty = 0;
-            const distUserToHome = calculateDistance(
-                state.userLocation.lat, state.userLocation.lon,
-                CONFIG.HOME_COORDS.lat, CONFIG.HOME_COORDS.lon
-            );
-            const distStopToHome = calculateDistance(
-                stop.coords.lat, stop.coords.lon,
-                CONFIG.HOME_COORDS.lat, CONFIG.HOME_COORDS.lon
-            );
-
-            // Si la parada está más lejos de casa que tú mismo (+ margen de 30m), es "hacia atrás"
-            if (distStopToHome > distUserToHome + 30) {
-                directionPenalty = (distStopToHome - distUserToHome) * 1.5;
-            }
-
             // Sistema de puntuación (menor es mejor)
-            // Peso: 50% distancia a parada, 35% distancia desde destino a casa, 15% penalización dirección
-            const score = (distanceToStop * 0.5) + (distanceStopToHome * 0.35) + directionPenalty;
+            // Ya no hay penalización por caminata "hacia atrás"
+            const score = (distanceToStop * 0.6) + (distanceStopToHome * 0.4);
 
             return {
                 ...stop,
@@ -343,7 +343,7 @@ function filterAndDisplayStops() {
                 score,
                 bestLine,
                 bestDestinationStop,
-                isBackwards: directionPenalty > 0
+                isBackwards: false
             };
         });
 
@@ -368,39 +368,14 @@ function filterAndDisplayStops() {
         .filter(stop => stop.distanceToStop <= state.selectedRadius)
         .sort((a, b) => a.score - b.score);
 
-    // Filtrar para evitar duplicados excesivos de líneas
-    // PERO permitir duplicados si las paradas son muy buenas (Top 3 general)
+    // Simplificado: Mostrar simplemente las 10 mejores paradas en radio (sin filtro de duplicados)
+    // El usuario prefiere ver todo lo disponible sin que el sistema elija por él
+    state.filteredStops = stopsInRadius.slice(0, 10);
     const shownLines = new Set();
-    state.filteredStops = [];
-
-    // Obtenemos el Top 3 de puntuación absoluta sin filtros de duplicados
-    const globalTop3Ids = new Set(stopsInRadius.slice(0, 3).map(s => s.id));
-
-    for (const stop of stopsInRadius) {
-        let shouldInclude = false;
-
-        // Si es una de las 3 mejores paradas absolutas, la mostramos siempre
-        if (globalTop3Ids.has(stop.id)) {
-            shouldInclude = true;
-        } else {
-            // Para el resto, solo si tiene líneas útiles que no hemos mostrado todavía
-            const usefulLinesInStop = stop.lines.filter(line => CONFIG.USEFUL_LINES.includes(line));
-            const newUsefulLines = usefulLinesInStop.filter(line => !shownLines.has(line));
-            if (newUsefulLines.length > 0) {
-                shouldInclude = true;
-            }
-        }
-
-        if (shouldInclude) {
-            state.filteredStops.push(stop);
-            // Marcar todas sus líneas útiles como mostradas
-            stop.lines.filter(line => CONFIG.USEFUL_LINES.includes(line))
-                .forEach(l => shownLines.add(l));
-        }
-
-        // Limitar a máximo 6 paradas para no saturar la UI
-        if (state.filteredStops.length >= 6) break;
-    }
+    state.filteredStops.forEach(stop => {
+        stop.lines.filter(line => CONFIG.USEFUL_LINES.includes(line))
+            .forEach(l => shownLines.add(l));
+    });
 
     console.log(`✅ Paradas dentro del radio de ${state.selectedRadius}m: ${state.filteredStops.length}`);
     console.log(`📋 Líneas útiles cubiertas: ${Array.from(shownLines).join(', ')}`);
@@ -473,8 +448,7 @@ function displayStops() {
             `<p class="stop-best-line">🚌 Mejor: Línea ${stop.bestLine} → ${stop.bestDestinationStop.name}</p>` : '';
 
         return `
-        <div class="stop-card ${isBestOption ? 'best-option' : ''} ${stop.isBackwards ? 'is-backwards' : ''}" data-stop-id="${stop.id}">
-            ${stop.isBackwards ? '<div class="backwards-badge">⚠️ Caminata contraria a casa</div>' : ''}
+        <div class="stop-card ${isBestOption ? 'best-option' : ''}" data-stop-id="${stop.id}">
             ${rankBadge ? `<div class="rank-badge">${rankBadge}</div>` : ''}
             <div class="stop-header">
                 <div>
@@ -486,7 +460,10 @@ function displayStops() {
                 <span class="stop-distance">${formatDistance(stop.distanceToStop)}</span>
             </div>
             <div class="stop-lines">
-                ${stop.lines.map(line => `<span class="line-badge ${line === stop.bestLine ? 'best-line' : ''}">${line}</span>`).join('')}
+                ${stop.lines.map(line => {
+            const displayLine = CONFIG.LINE_ALIASES[line] || line;
+            return `<span class="line-badge ${line === stop.bestLine ? 'best-line' : ''}">${displayLine}</span>`;
+        }).join('')}
             </div>
             <button class="btn-show-arrivals" data-arrivals-url="${stop.arrivalsUrl}" data-stop-id="${stop.id}">
                 ⏱️ Ver tiempos de llegada
@@ -531,6 +508,13 @@ function displayStops() {
 async function loadArrivalsInline(url, stopId) {
     const container = document.getElementById(`arrivals-${stopId}`);
 
+    // Encontrar la parada en el estado global para conocer sus líneas
+    const stop = state.allStops.find(s => s.id == stopId);
+    if (!stop) {
+        console.error(`❌ No se encontró la parada ${stopId} en el estado.`);
+        return;
+    }
+
     // Mostrar loading
     container.innerHTML = `
         <div class="arrivals-loading-inline">
@@ -567,8 +551,13 @@ async function loadArrivalsInline(url, stopId) {
                 const text = span.textContent.trim();
                 allArrivals.push({ line, text }); // Guardar para debugging
 
-                // Solo incluir líneas útiles
-                if (CONFIG.USEFUL_LINES.includes(line)) {
+                // Solo incluir líneas útiles (comparando nombres comerciales para soportar aliases)
+                const commercialLine = CONFIG.LINE_ALIASES[line] || line;
+                const commercialUsefulLines = stop.lines
+                    .filter(l => CONFIG.USEFUL_LINES.includes(l))
+                    .map(l => CONFIG.LINE_ALIASES[l] || l);
+
+                if (commercialUsefulLines.includes(commercialLine)) {
                     // Extraer destino y tiempo
                     // El texto suele ser "DESTINO - TIEMPO"
                     let destination = "Desconocido";
@@ -622,7 +611,7 @@ async function loadArrivalsInline(url, stopId) {
                     ${arrivals.map(arrival => `
                         <div class="arrival-inline-item">
                             <div class="arrival-inline-line-group">
-                                <span class="arrival-inline-line">${arrival.line}</span>
+                                <span class="arrival-inline-line">${CONFIG.LINE_ALIASES[arrival.line] || arrival.line}</span>
                                 <span class="arrival-inline-dest">${arrival.destination}</span>
                             </div>
                             <span class="arrival-inline-time">${arrival.time}</span>
@@ -802,8 +791,11 @@ window.loadTimesInPopup = async function (url, stopId, usefulLines) {
                 const text = span.textContent.trim();
                 allArrivals.push({ line, text });
 
-                // Solo incluir líneas útiles
-                if (usefulLines.includes(line)) {
+                // Normalizar para comparar con aliases
+                const commercialLine = CONFIG.LINE_ALIASES[line] || line;
+                const commercialUsefulLines = usefulLines.map(l => CONFIG.LINE_ALIASES[l] || l);
+
+                if (commercialUsefulLines.includes(commercialLine)) {
                     // Extraer destino y tiempo
                     let destination = "Desconocido";
                     let time = null;
@@ -843,7 +835,11 @@ window.loadTimesInPopup = async function (url, stopId, usefulLines) {
         if (arrivals.length > 0) {
             container.innerHTML = `
                 <div style="margin-top: 4px; padding-top: 8px; border-top: 1px solid rgba(99, 102, 241, 0.2);">
-                    <div style="font-weight: 600; margin-bottom: 4px; color: #6366f1; font-size: 13px;">⏱️ Próximas llegadas:</div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                        <span style="font-weight: 600; color: #6366f1; font-size: 13px;">⏱️ Próximas llegadas:</span>
+                        <button onclick="loadTimesInPopup('${url}', '${stopId}', ${JSON.stringify(usefulLines)})" 
+                                style="background: none; border: none; cursor: pointer; font-size: 14px; padding: 2px;">🔄</button>
+                    </div>
                     ${arrivals.map(arrival => `
                         <div style="
                             display: flex;
@@ -865,7 +861,7 @@ window.loadTimesInPopup = async function (url, stopId, usefulLines) {
                                     min-width: 25px;
                                     text-align: center;
                                     flex-shrink: 0;
-                                ">${arrival.line}</span>
+                                >${CONFIG.LINE_ALIASES[arrival.line] || arrival.line}</span>
                                 <span style="
                                     font-size: 11px;
                                     color: #4b5563;
@@ -1153,6 +1149,7 @@ function handleScroll() {
 }
 
 function openStopDrawer(stop) {
+    state.lastOpenedStop = stop;
     elements.drawerStopName.textContent = stop.name;
     const usefulLinesInStop = stop.lines.filter(l => CONFIG.USEFUL_LINES.includes(l));
     elements.drawerStopInfo.textContent = `📍 ${stop.distanceToStop}m a pie | 🏠 A ${stop.distanceStopToHome}m de casa`;
@@ -1179,15 +1176,34 @@ function openStopDrawer(stop) {
     document.body.style.overflow = 'hidden'; // Evitar scroll de fondo
 
     // Cargar tiempos
-    loadArrivalsInDrawer(stop.arrivalsUrl, stop.id, usefulLinesInStop);
+    loadArrivalsInDrawer(stop.arrivalsUrl, stop.id, usefulLinesInStop, stop.bestLine);
 }
+
+function refreshStopDrawer() {
+    if (!state.lastOpenedStop) return;
+
+    // Mostrar loading de nuevo
+    elements.drawerArrivals.innerHTML = `
+        <div style="text-align: center; padding: 40px 20px;">
+            <div class="loading-spinner-small" style="width: 30px; height: 30px; margin: 0 auto; border-width: 4px;"></div>
+            <p style="margin-top: 15px; color: #666; font-size: 14px;">Actualizando tiempos...</p>
+        </div>
+    `;
+
+    const stop = state.lastOpenedStop;
+    const usefulLinesInStop = stop.lines.filter(l => CONFIG.USEFUL_LINES.includes(l));
+    loadArrivalsInDrawer(stop.arrivalsUrl, stop.id, usefulLinesInStop, stop.bestLine);
+}
+
+// Hacerla global para el onclick del HTML
+window.refreshStopDrawer = refreshStopDrawer;
 
 function closeStopDrawer() {
     elements.stopInfoDrawer.classList.add('hidden');
     document.body.style.overflow = '';
 }
 
-async function loadArrivalsInDrawer(url, stopId, usefulLines) {
+async function loadArrivalsInDrawer(url, stopId, usefulLines, bestLine) {
     try {
         const proxyUrl = url.replace('http://www.emtvalencia.es', '/api/emt-proxy');
         const response = await fetch(proxyUrl);
@@ -1205,10 +1221,35 @@ async function loadArrivalsInDrawer(url, stopId, usefulLines) {
             if (img && span) {
                 const line = img.getAttribute('title');
                 const text = span.textContent.trim();
-                const destination = div.innerText.replace(line, '').replace(text, '').trim();
 
-                if (usefulLines.includes(line)) {
-                    arrivals.push({ line, time: text, destination });
+                // Normalizar para comparar con aliases
+                const commercialLine = CONFIG.LINE_ALIASES[line] || line;
+                const commercialUsefulLines = usefulLines.map(l => CONFIG.LINE_ALIASES[l] || l);
+
+                if (commercialUsefulLines.includes(commercialLine)) {
+                    // Extraer destino y tiempo de forma robusta igual que en la lista
+                    let destination = "Desconocido";
+                    let time = text; // Fallback
+
+                    const timeMatch = text.match(/- (\d{2}:\d{2})$/);
+                    const minMatch = text.match(/- (\d+ min\.?)$/);
+
+                    if (timeMatch) {
+                        time = timeMatch[1];
+                        destination = text.substring(0, text.lastIndexOf(' - ')).trim();
+                    } else if (minMatch) {
+                        time = minMatch[1];
+                        destination = text.substring(0, text.lastIndexOf(' - ')).trim();
+                    } else {
+                        // Intentar separar por el último guion si no hay match claro
+                        const lastDashIndex = text.lastIndexOf(' - ');
+                        if (lastDashIndex !== -1) {
+                            destination = text.substring(0, lastDashIndex).trim();
+                            time = text.substring(lastDashIndex + 3).trim();
+                        }
+                    }
+
+                    arrivals.push({ line, time, destination });
                 }
             }
         });
@@ -1222,17 +1263,24 @@ async function loadArrivalsInDrawer(url, stopId, usefulLines) {
             return;
         }
 
-        elements.drawerArrivals.innerHTML = arrivals.map(arrival => `
-            <div class="drawer-arrival-item" style="border-left-color: ${arrival.line === '98' ? '#ec4899' : '#6366f1'}">
-                <div class="drawer-arrival-info">
-                    <div class="drawer-arrival-line-row">
-                        <span class="line-badge" style="margin:0; min-width: 40px; background: ${arrival.line === '98' ? '#ec4899' : '#6366f1'}">${arrival.line}</span>
-                        <span style="font-weight: 600; font-size: 14px; margin-left: 8px;">${arrival.destination}</span>
+        elements.drawerArrivals.innerHTML = arrivals.map(arrival => {
+            const commercialLine = CONFIG.LINE_ALIASES[arrival.line] || arrival.line;
+            const commercialBestLine = CONFIG.LINE_ALIASES[bestLine] || bestLine;
+            const isBestLine = commercialLine === commercialBestLine;
+            const accentColor = isBestLine ? '#ec4899' : '#6366f1';
+
+            return `
+                <div class="drawer-arrival-item" style="border-left-color: ${accentColor}">
+                    <div class="drawer-arrival-info">
+                        <div class="drawer-arrival-line-row">
+                            <span class="line-badge" style="margin:0; min-width: 40px; background: ${accentColor}">${commercialLine}</span>
+                            <span style="font-weight: 600; font-size: 14px; margin-left: 8px; color: var(--color-text);">${arrival.destination}</span>
+                        </div>
                     </div>
+                    <div class="drawer-arrival-time" style="color: ${accentColor}; font-weight: 800;">${arrival.time}</div>
                 </div>
-                <div class="drawer-arrival-time">${arrival.time}</div>
-            </div>
-        `).join('');
+            `;
+        }).join('');
 
     } catch (error) {
         console.error('Error cargando tiempos en drawer:', error);
