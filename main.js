@@ -37,11 +37,66 @@ const CONFIG = {
     // Radio de búsqueda por defecto (metros)
     DEFAULT_RADIUS: 500,
 
-    // Configuración del mapa
     MAP_CONFIG: {
         defaultZoom: 15,
         maxZoom: 18,
         minZoom: 12
+    },
+
+    // Cabeceras de línea (puntos extremos) para calcular dirección
+    HEADBOARDS: {
+        '6': [
+            { name: 'TORREFIEL', keywords: ['TORREFIEL'], lat: 39.4939, lon: -0.3748 },
+            { name: 'HOSPITAL LA FE', keywords: ['FE', 'MALILLA'], lat: 39.4443, lon: -0.3764 }
+        ],
+        '11': [
+            { name: 'ALBORAYA', keywords: ['ALBORAYA', 'ALBORAIA', 'ORRIOLS'], lat: 39.4998, lon: -0.3516 },
+            { name: 'PATRAIX', keywords: ['PATRAIX'], lat: 39.4581, lon: -0.3957 }
+        ],
+        '16': [
+            { name: 'VINALESA', keywords: ['VINALESA', 'CASAS'], lat: 39.5371, lon: -0.3712 },
+            { name: 'POETA QUEROL', keywords: ['POETA', 'QUEROL', 'CENTRE'], lat: 39.4715, lon: -0.3752 }
+        ],
+        '26': [
+            { name: 'MONCADA', keywords: ['MONCADA', 'ALFARA'], lat: 39.5445, lon: -0.3958 },
+            { name: 'POETA QUEROL', keywords: ['POETA', 'QUEROL', 'CENTRE'], lat: 39.4715, lon: -0.3752 }
+        ],
+        '28': [
+            { name: 'ARTISTA FALLER', keywords: ['FALLER', 'ARTISTA'], lat: 39.5021, lon: -0.3921 },
+            { name: 'XATIVA', keywords: ['XATIVA', 'ESTACIO'], lat: 39.4678, lon: -0.3781 }
+        ],
+        '60': [
+            { name: 'TORREFIEL', keywords: ['TORREFIEL'], lat: 39.4939, lon: -0.3748 },
+            { name: 'SANT AGUSTI', keywords: ['AGUSTI'], lat: 39.4682, lon: -0.3774 }
+        ],
+        '64': [
+            { name: 'BENICALAP', keywords: ['BENICALAP'], lat: 39.4925, lon: -0.3912 },
+            { name: 'HOSPITAL LA FE', keywords: ['FE', 'MALILLA'], lat: 39.4443, lon: -0.3764 }
+        ],
+        '94': [
+            { name: 'GRAO', keywords: ['GRAO', 'FRANCA', 'MARITIM', 'MARINA'], lat: 39.4582, lon: -0.3325 },
+            { name: 'CAMPANAR', keywords: ['CAMPANAR'], lat: 39.4891, lon: -0.4024 }
+        ],
+        '95': [
+            { name: 'LA MARINA', keywords: ['MARINA', 'NEPTU', 'GRAO'], lat: 39.4621, lon: -0.3258 },
+            { name: 'HOSPITAL GENERAL', keywords: ['GENERAL', 'CREUS', 'NOU', 'OCTUBRE'], lat: 39.4695, lon: -0.4102 }
+        ],
+        '98': [
+            { name: 'ESTACIO CABANYAL', keywords: ['CABANYAL', 'ESTACIO', 'MARITIM', 'SERRERIA'], lat: 39.4675, lon: -0.3342 },
+            { name: 'AV. CID', keywords: ['CID'], lat: 39.4682, lon: -0.4021 }
+        ],
+        'C1': [
+            { name: 'PARE D\'ORFENS', keywords: ['ORFENS', 'BLANQUERIA'], lat: 39.4792, lon: -0.3775 },
+            { name: 'XATIVA', keywords: ['XATIVA', 'ESTACIO'], lat: 39.4678, lon: -0.3781 }
+        ],
+        'C2': [
+            { name: 'GRAN VIA / CENTRO', keywords: ['NA JORDANA', 'GUILLEM', 'GRAN VIA'], lat: 39.4715, lon: -0.3800 },
+            { name: 'TRANSITOS / PERIFERIA', keywords: ['PRIMADO', 'CONSTITUCIO', 'SAIDIA'], lat: 39.4880, lon: -0.3750 }
+        ],
+        'C3': [
+            { name: 'AVENIDA DEL CID / OESTE', keywords: ['CID', 'TRES CREUS'], lat: 39.4682, lon: -0.4021 },
+            { name: 'POLITECNICO / ESTE', keywords: ['TARONGERS', 'FAUSTO', 'CATALUNYA', 'BOSCA'], lat: 39.4796, lon: -0.3392 }
+        ]
     }
 };
 
@@ -330,9 +385,28 @@ function filterAndDisplayStops() {
                 stop.coords.lon
             );
 
+            // CALCULO DE PENALIZACIÓN POR "CAMINATA HACIA ATRÁS"
+            // Si para ir a la parada te alejas de tu destino final, penalizamos el score.
+            let directionPenalty = 0;
+            if (bestDestinationStop) {
+                const distUserToDest = calculateDistance(
+                    state.userLocation.lat, state.userLocation.lon,
+                    bestDestinationStop.coords.lat, bestDestinationStop.coords.lon
+                );
+                const distStopToDest = calculateDistance(
+                    stop.coords.lat, stop.coords.lon,
+                    bestDestinationStop.coords.lat, bestDestinationStop.coords.lon
+                );
+
+                // Si la parada está más lejos del destino que tú mismo, es una caminata "hacia atrás"
+                if (distStopToDest > distUserToDest + 50) {
+                    directionPenalty = (distStopToDest - distUserToDest) * 1.5;
+                }
+            }
+
             // Sistema de puntuación (menor es mejor)
-            // Peso: 60% distancia a parada, 40% distancia desde destino a casa
-            const score = (distanceToStop * 0.6) + (distanceStopToHome * 0.4);
+            // Peso: 50% distancia a parada, 30% distancia desde destino a casa, 20% penalización dirección
+            const score = (distanceToStop * 0.5) + (distanceStopToHome * 0.3) + directionPenalty;
 
             return {
                 ...stop,
@@ -341,7 +415,8 @@ function filterAndDisplayStops() {
                 direction,
                 score,
                 bestLine,
-                bestDestinationStop
+                bestDestinationStop,
+                isBackwards: directionPenalty > 0
             };
         });
 
@@ -366,25 +441,38 @@ function filterAndDisplayStops() {
         .filter(stop => stop.distanceToStop <= state.selectedRadius)
         .sort((a, b) => a.score - b.score);
 
-    // Filtrar para evitar duplicados de líneas
-    // Solo mostrar una parada por línea ÚTIL, a menos que tenga líneas útiles adicionales
+    // Filtrar para evitar duplicados excesivos de líneas
+    // PERO permitir duplicados si las paradas son muy buenas (Top 3 general)
     const shownLines = new Set();
     state.filteredStops = [];
 
+    // Obtenemos el Top 3 de puntuación absoluta sin filtros de duplicados
+    const globalTop3Ids = new Set(stopsInRadius.slice(0, 3).map(s => s.id));
+
     for (const stop of stopsInRadius) {
-        // Filtrar solo las líneas útiles de esta parada
-        const usefulLinesInStop = stop.lines.filter(line => CONFIG.USEFUL_LINES.includes(line));
+        let shouldInclude = false;
 
-        // Verificar qué líneas útiles de esta parada aún no se han mostrado
-        const newUsefulLines = usefulLinesInStop.filter(line => !shownLines.has(line));
-
-        if (newUsefulLines.length > 0) {
-            // Esta parada tiene al menos una línea útil nueva, la incluimos
-            state.filteredStops.push(stop);
-
-            // Marcar solo las líneas útiles de esta parada como mostradas
-            usefulLinesInStop.forEach(line => shownLines.add(line));
+        // Si es una de las 3 mejores paradas absolutas, la mostramos siempre
+        if (globalTop3Ids.has(stop.id)) {
+            shouldInclude = true;
+        } else {
+            // Para el resto, solo si tiene líneas útiles que no hemos mostrado todavía
+            const usefulLinesInStop = stop.lines.filter(line => CONFIG.USEFUL_LINES.includes(line));
+            const newUsefulLines = usefulLinesInStop.filter(line => !shownLines.has(line));
+            if (newUsefulLines.length > 0) {
+                shouldInclude = true;
+            }
         }
+
+        if (shouldInclude) {
+            state.filteredStops.push(stop);
+            // Marcar todas sus líneas útiles como mostradas
+            stop.lines.filter(line => CONFIG.USEFUL_LINES.includes(line))
+                .forEach(l => shownLines.add(l));
+        }
+
+        // Limitar a máximo 6 paradas para no saturar la UI
+        if (state.filteredStops.length >= 6) break;
     }
 
     console.log(`✅ Paradas dentro del radio de ${state.selectedRadius}m: ${state.filteredStops.length}`);
@@ -458,7 +546,8 @@ function displayStops() {
             `<p class="stop-best-line">🚌 Mejor: Línea ${stop.bestLine} → ${stop.bestDestinationStop.name}</p>` : '';
 
         return `
-        <div class="stop-card ${isBestOption ? 'best-option' : ''}" data-stop-id="${stop.id}">
+        <div class="stop-card ${isBestOption ? 'best-option' : ''} ${stop.isBackwards ? 'is-backwards' : ''}" data-stop-id="${stop.id}">
+            ${stop.isBackwards ? '<div class="backwards-badge">⚠️ Caminata contraria a casa</div>' : ''}
             ${rankBadge ? `<div class="rank-badge">${rankBadge}</div>` : ''}
             <div class="stop-header">
                 <div>
@@ -578,7 +667,8 @@ async function loadArrivalsInline(url, stopId) {
                     }
 
                     if (time) {
-                        arrivals.push({ line, destination, time });
+                        const directionInfo = validateDirection(line, destination);
+                        arrivals.push({ line, destination, time, directionInfo });
                     } else {
                         console.log(`⚠️ Parada ${stopId}: Línea ${line} útil pero no se pudo extraer tiempo de: "${text}"`);
                     }
@@ -604,9 +694,12 @@ async function loadArrivalsInline(url, stopId) {
                 </div>
                 <div class="arrivals-inline-list">
                     ${arrivals.map(arrival => `
-                        <div class="arrival-inline-item">
+                        <div class="arrival-inline-item ${arrival.directionInfo.isValid === false ? 'wrong-direction' : ''}">
                             <div class="arrival-inline-line-group">
-                                <span class="arrival-inline-line">${arrival.line}</span>
+                                <div style="display: flex; align-items: center; gap: 5px;" title="${arrival.directionInfo.reason}${arrival.directionInfo.targetName ? ' (Hacia ' + arrival.directionInfo.targetName + ')' : ''}">
+                                    <span class="arrival-inline-line">${arrival.line}</span>
+                                    ${arrival.directionInfo.isValid === false ? '⚠️' : arrival.directionInfo.isValid === true ? '✅' : '➖'}
+                                </div>
                                 <span class="arrival-inline-dest">${arrival.destination}</span>
                             </div>
                             <span class="arrival-inline-time">${arrival.time}</span>
@@ -736,20 +829,20 @@ function updateMapMarkers() {
             })
         }).addTo(state.map);
 
-        // Crear popup con tiempos automáticos
-        const usefulLines = stop.lines.filter(l => CONFIG.USEFUL_LINES.includes(l));
-        const usefulLinesJson = JSON.stringify(usefulLines);
+        // Pasar TODAS las líneas útiles a la función de tiempos para no omitir ninguna
+        const stopUsefulLines = stop.lines.filter(l => CONFIG.USEFUL_LINES.includes(l));
+        const allUsefulLinesJson = JSON.stringify(CONFIG.USEFUL_LINES);
 
         const popupContent = `
             <div class="map-popup">
                 <div class="popup-header-row" style="display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 5px;">
                     <strong style="font-size: 14px;">${stop.name}</strong>
                     <button class="btn-refresh-popup" 
-                            onclick='loadTimesInPopup("${stop.arrivalsUrl}", "${stop.id}", ${usefulLinesJson})'
+                            onclick='loadTimesInPopup("${stop.arrivalsUrl}", "${stop.id}", ${allUsefulLinesJson})'
                             style="background: none; border: none; cursor: pointer; font-size: 16px; padding: 2px; line-height: 1;">🔄</button>
                 </div>
                 <div style="font-size: 12px; color: #666; margin-bottom: 4px;">
-                    📍 ${stop.distanceToStop}m | 🚌 ${usefulLines.join(', ')}
+                    📍 ${stop.distanceToStop}m | 🚌 ${stopUsefulLines.join(', ')}
                 </div>
                 <div id="popup-times-${stop.id}" style="margin-top: 8px;">
                     <div style="text-align: center; padding: 8px;">
@@ -767,7 +860,8 @@ function updateMapMarkers() {
 
         marker.on('popupopen', () => {
             // Cargar tiempos automáticamente al abrir el popup
-            loadTimesInPopup(stop.arrivalsUrl, stop.id, usefulLines);
+            // Usamos la lista completa de líneas útiles para asegurar consistencia
+            loadTimesInPopup(stop.arrivalsUrl, stop.id, CONFIG.USEFUL_LINES);
         });
 
         state.markers.push(marker);
@@ -839,7 +933,8 @@ window.loadTimesInPopup = async function (url, stopId, usefulLines) {
                     }
 
                     if (time) {
-                        arrivals.push({ line, destination, time });
+                        const directionInfo = validateDirection(line, destination);
+                        arrivals.push({ line, destination, time, directionInfo });
                     } else {
                         console.log(`⚠️ Popup ${stopId}: Línea ${line} útil pero no se pudo extraer tiempo de: "${text}"`);
                     }
@@ -864,37 +959,21 @@ window.loadTimesInPopup = async function (url, stopId, usefulLines) {
                             align-items: center;
                             padding: 6px;
                             margin-top: 4px;
-                            background: rgba(99, 102, 241, 0.1);
+                            background: ${arrival.directionInfo.isValid === false ? 'rgba(0,0,0,0.05)' : 'rgba(99, 102, 241, 0.1)'};
                             border-radius: 6px;
-                        ">
-                            <div style="display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0;">
-                                <span style="
-                                    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-                                    color: white;
-                                    padding: 2px 6px;
-                                    border-radius: 4px;
-                                    font-weight: 700;
-                                    font-size: 11px;
-                                    min-width: 25px;
-                                    text-align: center;
-                                    flex-shrink: 0;
-                                ">${arrival.line}</span>
-                                <span style="
-                                    font-size: 11px;
-                                    color: #4b5563;
-                                    white-space: nowrap;
-                                    overflow: hidden;
-                                    text-overflow: ellipsis;
-                                    font-weight: 500;
-                                ">${arrival.destination}</span>
+                            border-left: 3px solid ${arrival.directionInfo.isValid === false ? '#f59e0b' : arrival.directionInfo.isValid === true ? '#10b981' : '#ccc'};
+                            opacity: ${arrival.directionInfo.isValid === false ? '0.7' : '1'};
+                        " title="${arrival.directionInfo.reason}${arrival.directionInfo.targetName ? ' (Hacia ' + arrival.directionInfo.targetName + ')' : ''}">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <div style="display: flex; align-items: center; gap: 4px;">
+                                    <span class="line-badge" style="margin: 0; padding: 2px 8px; font-size: 11px;">${arrival.line}</span>
+                                    <span style="font-size: 14px;">${arrival.directionInfo.isValid === false ? '⚠️' : arrival.directionInfo.isValid === true ? '✅' : '➖'}</span>
+                                </div>
+                                <span style="font-size: 11px; font-weight: 500; color: #444; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 120px;">
+                                    ${arrival.destination}
+                                </span>
                             </div>
-                            <span style="
-                                font-weight: 700;
-                                color: #6366f1;
-                                font-size: 12px;
-                                flex-shrink: 0;
-                                margin-left: 8px;
-                            ">${arrival.time}</span>
+                            <span style="font-weight: 700; color: #4f46e5; font-size: 12px; white-space: nowrap; margin-left: 8px;">${arrival.time}</span>
                         </div>
                     `).join('')}
                 </div>
@@ -1124,6 +1203,63 @@ function showError(message) {
     elements.statusText.textContent = `❌ ${message}`;
     elements.locationStatus.classList.remove('hidden');
     setTimeout(hideLocationStatus, 5000);
+}
+
+// Lógica de validación de dirección inteligente (Vectorial)
+function validateDirection(lineNum, incomingDestName) {
+    if (!state.userLocation) return { isValid: true, reason: 'Ubicación desconocida' };
+
+    const lineHeadboards = CONFIG.HEADBOARDS[lineNum];
+    if (!lineHeadboards) return { isValid: true, reason: 'Sin cabeceras configuradas' };
+
+    // Buscar la cabecera que coincide con el destino (usando keywords)
+    let matchedHeadboard = null;
+    let normalizedIncoming = incomingDestName.toUpperCase();
+
+    for (const headboard of lineHeadboards) {
+        // Comprobar si alguna keyword está en el destino recibido
+        const hasKeyword = headboard.keywords.some(kw => normalizedIncoming.includes(kw));
+        if (hasKeyword) {
+            matchedHeadboard = headboard;
+            break;
+        }
+    }
+
+    if (!matchedHeadboard) {
+        console.log(`🧭 Línea ${lineNum}: No se reconoció el destino "${incomingDestName}".`);
+        return { isValid: null, reason: 'Dirección desconocida', targetName: null };
+    }
+
+    // Lógica Vectorial Inteligente con Normalización:
+    // Vector V1: Mi ubicación actual -> Mi casa
+    const dx1 = CONFIG.HOME_COORDS.lon - state.userLocation.lon;
+    const dy1 = CONFIG.HOME_COORDS.lat - state.userLocation.lat;
+    const mag1 = Math.sqrt(dx1 * dx1 + dy1 * dy1);
+
+    // Vector V2: Mi ubicación actual -> El destino del bus
+    const dx2 = matchedHeadboard.lon - state.userLocation.lon;
+    const dy2 = matchedHeadboard.lat - state.userLocation.lat;
+    const mag2 = Math.sqrt(dx2 * dx2 + dy2 * dy2);
+
+    // Si estamos en el destino o en casa, marcar como válido
+    if (mag1 < 0.0001 || mag2 < 0.0001) return { isValid: true, reason: 'Ya estás en el destino o en casa' };
+
+    // Producto punto de vectores NORMALIZADOS (da el coseno del ángulo)
+    const dotProduct = ((dx1 / mag1) * (dx2 / mag2)) + ((dy1 / mag1) * (dy2 / mag2));
+
+    // Umbral de validación: 
+    // dotProduct > 0.2 (~78 grados) implica que el bus te acerca significativamente.
+    // Si es negativo, el bus se aleja (más de 90 grados).
+    const isValid = dotProduct > 0.2;
+
+    console.log(`🧭 Línea ${lineNum}: Joshua -> ${matchedHeadboard.name} | CosineSimilarity: ${dotProduct.toFixed(4)} | Resultado: ${isValid ? 'Hacia Casa ✅' : (dotProduct < 0 ? 'Se aleja ⚠️' : 'Lateral ➖')}`);
+
+    return {
+        isValid: dotProduct < 0 ? false : (dotProduct > 0.2 ? true : null),
+        reason: dotProduct < 0 ? 'Sentido contrario' : (dotProduct > 0.2 ? 'Te acerca a casa' : 'Dirección lateral'),
+        targetName: matchedHeadboard.name,
+        cos: dotProduct
+    };
 }
 
 // ========================================
