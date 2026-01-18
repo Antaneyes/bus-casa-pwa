@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#6366f1">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="description" content="Encuentra paradas de autobús EMT Valencia cerca de ti para volver a casa">
 
@@ -131,11 +131,34 @@
         </div>
     </div>
 
+    <!-- Stop Info Drawer (Bottom Sheet) -->
+    <div id="stop-info-drawer" class="stop-drawer hidden">
+        <div class="drawer-overlay" id="drawer-overlay"></div>
+        <div class="drawer-content">
+            <div class="drawer-handle"></div>
+            <div class="drawer-header">
+                <div class="drawer-title-group">
+                    <h3 id="drawer-stop-name" class="drawer-stop-name">Nombre de la Parada</h3>
+                    <p id="drawer-stop-info" class="drawer-stop-info">Información de la parada</p>
+                </div>
+                <button id="close-drawer" class="btn-close-drawer" aria-label="Cerrar">✕</button>
+            </div>
+            <div class="drawer-body">
+                <div id="drawer-arrivals-container" class="drawer-arrivals">
+                    <!-- Tiempos de llegada se cargarán aquí -->
+                </div>
+                <div id="drawer-footer" class="drawer-footer">
+                    <!-- Botón de Google Maps se añadirá aquí -->
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
     <!-- App JS -->
-    <script src="main.js?v=20260118_14"></script>
+    <script src="main.js?v=20260118_18"></script>
 </body>
 
 </html>

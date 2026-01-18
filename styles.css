@@ -79,6 +79,36 @@ body {
     position: sticky;
     top: 0;
     z-index: 1000;
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.header.header-mini {
+    padding-top: var(--spacing-sm);
+    padding-bottom: var(--spacing-sm);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.header.header-mini .subtitle,
+.header.header-mini .radio-selector {
+    opacity: 0;
+    max-height: 0;
+    margin: 0;
+    padding: 0;
+    pointer-events: none;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.header:not(.header-mini) .subtitle,
+.header:not(.header-mini) .radio-selector {
+    opacity: 1;
+    max-height: 100px;
+    transition: all 0.4s ease;
+}
+
+.header.header-hidden {
+    transform: translateY(-100%);
+    box-shadow: none;
 }
 
 .header-content {
@@ -993,4 +1023,178 @@ body {
 
 .leaflet-popup-tip {
     background: var(--color-surface);
+}
+
+/* Stop Info Drawer (Bottom Sheet) */
+.stop-drawer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    transition: visibility 0.3s;
+}
+
+.stop-drawer.hidden {
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.drawer-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(2px);
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.stop-drawer.hidden .drawer-overlay {
+    opacity: 0;
+}
+
+.drawer-content {
+    position: relative;
+    background: var(--color-surface);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    width: 100%;
+    max-height: 85vh;
+    padding: var(--spacing-md) var(--spacing-md) calc(var(--spacing-xl) + env(safe-area-inset-bottom));
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.2);
+    transform: translateY(0);
+    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    z-index: 1;
+}
+
+.stop-drawer.hidden .drawer-content {
+    transform: translateY(100%);
+}
+
+.drawer-handle {
+    width: 40px;
+    height: 4px;
+    background: var(--color-border);
+    border-radius: var(--radius-full);
+    margin: 0 auto var(--spacing-md);
+    flex-shrink: 0;
+}
+
+.drawer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: var(--spacing-md);
+}
+
+.drawer-stop-name {
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    color: var(--color-text);
+    line-height: 1.2;
+}
+
+.drawer-stop-info {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    margin-top: 4px;
+}
+
+.btn-close-drawer {
+    background: var(--color-bg);
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--color-text-secondary);
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.drawer-body {
+    overflow-y: auto;
+    flex: 1;
+    margin-bottom: var(--spacing-md);
+}
+
+.drawer-arrivals {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.drawer-footer {
+    padding-top: var(--spacing-md);
+    border-top: 1px solid var(--color-border);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+/* Reutilizar estilos de llegada para el drawer */
+.drawer-arrival-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    background: var(--color-bg);
+    border-radius: var(--radius-md);
+    border-left: 4px solid var(--color-primary);
+    margin-bottom: 8px;
+}
+
+.drawer-arrival-item.wrong-direction {
+    border-left-color: #f59e0b;
+    opacity: 0.8;
+}
+
+.drawer-arrival-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.drawer-arrival-line-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 2px;
+}
+
+.drawer-arrival-dest {
+    font-size: 11px;
+    color: var(--color-text-secondary);
+    font-weight: 500;
+}
+
+.drawer-arrival-time {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--color-primary);
+}
+
+@media (min-width: 768px) {
+    .stop-drawer {
+        justify-content: center;
+        align-items: flex-end;
+        padding-bottom: 20px;
+    }
+
+    .drawer-content {
+        max-width: 500px;
+        margin: 0 auto;
+        border-radius: var(--radius-lg);
+        max-height: 70vh;
+    }
 }

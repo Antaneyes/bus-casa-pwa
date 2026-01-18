@@ -59,34 +59,15 @@ const state = {
     userMarker: null,
     useFakeLocation: false,
     fakeLocation: null,
-    selectingLocation: false
+    selectingLocation: false,
+    lastScrollY: window.scrollY
 };
 
 // ========================================
 // ELEMENTOS DEL DOM
 // ========================================
 
-const elements = {
-    locationStatus: document.getElementById('location-status'),
-    statusText: document.querySelector('.status-text'),
-    map: document.getElementById('map'),
-    stopsList: document.getElementById('stops-list'),
-    stopsCount: document.getElementById('stops-count'),
-    radioBtns: document.querySelectorAll('.radio-btn'),
-    locateBtn: document.getElementById('locate-btn'),
-    themeToggle: document.getElementById('theme-toggle'),
-    themeIcon: document.querySelector('.theme-icon'),
-    arrivalsModal: document.getElementById('arrivals-modal'),
-    arrivalsIframe: document.getElementById('arrivals-iframe'),
-    closeModal: document.getElementById('close-modal'),
-    // Fake location controls
-    toggleFakeLocation: document.getElementById('toggle-fake-location'),
-    fakeLocationControls: document.getElementById('fake-location-controls'),
-    btnSelectLocation: document.getElementById('btn-select-location'),
-    resetFakeLocation: document.getElementById('reset-fake-location'),
-    fakeLocationInfo: document.getElementById('fake-location-info'),
-    fakeCoordsDisplay: document.getElementById('fake-coords-display')
-};
+const elements = {};
 
 // ========================================
 // INICIALIZACIÓN
@@ -98,6 +79,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function initializeApp() {
     console.log('🚀 Iniciando Bus Casa PWA...');
+
+    // Inicializar elementos del DOM de forma robusta
+    mapElements();
 
     // Inicializar tema
     initializeTheme();
@@ -768,46 +752,9 @@ function updateMapMarkers() {
             })
         }).addTo(state.map);
 
-        // Crear popup con tiempos automáticos
-        const usefulLines = stop.lines.filter(l => CONFIG.USEFUL_LINES.includes(l));
-        const usefulLinesJson = JSON.stringify(usefulLines);
-
-        const popupContent = `
-            <div class="map-popup">
-                <div class="popup-header-row" style="display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 5px;">
-                    <strong style="font-size: 14px;">${stop.name}</strong>
-                    <button class="btn-refresh-popup" 
-                            onclick='loadTimesInPopup("${stop.arrivalsUrl}", "${stop.id}", ${usefulLinesJson})'
-                            style="background: none; border: none; cursor: pointer; font-size: 16px; padding: 2px; line-height: 1;">🔄</button>
-                </div>
-                <div style="font-size: 12px; color: #666; margin-bottom: 4px;">
-                    📍 ${stop.distanceToStop}m | 🚌 ${usefulLines.join(', ')}
-                </div>
-                <div id="popup-times-${stop.id}" style="margin-top: 8px; min-height: 40px;">
-                    <div style="text-align: center; padding: 8px;">
-                        <div class="loading-spinner-small"></div>
-                    </div>
-                </div>
-                <div class="popup-footer" style="margin-top: 10px; border-top: 1px solid #eee; padding-top: 10px; display: flex; justify-content: flex-end;">
-                    <a href="https://www.google.com/maps/search/?api=1&query=${stop.coords.lat},${stop.coords.lon}" 
-                       target="_blank" 
-                       class="btn-google-maps"
-                       style="display: flex; align-items: center; gap: 5px; background: #fff; border: 1px solid #dadce0; color: #3c4043; padding: 5px 10px; border-radius: 4px; font-size: 12px; font-weight: 500; text-decoration: none; transition: background 0.2s;">
-                        <span style="font-size: 16px;">📍</span> Ir a Google Maps
-                    </a>
-                </div>
-            </div>
-        `;
-
-        marker.bindPopup(popupContent, {
-            maxWidth: 350,
-            minWidth: 300,
-            className: 'custom-popup'
-        });
-
-        marker.on('popupopen', () => {
-            // Cargar tiempos automáticamente al abrir el popup
-            loadTimesInPopup(stop.arrivalsUrl, stop.id, usefulLines);
+        // En lugar de un popup, abrir el Drawer al hacer clic
+        marker.on('click', () => {
+            openStopDrawer(stop);
         });
 
         state.markers.push(marker);
@@ -1144,6 +1091,152 @@ function initializeEventListeners() {
 
             getUserLocation();
         });
+    }
+
+    // Cerrar Drawer
+    if (elements.closeDrawer) {
+        elements.closeDrawer.addEventListener('click', closeStopDrawer);
+    }
+    if (elements.drawerOverlay) {
+        elements.drawerOverlay.addEventListener('click', closeStopDrawer);
+    }
+
+    // Scroll handler para la cabecera
+    window.addEventListener('scroll', handleScroll);
+}
+
+// ========================================
+// LÓGICA DE UI ADAPTATIVA Y DRAWER
+// ========================================
+
+function mapElements() {
+    elements.locationStatus = document.getElementById('location-status');
+    elements.statusText = document.querySelector('.status-text');
+    elements.map = document.getElementById('map');
+    elements.stopsList = document.getElementById('stops-list');
+    elements.stopsCount = document.getElementById('stops-count');
+    elements.radioBtns = document.querySelectorAll('.radio-btn');
+    elements.locateBtn = document.getElementById('locate-btn');
+    elements.themeToggle = document.getElementById('theme-toggle');
+    elements.themeIcon = document.querySelector('.theme-icon');
+    elements.arrivalsModal = document.getElementById('arrivals-modal');
+    elements.arrivalsIframe = document.getElementById('arrivals-iframe');
+    elements.closeModal = document.getElementById('close-modal');
+    elements.toggleFakeLocation = document.getElementById('toggle-fake-location');
+    elements.fakeLocationControls = document.getElementById('fake-location-controls');
+    elements.btnSelectLocation = document.getElementById('btn-select-location');
+    elements.resetFakeLocation = document.getElementById('reset-fake-location');
+    elements.fakeLocationInfo = document.getElementById('fake-location-info');
+    elements.fakeCoordsDisplay = document.getElementById('fake-coords-display');
+    elements.header = document.querySelector('.header');
+    elements.stopInfoDrawer = document.getElementById('stop-info-drawer');
+    elements.drawerStopName = document.getElementById('drawer-stop-name');
+    elements.drawerStopInfo = document.getElementById('drawer-stop-info');
+    elements.drawerArrivals = document.getElementById('drawer-arrivals-container');
+    elements.drawerFooter = document.getElementById('drawer-footer');
+    elements.closeDrawer = document.getElementById('close-drawer');
+    elements.drawerOverlay = document.getElementById('drawer-overlay');
+}
+
+function handleScroll() {
+    if (window.scrollY > 50) {
+        // Al bajar un poco, activar modo mini
+        elements.header.classList.add('header-mini');
+    }
+
+    if (window.scrollY === 0) {
+        // Solo restaurar al llegar arriba del todo
+        elements.header.classList.remove('header-mini');
+    }
+
+    state.lastScrollY = window.scrollY;
+}
+
+function openStopDrawer(stop) {
+    elements.drawerStopName.textContent = stop.name;
+    const usefulLinesInStop = stop.lines.filter(l => CONFIG.USEFUL_LINES.includes(l));
+    elements.drawerStopInfo.textContent = `📍 ${stop.distanceToStop}m a pie | 🏠 A ${stop.distanceStopToHome}m de casa`;
+
+    // Cargando...
+    elements.drawerArrivals.innerHTML = `
+        <div style="text-align: center; padding: 40px 20px;">
+            <div class="loading-spinner-small" style="width: 30px; height: 30px; margin: 0 auto; border-width: 4px;"></div>
+            <p style="margin-top: 15px; color: #666; font-size: 14px;">Consultando tiempos en tiempo real...</p>
+        </div>
+    `;
+
+    // Botón Google Maps
+    elements.drawerFooter.innerHTML = `
+        <a href="https://www.google.com/maps/search/?api=1&query=${stop.coords.lat},${stop.coords.lon}" 
+           target="_blank" 
+           class="btn-google-maps"
+           style="display: flex; align-items: center; justify-content: center; gap: 10px; background: #fff; border: 1px solid #dadce0; color: #3c4043; padding: 14px; border-radius: 12px; font-size: 15px; font-weight: 600; text-decoration: none; transition: background 0.2s, box-shadow 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+            <span style="font-size: 20px;">📍</span> Ir a Google Maps
+        </a>
+    `;
+
+    elements.stopInfoDrawer.classList.remove('hidden');
+    document.body.style.overflow = 'hidden'; // Evitar scroll de fondo
+
+    // Cargar tiempos
+    loadArrivalsInDrawer(stop.arrivalsUrl, stop.id, usefulLinesInStop);
+}
+
+function closeStopDrawer() {
+    elements.stopInfoDrawer.classList.add('hidden');
+    document.body.style.overflow = '';
+}
+
+async function loadArrivalsInDrawer(url, stopId, usefulLines) {
+    try {
+        const proxyUrl = url.replace('http://www.emtvalencia.es', '/api/emt-proxy');
+        const response = await fetch(proxyUrl);
+        const html = await response.text();
+
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        const divs = doc.querySelectorAll('div[style*="border-bottom"]');
+
+        const arrivals = [];
+        divs.forEach(div => {
+            const img = div.querySelector('img[title]');
+            const span = div.querySelector('span[style*="position"]');
+
+            if (img && span) {
+                const line = img.getAttribute('title');
+                const text = span.textContent.trim();
+                const destination = div.innerText.replace(line, '').replace(text, '').trim();
+
+                if (usefulLines.includes(line)) {
+                    arrivals.push({ line, time: text, destination });
+                }
+            }
+        });
+
+        if (arrivals.length === 0) {
+            elements.drawerArrivals.innerHTML = `
+                <div style="text-align: center; padding: 30px; color: #666;">
+                    <p>No hay llegadas próximas para las líneas guardadas.</p>
+                </div>
+            `;
+            return;
+        }
+
+        elements.drawerArrivals.innerHTML = arrivals.map(arrival => `
+            <div class="drawer-arrival-item" style="border-left-color: ${arrival.line === '98' ? '#ec4899' : '#6366f1'}">
+                <div class="drawer-arrival-info">
+                    <div class="drawer-arrival-line-row">
+                        <span class="line-badge" style="margin:0; min-width: 40px; background: ${arrival.line === '98' ? '#ec4899' : '#6366f1'}">${arrival.line}</span>
+                        <span style="font-weight: 600; font-size: 14px; margin-left: 8px;">${arrival.destination}</span>
+                    </div>
+                </div>
+                <div class="drawer-arrival-time">${arrival.time}</div>
+            </div>
+        `).join('');
+
+    } catch (error) {
+        console.error('Error cargando tiempos en drawer:', error);
+        elements.drawerArrivals.innerHTML = '<p style="text-align: center; padding: 20px; color: #ef4444;">Error al cargar tiempos</p>';
     }
 }
 
