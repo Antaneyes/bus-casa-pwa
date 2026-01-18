@@ -20,7 +20,7 @@ docker-compose ps
 
 Write-Host "`n🎉 Despliegue completado!" -ForegroundColor Green
 Write-Host "📱 La aplicación está disponible en:" -ForegroundColor Cyan
-Write-Host "   - Local: http://localhost:8080" -ForegroundColor White
+Write-Host "   - Local: http://localhost:8091" -ForegroundColor White
 Write-Host "   - Cloudflare: https://emt.ombi.es" -ForegroundColor White
 
 Write-Host "`n📋 Comandos útiles:" -ForegroundColor Cyan

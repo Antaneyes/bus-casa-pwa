@@ -76,8 +76,7 @@ const state = {
     useFakeLocation: false,
     fakeLocation: null,
     selectingLocation: false,
-    lastOpenedStop: null, // Para refrescar el Drawer
-    lastScrollY: 0
+    lastOpenedStop: null // Para refrescar el Drawer
 };
 
 // ========================================
@@ -331,8 +330,9 @@ function filterAndDisplayStops() {
                 stop.coords.lon
             );
 
-            // Sistema de puntuación (menor es mejor)
-            // Ya no hay penalización por caminata "hacia atrás"
+            // Sistema de puntuación inteligente (menor es mejor)
+            // Se prioriza la cercanía a la parada (60%) sobre la distancia de la parada a casa (40%).
+            // Esto asegura que no caminemos demasiado hasta una parada lejana aunque nos deje en la puerta.
             const score = (distanceToStop * 0.6) + (distanceStopToHome * 0.4);
 
             return {
@@ -893,117 +893,6 @@ window.loadTimesInPopup = async function (url, stopId, usefulLines) {
     }
 };
 
-// ========================================
-// MODAL DE TIEMPOS
-// ========================================
-
-async function showArrivalsModal(url) {
-    // Mostrar modal con loading
-    elements.arrivalsModal.classList.remove('hidden');
-    elements.arrivalsIframe.innerHTML = `
-        <div class="arrivals-loading">
-            <div class="loading-spinner"></div>
-            <p>Cargando tiempos de llegada...</p>
-        </div>
-    `;
-
-    try {
-        // Hacer fetch a través del proxy de nginx (evita CORS)
-        const proxyUrl = url.replace(/^https?:\/\/www\.emtvalencia\.es/, '/api/emt-proxy');
-        const response = await fetch(proxyUrl);
-        const html = await response.text();
-
-        // Crear un parser DOM
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(html, 'text/html');
-
-        // Extraer información de la parada
-        const stopName = doc.querySelector('h1')?.textContent?.trim() || 'Parada';
-
-        // Extraer tiempos de llegada
-        const arrivals = [];
-        const rows = doc.querySelectorAll('table tr');
-
-        rows.forEach(row => {
-            const cells = row.querySelectorAll('td');
-            if (cells.length >= 3) {
-                const line = cells[0]?.textContent?.trim();
-                const destination = cells[1]?.textContent?.trim();
-                const time = cells[2]?.textContent?.trim();
-
-                if (line && destination && time) {
-                    arrivals.push({ line, destination, time });
-                }
-            }
-        });
-
-        // Si no se encontraron tiempos, intentar otro formato
-        if (arrivals.length === 0) {
-            const divs = doc.querySelectorAll('div');
-            divs.forEach(div => {
-                const text = div.textContent;
-                // Buscar patrones como "Línea 6 - Destino - 5 min"
-                const match = text.match(/Línea\s+(\d+|[A-Z]\d+)\s+-\s+(.+?)\s+-\s+(.+)/i);
-                if (match) {
-                    arrivals.push({
-                        line: match[1],
-                        destination: match[2].trim(),
-                        time: match[3].trim()
-                    });
-                }
-            });
-        }
-
-        // Renderizar tiempos
-        if (arrivals.length > 0) {
-            elements.arrivalsIframe.innerHTML = `
-                <div class="arrivals-content">
-                    <h3 class="arrivals-stop-name">${stopName}</h3>
-                    <div class="arrivals-list">
-                        ${arrivals.map(arrival => `
-                            <div class="arrival-item">
-                                <div class="arrival-line-badge">${arrival.line}</div>
-                                <div class="arrival-info">
-                                    <div class="arrival-destination">${arrival.destination}</div>
-                                    <div class="arrival-time">${arrival.time}</div>
-                                </div>
-                            </div>
-                        `).join('')}
-                    </div>
-                    <button class="btn-refresh-arrivals" onclick="showArrivalsModal('${url}')">
-                        🔄 Actualizar
-                    </button>
-                </div>
-            `;
-        } else {
-            // Si no se pudieron extraer, mostrar iframe como fallback
-            elements.arrivalsIframe.innerHTML = `
-                <div class="arrivals-content">
-                    <p class="arrivals-error">No se pudieron cargar los tiempos automáticamente.</p>
-                    <a href="${url}" target="_blank" class="btn-open-emt">
-                        Abrir en EMT Valencia →
-                    </a>
-                </div>
-            `;
-        }
-
-    } catch (error) {
-        console.error('Error al cargar tiempos:', error);
-        elements.arrivalsIframe.innerHTML = `
-            <div class="arrivals-content">
-                <p class="arrivals-error">Error al cargar los tiempos de llegada.</p>
-                <a href="${url}" target="_blank" class="btn-open-emt">
-                    Abrir en EMT Valencia →
-                </a>
-            </div>
-        `;
-    }
-}
-
-function hideArrivalsModal() {
-    elements.arrivalsModal.classList.add('hidden');
-    elements.arrivalsIframe.innerHTML = '';
-}
 
 // ========================================
 // TEMA OSCURO/CLARO

@@ -27,7 +27,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Styles -->
-    <link rel="stylesheet" href="styles.css?v=20260118_37">
+    <link rel="stylesheet" href="styles.css?v=20260119_41">
 </head>
 
 <body>
@@ -35,7 +35,7 @@
     <header class="header">
         <div class="header-content">
             <div class="header-top">
-                <h1 class="title">🏠 Bus Casa <small style="font-size: 10px; opacity: 0.5;">v37</small></h1>
+                <h1 class="title">🏠 Bus Casa</h1>
                 <button id="theme-toggle" class="btn-icon" aria-label="Cambiar tema">
                     <span class="theme-icon">🌙</span>
                 </button>
@@ -101,19 +101,6 @@
         </button>
     </div>
 
-    <!-- Modal for Real-time Arrivals -->
-    <div id="arrivals-modal" class="modal hidden">
-        <div class="modal-overlay"></div>
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">Próximas Llegadas</h3>
-                <button id="close-modal" class="btn-close" aria-label="Cerrar">✕</button>
-            </div>
-            <div class="modal-body">
-                <div id="arrivals-iframe" class="arrivals-iframe"></div>
-            </div>
-        </div>
-    </div>
 
     <!-- Stop Info Drawer (Bottom Sheet) -->
     <div id="stop-info-drawer" class="stop-drawer hidden">
@@ -146,7 +133,13 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
     <!-- App JS -->
-    <script src="main.js?v=20260118_37"></script>
+    <script src="main.js?v=20260119_41"></script>
+
+    <!-- Footer Version -->
+    <footer
+        style="text-align: center; padding: 20px; font-size: 9px; color: var(--color-text-secondary); opacity: 0.6;">
+        version 0.41
+    </footer>
 </body>
 
 </html>
