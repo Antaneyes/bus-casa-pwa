@@ -330,9 +330,26 @@ function filterAndDisplayStops() {
                 stop.coords.lon
             );
 
+            // CALCULO DE PENALIZACIÓN POR "CAMINATA HACIA ATRÁS"
+            // Si para ir a la parada te alejas de tu destino final (casa), penalizamos el score.
+            let directionPenalty = 0;
+            const distUserToHome = calculateDistance(
+                state.userLocation.lat, state.userLocation.lon,
+                CONFIG.HOME_COORDS.lat, CONFIG.HOME_COORDS.lon
+            );
+            const distStopToHome = calculateDistance(
+                stop.coords.lat, stop.coords.lon,
+                CONFIG.HOME_COORDS.lat, CONFIG.HOME_COORDS.lon
+            );
+
+            // Si la parada está más lejos de casa que tú mismo (+ margen de 30m), es "hacia atrás"
+            if (distStopToHome > distUserToHome + 30) {
+                directionPenalty = (distStopToHome - distUserToHome) * 1.5;
+            }
+
             // Sistema de puntuación (menor es mejor)
-            // Peso: 60% distancia a parada, 40% distancia desde destino a casa
-            const score = (distanceToStop * 0.6) + (distanceStopToHome * 0.4);
+            // Peso: 50% distancia a parada, 35% distancia desde destino a casa, 15% penalización dirección
+            const score = (distanceToStop * 0.5) + (distanceStopToHome * 0.35) + directionPenalty;
 
             return {
                 ...stop,
@@ -341,7 +358,8 @@ function filterAndDisplayStops() {
                 direction,
                 score,
                 bestLine,
-                bestDestinationStop
+                bestDestinationStop,
+                isBackwards: directionPenalty > 0
             };
         });
 
@@ -366,25 +384,38 @@ function filterAndDisplayStops() {
         .filter(stop => stop.distanceToStop <= state.selectedRadius)
         .sort((a, b) => a.score - b.score);
 
-    // Filtrar para evitar duplicados de líneas
-    // Solo mostrar una parada por línea ÚTIL, a menos que tenga líneas útiles adicionales
+    // Filtrar para evitar duplicados excesivos de líneas
+    // PERO permitir duplicados si las paradas son muy buenas (Top 3 general)
     const shownLines = new Set();
     state.filteredStops = [];
 
+    // Obtenemos el Top 3 de puntuación absoluta sin filtros de duplicados
+    const globalTop3Ids = new Set(stopsInRadius.slice(0, 3).map(s => s.id));
+
     for (const stop of stopsInRadius) {
-        // Filtrar solo las líneas útiles de esta parada
-        const usefulLinesInStop = stop.lines.filter(line => CONFIG.USEFUL_LINES.includes(line));
+        let shouldInclude = false;
 
-        // Verificar qué líneas útiles de esta parada aún no se han mostrado
-        const newUsefulLines = usefulLinesInStop.filter(line => !shownLines.has(line));
-
-        if (newUsefulLines.length > 0) {
-            // Esta parada tiene al menos una línea útil nueva, la incluimos
-            state.filteredStops.push(stop);
-
-            // Marcar solo las líneas útiles de esta parada como mostradas
-            usefulLinesInStop.forEach(line => shownLines.add(line));
+        // Si es una de las 3 mejores paradas absolutas, la mostramos siempre
+        if (globalTop3Ids.has(stop.id)) {
+            shouldInclude = true;
+        } else {
+            // Para el resto, solo si tiene líneas útiles que no hemos mostrado todavía
+            const usefulLinesInStop = stop.lines.filter(line => CONFIG.USEFUL_LINES.includes(line));
+            const newUsefulLines = usefulLinesInStop.filter(line => !shownLines.has(line));
+            if (newUsefulLines.length > 0) {
+                shouldInclude = true;
+            }
         }
+
+        if (shouldInclude) {
+            state.filteredStops.push(stop);
+            // Marcar todas sus líneas útiles como mostradas
+            stop.lines.filter(line => CONFIG.USEFUL_LINES.includes(line))
+                .forEach(l => shownLines.add(l));
+        }
+
+        // Limitar a máximo 6 paradas para no saturar la UI
+        if (state.filteredStops.length >= 6) break;
     }
 
     console.log(`✅ Paradas dentro del radio de ${state.selectedRadius}m: ${state.filteredStops.length}`);
@@ -458,7 +489,8 @@ function displayStops() {
             `<p class="stop-best-line">🚌 Mejor: Línea ${stop.bestLine} → ${stop.bestDestinationStop.name}</p>` : '';
 
         return `
-        <div class="stop-card ${isBestOption ? 'best-option' : ''}" data-stop-id="${stop.id}">
+        <div class="stop-card ${isBestOption ? 'best-option' : ''} ${stop.isBackwards ? 'is-backwards' : ''}" data-stop-id="${stop.id}">
+            ${stop.isBackwards ? '<div class="backwards-badge">⚠️ Caminata contraria a casa</div>' : ''}
             ${rankBadge ? `<div class="rank-badge">${rankBadge}</div>` : ''}
             <div class="stop-header">
                 <div>
