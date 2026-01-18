@@ -525,7 +525,7 @@ async function loadArrivalsInline(url, stopId) {
 
     try {
         // Hacer fetch a través del proxy
-        const proxyUrl = url.replace('http://www.emtvalencia.es', '/api/emt-proxy');
+        const proxyUrl = url.replace(/^https?:\/\/www\.emtvalencia\.es/, '/api/emt-proxy');
         console.log(`⏱️ Cargando tiempos para parada ${stopId} desde:`, proxyUrl);
 
         const response = await fetch(proxyUrl);
@@ -687,14 +687,12 @@ function initializeMap() {
             state.selectingLocation = false;
 
             // Actualizar UI
-            elements.btnSelectLocation.textContent = '🗺️ Seleccionar en Mapa';
-            elements.btnSelectLocation.style.background = '';
+            elements.toggleFakeLocation.classList.add('active');
+            elements.toggleFakeLocation.innerHTML = '📍 Simulación activa';
             state.map.getContainer().style.cursor = '';
-            elements.fakeLocationInfo.classList.remove('hidden');
-            elements.fakeCoordsDisplay.textContent = `${lat.toFixed(6)}, ${lon.toFixed(6)}`;
 
             console.log('🎭 Ubicación simulada aplicada:', state.fakeLocation);
-            showLocationStatus('Usando ubicación simulada');
+            showLocationStatus('Ubicación fijada');
             setTimeout(hideLocationStatus, 2000);
 
             updateUserMarker();
@@ -765,7 +763,7 @@ window.loadTimesInPopup = async function (url, stopId, usefulLines) {
 
     try {
         // Hacer fetch a través del proxy
-        const proxyUrl = url.replace('http://www.emtvalencia.es', '/api/emt-proxy');
+        const proxyUrl = url.replace(/^https?:\/\/www\.emtvalencia\.es/, '/api/emt-proxy');
         console.log(`🗺️ Cargando tiempos popup para parada ${stopId}`);
 
         const response = await fetch(proxyUrl);
@@ -911,7 +909,7 @@ async function showArrivalsModal(url) {
 
     try {
         // Hacer fetch a través del proxy de nginx (evita CORS)
-        const proxyUrl = url.replace('http://www.emtvalencia.es', '/api/emt-proxy');
+        const proxyUrl = url.replace(/^https?:\/\/www\.emtvalencia\.es/, '/api/emt-proxy');
         const response = await fetch(proxyUrl);
         const html = await response.text();
 
@@ -1031,62 +1029,68 @@ function toggleTheme() {
 // ========================================
 
 function initializeEventListeners() {
-    // Radio selector
-    elements.radioBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            elements.radioBtns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            state.selectedRadius = parseInt(btn.dataset.radius);
-            filterAndDisplayStops();
-        });
-    });
+    // Captura de errores globales para depuración en móvil
+    window.onerror = function (msg, url, line, col, error) {
+        const errorMsg = `❌ Error: ${msg} en ${line}:${col}`;
+        console.error(errorMsg, error);
+        if (msg.includes('TypeError') || msg.includes('ReferenceError')) {
+            showLocationStatus(errorMsg);
+        }
+    };
 
-    // Botón de localización
-    elements.locateBtn.addEventListener('click', () => {
-        getUserLocation();
-    });
-
-    // Toggle tema
-    elements.themeToggle.addEventListener('click', toggleTheme);
-
-    // Cerrar modal
-    elements.closeModal.addEventListener('click', hideArrivalsModal);
-    elements.arrivalsModal.querySelector('.modal-overlay').addEventListener('click', hideArrivalsModal);
-
-    // Fake location controls
+    // Fake location logic recurrente (v33)
     if (elements.toggleFakeLocation) {
         elements.toggleFakeLocation.addEventListener('click', () => {
-            elements.fakeLocationControls.classList.toggle('hidden');
-        });
-    }
-
-    if (elements.btnSelectLocation) {
-        elements.btnSelectLocation.addEventListener('click', () => {
-            console.log('🎯 Botón "Seleccionar en Mapa" clickeado');
+            // Siempre activa modo selección, permite cambiar de sitio sin resetear primero
             state.selectingLocation = true;
-            elements.btnSelectLocation.textContent = '🎯 Haz clic en el mapa...';
-            elements.btnSelectLocation.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+            elements.toggleFakeLocation.classList.add('active');
+            elements.toggleFakeLocation.innerHTML = '🎯 Haz clic en el mapa...';
             state.map.getContainer().style.cursor = 'crosshair';
-            console.log('✅ Modo selección activado. Cursor cambiado a crosshair');
+            console.log('✅ Modo selección activado (v33 recurrente)');
         });
     }
 
-    if (elements.resetFakeLocation) {
-        elements.resetFakeLocation.addEventListener('click', () => {
+    // Radio Menu Logic (v33)
+    if (elements.radiusTrigger) {
+        elements.radiusTrigger.addEventListener('click', (e) => {
+            e.stopPropagation();
+            elements.radiusMenu.classList.toggle('hidden');
+        });
+    }
+
+    // Cerrar menú al hacer clic fuera
+    document.addEventListener('click', () => {
+        if (elements.radiusMenu) elements.radiusMenu.classList.add('hidden');
+    });
+
+    if (elements.radiusOptions) {
+        elements.radiusOptions.forEach(btn => {
+            btn.addEventListener('click', () => {
+                elements.radiusOptions.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                state.selectedRadius = parseInt(btn.dataset.radius);
+                filterAndDisplayStops();
+                elements.radiusMenu.classList.add('hidden');
+            });
+        });
+    }
+
+    // Botón de localización real en mapa (v33)
+    if (elements.realLocateBtn) {
+        elements.realLocateBtn.addEventListener('click', () => {
             state.useFakeLocation = false;
             state.fakeLocation = null;
-            state.selectingLocation = false;
-            elements.fakeLocationInfo.classList.add('hidden');
-            elements.btnSelectLocation.textContent = '🗺️ Seleccionar en Mapa';
-            elements.btnSelectLocation.style.background = '';
-            state.map.getContainer().style.cursor = '';
-
-            console.log('📍 Volviendo a GPS real');
-            showLocationStatus('Usando GPS real');
-            setTimeout(hideLocationStatus, 2000);
-
+            if (elements.toggleFakeLocation) {
+                elements.toggleFakeLocation.classList.remove('active');
+                elements.toggleFakeLocation.innerHTML = '📍 Simular Ubicación';
+            }
             getUserLocation();
         });
+    }
+
+    // Toggle tema
+    if (elements.themeToggle) {
+        elements.themeToggle.addEventListener('click', toggleTheme);
     }
 
     // Cerrar Drawer
@@ -1097,8 +1101,6 @@ function initializeEventListeners() {
         elements.drawerOverlay.addEventListener('click', closeStopDrawer);
     }
 
-    // Scroll handler para la cabecera
-    window.addEventListener('scroll', handleScroll);
 }
 
 // ========================================
@@ -1119,12 +1121,13 @@ function mapElements() {
     elements.arrivalsIframe = document.getElementById('arrivals-iframe');
     elements.closeModal = document.getElementById('close-modal');
     elements.toggleFakeLocation = document.getElementById('toggle-fake-location');
-    elements.fakeLocationControls = document.getElementById('fake-location-controls');
-    elements.btnSelectLocation = document.getElementById('btn-select-location');
-    elements.resetFakeLocation = document.getElementById('reset-fake-location');
-    elements.fakeLocationInfo = document.getElementById('fake-location-info');
-    elements.fakeCoordsDisplay = document.getElementById('fake-coords-display');
     elements.header = document.querySelector('.header');
+
+    // v33 elements
+    elements.radiusTrigger = document.getElementById('radius-trigger');
+    elements.radiusMenu = document.getElementById('radius-menu');
+    elements.radiusOptions = document.querySelectorAll('.radius-option');
+    elements.realLocateBtn = document.getElementById('real-locate-btn');
     elements.stopInfoDrawer = document.getElementById('stop-info-drawer');
     elements.drawerStopName = document.getElementById('drawer-stop-name');
     elements.drawerStopInfo = document.getElementById('drawer-stop-info');
@@ -1134,19 +1137,6 @@ function mapElements() {
     elements.drawerOverlay = document.getElementById('drawer-overlay');
 }
 
-function handleScroll() {
-    if (window.scrollY > 50) {
-        // Al bajar un poco, activar modo mini
-        elements.header.classList.add('header-mini');
-    }
-
-    if (window.scrollY === 0) {
-        // Solo restaurar al llegar arriba del todo
-        elements.header.classList.remove('header-mini');
-    }
-
-    state.lastScrollY = window.scrollY;
-}
 
 function openStopDrawer(stop) {
     state.lastOpenedStop = stop;
@@ -1205,7 +1195,7 @@ function closeStopDrawer() {
 
 async function loadArrivalsInDrawer(url, stopId, usefulLines, bestLine) {
     try {
-        const proxyUrl = url.replace('http://www.emtvalencia.es', '/api/emt-proxy');
+        const proxyUrl = url.replace(/^https?:\/\/www\.emtvalencia\.es/, '/api/emt-proxy');
         const response = await fetch(proxyUrl);
         const html = await response.text();
 

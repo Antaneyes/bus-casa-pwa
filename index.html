@@ -27,7 +27,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Styles -->
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=20260118_37">
 </head>
 
 <body>
@@ -35,24 +35,12 @@
     <header class="header">
         <div class="header-content">
             <div class="header-top">
-                <h1 class="title">
-                    <span class="icon">🚌</span>
-                    Bus Casa
-                </h1>
+                <h1 class="title">🏠 Bus Casa <small style="font-size: 10px; opacity: 0.5;">v37</small></h1>
                 <button id="theme-toggle" class="btn-icon" aria-label="Cambiar tema">
                     <span class="theme-icon">🌙</span>
                 </button>
             </div>
 
-            <p class="subtitle">Paradas cercanas para volver a casa</p>
-
-            <!-- Radio Selector -->
-            <div class="radio-selector">
-                <button class="radio-btn" data-radius="300">300m</button>
-                <button class="radio-btn active" data-radius="500">500m</button>
-                <button class="radio-btn" data-radius="1000">1km</button>
-                <button class="radio-btn" data-radius="2000">2km</button>
-            </div>
         </div>
     </header>
 
@@ -76,6 +64,10 @@
         <!-- Map Container -->
         <div id="map-container" class="map-container">
             <div id="map" class="map"></div>
+            <!-- Nuevo botón de geolocalización pequeña en el mapa -->
+            <button id="real-locate-btn" class="map-btn" aria-label="Mi ubicación real">
+                🎯
+            </button>
         </div>
 
         <!-- Stops List -->
@@ -96,10 +88,18 @@
         </div>
     </main>
 
-    <!-- Floating Action Button -->
-    <button id="locate-btn" class="fab" aria-label="Actualizar ubicación">
-        <span class="fab-icon">📍</span>
-    </button>
+    <!-- Floating Action Button (Ahora para Radio Selection) -->
+    <div class="radius-menu-container">
+        <div id="radius-menu" class="radius-menu hidden">
+            <button class="radius-option" data-radius="300">300m</button>
+            <button class="radius-option active" data-radius="500">500m</button>
+            <button class="radius-option" data-radius="1000">1km</button>
+            <button class="radius-option" data-radius="2000">2km</button>
+        </div>
+        <button id="radius-trigger" class="fab" aria-label="Cambiar radio de búsqueda">
+            <span class="fab-icon">📏</span>
+        </button>
+    </div>
 
     <!-- Modal for Real-time Arrivals -->
     <div id="arrivals-modal" class="modal hidden">
@@ -146,7 +146,7 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
     <!-- App JS -->
-    <script src="main.js?v=20260118_28"></script>
+    <script src="main.js?v=20260118_37"></script>
 </body>
 
 </html>
