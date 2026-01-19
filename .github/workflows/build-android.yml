@@ -1,0 +1,104 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [ android-capacitor ]
+  workflow_dispatch:
+
+jobs:
+  # Tarea para subir actualizaciones de código (Live Update) - AUTOMÁTICA
+  deploy_live_update:
+    name: Deploy Live Update to CapGo
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Prepare Web Assets (www)
+        run: |
+          mkdir www
+          cp index.html main.js styles.css manifest.json sw.js icon-192.png www/
+
+      - name: Push to CapGo
+        env:
+          CAPGO_TOKEN: ${{ secrets.CAPGO_TOKEN }}
+        run: |
+          if [ -z "$CAPGO_TOKEN" ]; then
+            echo "⚠️ CAPGO_TOKEN no configurado."
+            exit 1
+          else
+            npx @capgo/cli@latest bundle upload com.antaneyes.buscasa --apikey "$CAPGO_TOKEN" --path www --channel production
+          fi
+
+  # Tarea para compilar el APK - SOLO MANUAL
+  build_apk:
+    name: Build Android APK
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch'
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Prepare Web Assets (www)
+        run: |
+          mkdir www
+          cp index.html main.js styles.css manifest.json sw.js icon-192.png www/
+
+      - name: Initialize Capacitor Android
+        run: npx cap add android
+
+      - name: Add Location Permissions to Manifest
+        run: |
+          MANIFEST_PATH="android/app/src/main/AndroidManifest.xml"
+          sed -i '/<\/manifest>/i \    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />' $MANIFEST_PATH
+          sed -i '/<\/manifest>/i \    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />' $MANIFEST_PATH
+          sed -i '/<\/manifest>/i \    <uses-feature android:name="android.hardware.location.gps" />' $MANIFEST_PATH
+          sed -i 's/<application/<application android:usesCleartextTraffic="true"/' $MANIFEST_PATH
+
+      - name: Bump Android SDK to 35
+        run: |
+          VARS_PATH="android/variables.gradle"
+          sed -i 's/minSdkVersion = 22/minSdkVersion = 23/' $VARS_PATH
+          sed -i 's/compileSdkVersion = 34/compileSdkVersion = 35/' $VARS_PATH
+          sed -i 's/targetSdkVersion = 34/targetSdkVersion = 35/' $VARS_PATH
+
+      - name: Copy Web Assets
+        run: npx cap copy
+
+      - name: Build Android Project
+        run: |
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleDebug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-debug
+          path: android/app/build/outputs/apk/debug/app-debug.apk
