@@ -1,5 +1,5 @@
 {
-    "version": "0.85.0",
+    "version": "0.86.0",
     "url": "https://raw.githubusercontent.com/Antaneyes/bus-casa-pwa/android-capacitor/app-release.apk",
-    "notes": "v0.85 - Repo público con dirección protegida mediante Secrets."
+    "notes": "v0.86 - Arreglo definitivo: Barra inferior blanca y padding inyectado por JS."
 }

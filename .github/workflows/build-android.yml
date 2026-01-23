@@ -58,8 +58,8 @@ jobs:
           # Incrementar versionCode usando el run_number de GitHub (siempre sube)
           sed -i 's/versionCode 1/versionCode ${{ github.run_number }}/' $BUILD_GRADLE
           # Sincronizar versionName con la versión de la App
-          sed -i 's/versionName "1.0"/versionName "0.85"/' $BUILD_GRADLE
-          echo "✅ Versión configurada: 0.85 (Build ${{ github.run_number }})"
+          sed -i 's/versionName "1.0"/versionName "0.86"/' $BUILD_GRADLE
+          echo "✅ Versión configurada: 0.86 (Build ${{ github.run_number }})"
 
       - name: Decode Keystore
         env:

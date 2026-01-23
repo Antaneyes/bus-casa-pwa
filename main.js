@@ -64,7 +64,7 @@ const CONFIG = {
     IS_NATIVE: window.location.protocol === 'capacitor:' || !!window.Capacitor,
 
     // Configuración de actualizaciones (v74)
-    CURRENT_VERSION: '0.85.0', // Sincronizado con el footer
+    CURRENT_VERSION: '0.86.0', // Sincronizado con el footer
     UPDATE_URL: 'https://raw.githubusercontent.com/Antaneyes/bus-casa-pwa/android-capacitor/update.json'
 };
 
@@ -133,38 +133,41 @@ const DebugLogger = {
 // Activar inmediatamente
 DebugLogger.init();
 
-// Función unificada para configurar la UI nativa (v80)
-// Función unificada para configurar la UI nativa (v81)
+// Función unificada para configurar la UI nativa (v86)
 async function applyNativeUIConfig() {
     if (!window.Capacitor) return;
 
     try {
         const { StatusBar, NavigationBar } = window.Capacitor.Plugins;
 
+        // 1. Configurar Status Bar (Superior)
         if (StatusBar) {
             await StatusBar.setOverlaysWebView({ overlay: true });
             try {
-                await StatusBar.setBackgroundColor({ color: '#00000000' });
-            } catch (e) { /* No soportado en todos los dispositivos */ }
-
-            // Inyectar altura real como variable CSS para el padding del header
-            try {
-                // Fallback de altura (34px es común en Android con notch)
-                document.documentElement.style.setProperty('--statusbar-height', '34px');
-                console.log('📏 Altura de StatusBar estimada inyectada (v81)');
+                // Forzamos estilo de iconos (oscuros para fondo claro)
+                await StatusBar.setStyle({ style: 'DARK' });
             } catch (e) { }
 
-            console.log('✅ StatusBar configurada');
+            // Inyectamos un padding-top al body de forma bruta por JS
+            // 44px es un estándar seguro para evitar el notch en Android
+            document.body.style.paddingTop = '44px';
+            console.log('✅ StatusBar configurada y padding-top forzado (44px)');
         }
 
+        // 2. Configurar Navigation Bar (Inferior)
         if (NavigationBar) {
-            const colorConfig = { color: '#00000000', darkButtons: false };
+            // Ponemos el color sólido de fondo de la app para que se funda con la UI
+            const colorConfig = {
+                color: '#f8faff',
+                darkButtons: true // Iconos oscuros sobre fondo claro
+            };
+
             if (typeof NavigationBar.setColor === 'function') {
                 await NavigationBar.setColor(colorConfig);
-                console.log('✅ NavigationBar configurada (setColor)');
+                console.log('✅ NavigationBar: Color sólido aplicado (#f8faff)');
             } else if (typeof NavigationBar.setNavigationBarColor === 'function') {
                 await NavigationBar.setNavigationBarColor(colorConfig);
-                console.log('✅ NavigationBar configurada (setNavigationBarColor)');
+                console.log('✅ NavigationBar: Color sólido aplicado (v2)');
             }
         }
     } catch (e) {
