@@ -64,7 +64,7 @@ const CONFIG = {
     IS_NATIVE: window.location.protocol === 'capacitor:' || !!window.Capacitor,
 
     // Configuración de actualizaciones (v74)
-    CURRENT_VERSION: '0.86.0', // Sincronizado con el footer
+    CURRENT_VERSION: '0.87.0', // Sincronizado con el footer
     UPDATE_URL: 'https://raw.githubusercontent.com/Antaneyes/bus-casa-pwa/android-capacitor/update.json'
 };
 
@@ -133,41 +133,32 @@ const DebugLogger = {
 // Activar inmediatamente
 DebugLogger.init();
 
-// Función unificada para configurar la UI nativa (v86)
+// Función unificada para configurar la UI nativa (v87)
 async function applyNativeUIConfig() {
     if (!window.Capacitor) return;
 
     try {
         const { StatusBar, NavigationBar } = window.Capacitor.Plugins;
 
-        // 1. Configurar Status Bar (Superior)
         if (StatusBar) {
+            // Permitir que la web se dibuje BAJO la barra de estado
             await StatusBar.setOverlaysWebView({ overlay: true });
             try {
-                // Forzamos estilo de iconos (oscuros para fondo claro)
-                await StatusBar.setStyle({ style: 'DARK' });
+                // LIGHT = Iconos BLANCOS (perfecto para el degradado morado)
+                await StatusBar.setStyle({ style: 'LIGHT' });
+                // Aseguramos fondo transparente
+                await StatusBar.setBackgroundColor({ color: '#00000000' });
             } catch (e) { }
 
-            // Inyectamos un padding-top al body de forma bruta por JS
-            // 44px es un estándar seguro para evitar el notch en Android
-            document.body.style.paddingTop = '44px';
-            console.log('✅ StatusBar configurada y padding-top forzado (44px)');
+            // ELIMINAR el padding del body para que el degradado llegue arriba
+            document.body.style.paddingTop = '0px';
+            console.log('✅ StatusBar configurada (Overlay + Light Icons)');
         }
 
-        // 2. Configurar Navigation Bar (Inferior)
         if (NavigationBar) {
-            // Ponemos el color sólido de fondo de la app para que se funda con la UI
-            const colorConfig = {
-                color: '#f8faff',
-                darkButtons: true // Iconos oscuros sobre fondo claro
-            };
-
+            const colorConfig = { color: '#f8faff', darkButtons: true };
             if (typeof NavigationBar.setColor === 'function') {
                 await NavigationBar.setColor(colorConfig);
-                console.log('✅ NavigationBar: Color sólido aplicado (#f8faff)');
-            } else if (typeof NavigationBar.setNavigationBarColor === 'function') {
-                await NavigationBar.setNavigationBarColor(colorConfig);
-                console.log('✅ NavigationBar: Color sólido aplicado (v2)');
             }
         }
     } catch (e) {
@@ -286,21 +277,22 @@ function showDebugModal() {
     modal.id = 'debug-modal';
     modal.style = `
         position: fixed; top: 0; left: 0; right: 0; bottom: 0; 
-        background: var(--color-bg); z-index: 20000; padding: 20px;
+        background: var(--color-bg); z-index: 20000; 
+        padding: calc(var(--statusbar-height, 44px) + 20px) 20px 20px 20px;
         display: flex; flex-direction: column; gap: 15px;
         font-family: monospace; overflow: hidden;
     `;
 
     modal.innerHTML = `
         <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--color-primary); padding-bottom: 10px;">
-            <div style="font-weight: 700; color: var(--color-primary);">🛠 CONSOLA DE DIAGNÓSTICO</div>
-            <button id="close-debug" style="background: none; border: none; font-size: 20px; cursor: pointer; color: var(--color-text);">✕</button>
+            <div style="font-weight: 700; color: var(--color-primary);">🛠 CONSOLA</div>
+            <button id="close-debug" style="background: none; border: none; font-size: 24px; cursor: pointer; color: var(--color-text); padding: 5px;">✕</button>
         </div>
         <div id="debug-log-view" style="flex: 1; overflow-y: auto; font-size: 11px; white-space: pre-wrap; background: rgba(0,0,0,0.05); padding: 10px; border-radius: 8px; border: 1px solid var(--color-border);">
             ${DebugLogger.getFormattedLogs() || 'No hay logs todavía'}
         </div>
         <div style="display: flex; gap: 10px;">
-            <button id="copy-debug" style="flex: 1; padding: 12px; background: var(--color-primary); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">Copiar Logs</button>
+            <button id="copy-debug" style="flex: 1; padding: 12px; background: var(--color-primary); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">Copiar</button>
             <button id="clear-debug" style="padding: 12px; background: #ef4444; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">Limpiar</button>
         </div>
     `;
@@ -317,10 +309,11 @@ function showDebugModal() {
         try {
             await navigator.clipboard.writeText(text);
             const btn = document.getElementById('copy-debug');
-            btn.innerText = '✅ ¡Copiado!';
-            setTimeout(() => btn.innerText = 'Copiar Logs', 2000);
+            const old = btn.innerText;
+            btn.innerText = '✅ Copiado';
+            setTimeout(() => btn.innerText = old, 2000);
         } catch (err) {
-            alert('Error al copiar: ' + err);
+            alert('Error al copiar');
         }
     };
 }

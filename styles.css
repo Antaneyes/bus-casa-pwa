@@ -75,7 +75,7 @@ body {
 /* Header */
 .header {
     background: var(--gradient-primary);
-    padding: var(--spacing-md);
+    padding: calc(env(safe-area-inset-top, 34px) + var(--spacing-md)) var(--spacing-md) 1rem var(--spacing-md);
     box-shadow: 0 4px 20px var(--color-shadow);
     position: sticky;
     top: 0;
