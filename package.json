@@ -1,0 +1,23 @@
+{
+    "name": "bus-casa-pwa",
+    "version": "0.41.0",
+    "description": "App para consultar paradas de EMT Valencia",
+    "main": "main.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [],
+    "author": "Antaneyes",
+    "license": "MIT",
+    "dependencies": {
+        "@capacitor-community/file-opener": "^6.0.1",
+        "@capacitor/android": "^6.0.0",
+        "@capacitor/app": "^6.0.3",
+        "@capacitor/cli": "^6.0.0",
+        "@capacitor/core": "^6.0.0",
+        "@capacitor/filesystem": "^6.0.4",
+        "@capacitor/geolocation": "^6.0.0",
+        "@capacitor/status-bar": "^6.0.0",
+        "@hugotomazi/capacitor-navigation-bar": "^3.0.0"
+    }
+}

@@ -1,0 +1,18 @@
+{
+    "appId": "com.antaneyes.buscasa",
+    "appName": "Bus Casa",
+    "webDir": "www",
+    "server": {
+        "androidScheme": "capacitor",
+        "hostname": "localhost",
+        "iosScheme": "capacitor"
+    },
+    "plugins": {
+        "CapacitorHttp": {
+            "enabled": true
+        },
+        "SplashScreen": {
+            "launchShowDuration": 0
+        }
+    }
+}

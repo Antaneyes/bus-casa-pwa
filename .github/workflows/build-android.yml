@@ -1,0 +1,100 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [ android-capacitor ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build APK
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Dependencies
+        run: npm install --force
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Prepare Web Assets (www)
+        env:
+          HOME_LAT: ${{ secrets.HOME_LAT }}
+          HOME_LON: ${{ secrets.HOME_LON }}
+        run: |
+          mkdir www
+          # Generar config.private.js dinámicamente si los secrets existen
+          echo "window.SECRET_CONFIG = { HOME_LAT: ${HOME_LAT:-39.486}, HOME_LON: ${HOME_LON:--0.377} };" > config.private.js
+          cp index.html main.js styles.css manifest.json sw.js icon-192.png config.private.js www/
+
+      - name: Initialize Capacitor Android
+        run: node node_modules/@capacitor/cli/bin/capacitor add android
+
+      - name: Add Location and Install Permissions to Manifest
+        run: |
+          MANIFEST_PATH="android/app/src/main/AndroidManifest.xml"
+          sed -i '/<\/manifest>/i \    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />' $MANIFEST_PATH
+          sed -i '/<\/manifest>/i \    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />' $MANIFEST_PATH
+          sed -i '/<\/manifest>/i \    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />' $MANIFEST_PATH
+          sed -i '/<\/manifest>/i \    <uses-feature android:name="android.hardware.location.gps" />' $MANIFEST_PATH
+          sed -i 's/<application/<application android:usesCleartextTraffic="true"/' $MANIFEST_PATH
+
+      - name: Set Version and Build Number
+        run: |
+          BUILD_GRADLE="android/app/build.gradle"
+          # Incrementar versionCode usando el run_number de GitHub (siempre sube)
+          sed -i 's/versionCode 1/versionCode ${{ github.run_number }}/' $BUILD_GRADLE
+          # Sincronizar versionName con la versión de la App
+          sed -i 's/versionName "1.0"/versionName "0.85"/' $BUILD_GRADLE
+          echo "✅ Versión configurada: 0.85 (Build ${{ github.run_number }})"
+
+      - name: Decode Keystore
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+        if: env.KEYSTORE_BASE64 != ''
+        run: |
+          echo "$KEYSTORE_BASE64" | base64 -d > android/app/bus-casa-release.keystore
+          echo "✅ Keystore decodificado"
+
+      - name: Build Android Project (Release)
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+        run: |
+          cd android
+          chmod +x gradlew
+          
+          # Si hay keystore, hacer release firmado
+          if [ -f "app/bus-casa-release.keystore" ]; then
+            echo "🔐 Construyendo APK firmado (Release)"
+            KEYSTORE_PATH="$(pwd)/app/bus-casa-release.keystore"
+            ./gradlew assembleRelease \
+              -Pandroid.injected.signing.store.file="$KEYSTORE_PATH" \
+              -Pandroid.injected.signing.store.password="$KEYSTORE_PASSWORD" \
+              -Pandroid.injected.signing.key.alias="$KEY_ALIAS" \
+              -Pandroid.injected.signing.key.password="$KEYSTORE_PASSWORD"
+          else
+            echo "⚠️ No hay keystore, construyendo APK debug"
+            ./gradlew assembleDebug
+          fi
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release
+          path: |
+            android/app/build/outputs/apk/release/app-release.apk
+            android/app/build/outputs/apk/debug/app-debug.apk

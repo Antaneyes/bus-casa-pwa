@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#6366f1">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="description" content="Encuentra paradas de autobús EMT Valencia cerca de ti para volver a casa">
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.openstreetmap.org https://*.tile.openstreetmap.org https://unpkg.com https://fonts.googleapis.com https://fonts.gstatic.com https://www.emtvalencia.es; connect-src 'self' https://valencia.opendatasoft.com https://raw.githubusercontent.com https://www.emtvalencia.es http://localhost:*; img-src 'self' data: https://*.openstreetmap.org https://*.tile.openstreetmap.org https://unpkg.com;">
+
+    <title>Bus Casa - EMT Valencia</title>
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+
+    <!-- Icons -->
+    <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+    <link rel="apple-touch-icon" href="icon-192.png">
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+    <!-- Configuración Privada (Ignorado en Git) -->
+    <script src="config.private.js"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css?v=20260123_85">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="header-top">
+                <h1 class="title">🏠 Bus Casa</h1>
+                <button id="theme-toggle" class="btn-icon" aria-label="Cambiar tema">
+                    <span class="theme-icon">🌙</span>
+                </button>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <!-- Fake Location Controls -->
+        <div class="fake-location-panel">
+            <button id="toggle-fake-location" class="btn-toggle-fake">
+                📍 Simular Ubicación
+            </button>
+        </div>
+
+        <!-- Location Status -->
+        <div id="location-status" class="location-status hidden">
+            <div class="status-content">
+                <span class="status-icon">📍</span>
+                <span class="status-text">Obteniendo ubicación...</span>
+            </div>
+        </div>
+
+        <!-- Map Container -->
+        <div id="map-container" class="map-container">
+            <div id="map" class="map"></div>
+            <!-- Nuevo botón de geolocalización pequeña en el mapa -->
+            <button id="real-locate-btn" class="map-btn" aria-label="Mi ubicación real">
+                🎯
+            </button>
+        </div>
+
+        <!-- Stops List -->
+        <div class="stops-section">
+            <div class="stops-header">
+                <h2 class="stops-title">Paradas Cercanas</h2>
+                <span id="stops-count" class="stops-count">0 paradas</span>
+            </div>
+
+            <div id="stops-list" class="stops-list">
+                <!-- Stops will be rendered here -->
+                <div class="empty-state">
+                    <div class="empty-icon">🔍</div>
+                    <p class="empty-text">Buscando paradas cercanas...</p>
+                    <p class="empty-subtext">Asegúrate de permitir el acceso a tu ubicación</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Floating Action Button (Ahora para Radio Selection) -->
+    <div class="radius-menu-container">
+        <div id="radius-menu" class="radius-menu hidden">
+            <button class="radius-option" data-radius="300">300m</button>
+            <button class="radius-option active" data-radius="500">500m</button>
+            <button class="radius-option" data-radius="1000">1km</button>
+            <button class="radius-option" data-radius="2000">2km</button>
+        </div>
+        <button id="radius-trigger" class="fab" aria-label="Cambiar radio de búsqueda">
+            <span class="fab-icon">📏</span>
+        </button>
+    </div>
+
+
+    <!-- Stop Info Drawer (Bottom Sheet) -->
+    <div id="stop-info-drawer" class="stop-drawer hidden">
+        <div class="drawer-overlay" id="drawer-overlay"></div>
+        <div class="drawer-content">
+            <div class="drawer-handle"></div>
+            <div class="drawer-header">
+                <div class="drawer-title-group">
+                    <h3 id="drawer-stop-name" class="drawer-stop-name">Nombre de la Parada</h3>
+                    <p id="drawer-stop-info" class="drawer-stop-info">Información de la parada</p>
+                </div>
+                <div class="drawer-header-actions">
+                    <button id="refresh-drawer" class="btn-refresh-drawer" onclick="refreshStopDrawer()"
+                        aria-label="Actualizar">🔄</button>
+                    <button id="close-drawer" class="btn-close-drawer" aria-label="Cerrar">✕</button>
+                </div>
+            </div>
+            <div class="drawer-body">
+                <div id="drawer-arrivals-container" class="drawer-arrivals">
+                    <!-- Tiempos de llegada se cargarán aquí -->
+                </div>
+                <div id="drawer-footer" class="drawer-footer">
+                    <!-- Botón de Google Maps se añadirá aquí -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <!-- Capacitor JS (CRÍTICO para plugins nativos) -->
+    <script src="capacitor.js"></script>
+
+    <!-- App JS -->
+    <script src="main.js?v=20260123_85"></script>
+
+    <!-- Footer Version -->
+    <footer
+        style="text-align: center; padding: 20px; font-size: 9px; color: var(--color-text-secondary); opacity: 0.6;">
+        version 0.85
+    </footer>
+</body>
+
+</html>
