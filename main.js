@@ -446,43 +446,37 @@ function showUpdatePrompt(updateData) {
 
 async function downloadAndInstallAPK(url) {
     try {
-        const { Filesystem } = window.Capacitor.Plugins;
-        const { FileOpener } = window.Capacitor.Plugins;
+        const { Filesystem, FileOpener, CapacitorHttp } = window.Capacitor.Plugins;
+        console.log('⬇️ Descargando APK vía CapacitorHttp:', url);
 
-        console.log('⬇️ Descargando APK desde:', url);
+        const fileName = 'update.apk';
 
-        // Descargar usando fetch blob
-        const response = await fetch(url);
-        const blob = await response.blob();
-
-        // Convertir blob a base64 para guardarlo (Capacitor Filesystem funciona con b64)
-        const reader = new FileReader();
-        reader.readAsDataURL(blob);
-        reader.onloadend = async () => {
-            const base64data = reader.result.split(',')[1];
-            const fileName = 'update.apk';
-
-            // Guardar en directorio de cache/documentos
-            const savedFile = await Filesystem.writeFile({
-                path: fileName,
-                data: base64data,
-                directory: 'CACHE'
-            });
-
-            console.log('✅ APK guardado en:', savedFile.uri);
-
-            // Abrir instalador
+        if (CapacitorHttp && typeof CapacitorHttp.downloadFile === 'function') {
+            const options = { url, filePath: fileName, fileDirectory: 'CACHE' };
+            const response = await CapacitorHttp.downloadFile(options);
             await FileOpener.open({
-                filePath: savedFile.uri,
+                filePath: response.path,
                 contentType: 'application/vnd.android.package-archive'
             });
-
-            console.log('🎯 Instalador lanzado');
-        };
-
+        } else {
+            const response = await fetch(url);
+            const blob = await response.blob();
+            const reader = new FileReader();
+            reader.readAsDataURL(blob);
+            reader.onloadend = async () => {
+                const b64 = reader.result.split(',')[1];
+                const savedParams = { path: fileName, data: b64, directory: 'CACHE' };
+                const savedFile = await Filesystem.writeFile(savedParams);
+                await FileOpener.open({
+                    filePath: savedFile.uri,
+                    contentType: 'application/vnd.android.package-archive'
+                });
+            };
+        }
     } catch (error) {
-        console.error('❌ Error en el proceso de actualización:', error);
-        alert('Error al descargar la actualización. Inténtalo de nuevo más tarde.');
+        console.error('❌ Error:', error);
+        alert('Fallo la descarga. ¿Repo público?');
+    } finally {
         document.getElementById('update-prompt')?.remove();
     }
 }
