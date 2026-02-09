@@ -1,7 +1,7 @@
 {
   "generated": "2026-02-09",
   "source": "GTFS EMT Valencia + FGV MetroValencia",
-  "totalStops": 490,
+  "totalStops": 531,
   "stops": [
     {
       "id": 7,
@@ -6633,6 +6633,534 @@
       "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2418"
     },
     {
+      "id": "tram-100",
+      "name": "Palau de Congressos (Tranvía L4)",
+      "lat": 39.4971809387,
+      "lon": -0.4001416564,
+      "lines": [
+        "T4"
+      ],
+      "linesHomeward": [
+        "T4"
+      ],
+      "type": "tram",
+      "arrivalsUrl": "https://www.fgv.es/fgv/app/es/api/v1/V/horarios-prevision-3/100"
+    },
+    {
+      "id": "tram-101",
+      "name": "La Granja (Tranvía L4)",
+      "lat": 39.504032135,
+      "lon": -0.4124779999,
+      "lines": [
+        "T4"
+      ],
+      "linesHomeward": [
+        "T4"
+      ],
+      "type": "tram",
+      "arrivalsUrl": "https://www.fgv.es/fgv/app/es/api/v1/V/horarios-prevision-3/101"
+    },
+    {
+      "id": "tram-102",
+      "name": "Sant Joan (Tranvía L4)",
+      "lat": 39.5052909851,
+      "lon": -0.4163239896,
+      "lines": [
+        "T4"
+      ],
+      "linesHomeward": [
+        "T4"
+      ],
+      "type": "tram",
+      "arrivalsUrl": "https://www.fgv.es/fgv/app/es/api/v1/V/horarios-prevision-3/102"
+    },
+    {
+      "id": "tram-103",
+      "name": "Campus (Tranvía L4)",
+      "lat": 39.5072212219,
+      "lon": -0.4174583256,
+      "lines": [
+        "T4"
+      ],
+      "linesHomeward": [
+        "T4"
+      ],
+      "type": "tram",
+      "arrivalsUrl": "https://www.fgv.es/fgv/app/es/api/v1/V/horarios-prevision-3/103"
+    },
+    {
+      "id": "tram-104",
+      "name": "Vicent Andrés Estellés (Tranvía L4)",
+      "lat": 39.5085601807,
+      "lon": -0.4198839962,
+      "lines": [
+        "T4"
+      ],
+      "linesHomeward": [
+        "T4"
+      ],
+      "type": "tram",
+      "arrivalsUrl": "https://www.fgv.es/fgv/app/es/api/v1/V/horarios-prevision-3/104"
+    },
+    {
+      "id": "tram-105",
+      "name": "À Punt (Tranvía L4)",
+      "lat": 39.5122032166,
+      "lon": -0.424748987,
+      "lines": [
+        "T4"
+      ],
+      "linesHomeward": [
+        "T4"
+      ],
+      "type": "tram",
+      "arrivalsUrl": "https://www.fgv.es/fgv/app/es/api/v1/V/horarios-prevision-3/105"
+    },
+    {
+      "id": "tram-106",
+      "name": "Fira València (Tranvía L4)",
+      "lat": 39.5041427612,
+      "lon": -0.4254944324,
+      "lines": [
+        "T4"
+      ],
+      "linesHomeward": [
+        "T4"
+      ],
+      "type": "tram",
+      "arrivalsUrl": "https://www.fgv.es/fgv/app/es/api/v1/V/horarios-prevision-3/106"
+    },
+    {
+      "id": "tram-110",
+      "name": "Mas del Rosari (Tranvía L4)",
+      "lat": 39.5249595642,
+      "lon": -0.4358249903,
+      "lines": [
+        "T4"
+      ],
+      "linesHomeward": [
+        "T4"
+      ],
+      "type": "tram",
+      "arrivalsUrl": "https://www.fgv.es/fgv/app/es/api/v1/V/horarios-prevision-3/110"
+    },
+    {
+      "id": "tram-111",
+      "name": "La Coma (Tranvía L4)",
+      "lat": 39.521572113,
+      "lon": -0.4317069948,
+      "lines": [
+        "T4"
+      ],
+      "linesHomeward": [
+        "T4"
+      ],
+      "type": "tram",
+      "arrivalsUrl": "https://www.fgv.es/fgv/app/es/api/v1/V/horarios-prevision-3/111"
+    },
+    {
+      "id": "tram-112",
+      "name": "Tomás y Valiente (Tranvía L4)",
+      "lat": 39.5197715759,
+      "lon": -0.4256361127,
+      "lines": [
+        "T4"
+      ],
+      "linesHomeward": [
+        "T4"
+      ],
+      "type": "tram",
+      "arrivalsUrl": "https://www.fgv.es/fgv/app/es/api/v1/V/horarios-prevision-3/112"
+    },
+    {
+      "id": "tram-113",
+      "name": "Parc Científic (Tranvía L4)",
+      "lat": 39.5151405334,
+      "lon": -0.4226219952,
+      "lines": [
+        "T4"
+      ],
+      "linesHomeward": [
+        "T4"
+      ],
+      "type": "tram",
+      "arrivalsUrl": "https://www.fgv.es/fgv/app/es/api/v1/V/horarios-prevision-3/113"
+    },
+    {
+      "id": "tram-114",
+      "name": "Ll. Llarga - Terramelar (Tranvía L4)",
+      "lat": 39.5098991394,
+      "lon": -0.4304472208,
+      "lines": [
+        "T4"
+      ],
+      "linesHomeward": [
+        "T4"
+      ],
+      "type": "tram",
+      "arrivalsUrl": "https://www.fgv.es/fgv/app/es/api/v1/V/horarios-prevision-3/114"
+    },
+    {
+      "id": "tram-115",
+      "name": "Marítim (Tranvía L6)",
+      "lat": 39.4649391174,
+      "lon": -0.3382369876,
+      "lines": [
+        "T6"
+      ],
+      "linesHomeward": [
+        "T6"
+      ],
+      "type": "tram",
+      "arrivalsUrl": "https://www.fgv.es/fgv/app/es/api/v1/V/horarios-prevision-3/115"
+    },
+    {
+      "id": "tram-12",
+      "name": "Benimaclet (Tranvía L4/L6)",
+      "lat": 39.4848518372,
+      "lon": -0.3623333275,
+      "lines": [
+        "T4",
+        "T6"
+      ],
+      "linesHomeward": [
+        "T4",
+        "T6"
+      ],
+      "type": "tram",
+      "arrivalsUrl": "https://www.fgv.es/fgv/app/es/api/v1/V/horarios-prevision-3/12"
+    },
+    {
+      "id": "tram-122",
+      "name": "Francesc Cubells (Tranvía L6)",
+      "lat": 39.4632453918,
+      "lon": -0.3339729905,
+      "lines": [
+        "T6"
+      ],
+      "linesHomeward": [
+        "T6"
+      ],
+      "type": "tram",
+      "arrivalsUrl": "https://www.fgv.es/fgv/app/es/api/v1/V/horarios-prevision-3/122"
+    },
+    {
+      "id": "tram-123",
+      "name": "Grau - La Marina (Tranvía L6)",
+      "lat": 39.4631004333,
+      "lon": -0.3294720054,
+      "lines": [
+        "T6"
+      ],
+      "linesHomeward": [
+        "T6"
+      ],
+      "type": "tram",
+      "arrivalsUrl": "https://www.fgv.es/fgv/app/es/api/v1/V/horarios-prevision-3/123"
+    },
+    {
+      "id": "tram-126",
+      "name": "Neptú (Tranvía L6)",
+      "lat": 39.4632530212,
+      "lon": -0.3258508444,
+      "lines": [
+        "T6"
+      ],
+      "linesHomeward": [
+        "T6"
+      ],
+      "type": "tram",
+      "arrivalsUrl": "https://www.fgv.es/fgv/app/es/api/v1/V/horarios-prevision-3/126"
+    },
+    {
+      "id": "tram-127",
+      "name": "Canyamelar (Tranvía L6)",
+      "lat": 39.4665222168,
+      "lon": -0.3279320002,
+      "lines": [
+        "T6"
+      ],
+      "linesHomeward": [
+        "T6"
+      ],
+      "type": "tram",
+      "arrivalsUrl": "https://www.fgv.es/fgv/app/es/api/v1/V/horarios-prevision-3/127"
+    },
+    {
+      "id": "tram-128",
+      "name": "Alfauir (Tranvía L6)",
+      "lat": 39.4892997742,
+      "lon": -0.3660329878,
+      "lines": [
+        "T6"
+      ],
+      "linesHomeward": [
+        "T6"
+      ],
+      "type": "tram",
+      "arrivalsUrl": "https://www.fgv.es/fgv/app/es/api/v1/V/horarios-prevision-3/128"
+    },
+    {
+      "id": "tram-129",
+      "name": "Orriols (Tranvía L6)",
+      "lat": 39.4931488037,
+      "lon": -0.3676636219,
+      "lines": [
+        "T6"
+      ],
+      "linesHomeward": [
+        "T6"
+      ],
+      "type": "tram",
+      "arrivalsUrl": "https://www.fgv.es/fgv/app/es/api/v1/V/horarios-prevision-3/129"
+    },
+    {
+      "id": "tram-130",
+      "name": "Estadi Ciutat de València (Tranvía L6)",
+      "lat": 39.4949188232,
+      "lon": -0.3655419946,
+      "lines": [
+        "T6"
+      ],
+      "linesHomeward": [
+        "T6"
+      ],
+      "type": "tram",
+      "arrivalsUrl": "https://www.fgv.es/fgv/app/es/api/v1/V/horarios-prevision-3/130"
+    },
+    {
+      "id": "tram-131",
+      "name": "Sant Miquel dels Reis (Tranvía L6)",
+      "lat": 39.4972190857,
+      "lon": -0.3684949875,
+      "lines": [
+        "T6"
+      ],
+      "linesHomeward": [
+        "T6"
+      ],
+      "type": "tram",
+      "arrivalsUrl": "https://www.fgv.es/fgv/app/es/api/v1/V/horarios-prevision-3/131"
+    },
+    {
+      "id": "tram-132",
+      "name": "Tossal del Rei (Tranvía L6)",
+      "lat": 39.4959526062,
+      "lon": -0.3725369871,
+      "lines": [
+        "T6"
+      ],
+      "linesHomeward": [
+        "T6"
+      ],
+      "type": "tram",
+      "arrivalsUrl": "https://www.fgv.es/fgv/app/es/api/v1/V/horarios-prevision-3/132"
+    },
+    {
+      "id": "tram-55",
+      "name": "Empalme (Tranvía L4)",
+      "lat": 39.4995765686,
+      "lon": -0.4021083415,
+      "lines": [
+        "T4"
+      ],
+      "linesHomeward": [
+        "T4"
+      ],
+      "type": "tram",
+      "arrivalsUrl": "https://www.fgv.es/fgv/app/es/api/v1/V/horarios-prevision-3/55"
+    },
+    {
+      "id": "tram-81",
+      "name": "Platja Malva-rosa (Tranvía L4/L6)",
+      "lat": 39.473690033,
+      "lon": -0.3257277906,
+      "lines": [
+        "T4",
+        "T6"
+      ],
+      "linesHomeward": [
+        "T4",
+        "T6"
+      ],
+      "type": "tram",
+      "arrivalsUrl": "https://www.fgv.es/fgv/app/es/api/v1/V/horarios-prevision-3/81"
+    },
+    {
+      "id": "tram-82",
+      "name": "Platja les Arenes (Tranvía L4/L6)",
+      "lat": 39.4689292908,
+      "lon": -0.3257277906,
+      "lines": [
+        "T4",
+        "T6"
+      ],
+      "linesHomeward": [
+        "T4",
+        "T6"
+      ],
+      "type": "tram",
+      "arrivalsUrl": "https://www.fgv.es/fgv/app/es/api/v1/V/horarios-prevision-3/82"
+    },
+    {
+      "id": "tram-83",
+      "name": "Dr. Lluch (Tranvía L4/L6)",
+      "lat": 39.4693069458,
+      "lon": -0.3281527758,
+      "lines": [
+        "T4",
+        "T6"
+      ],
+      "linesHomeward": [
+        "T4",
+        "T6"
+      ],
+      "type": "tram",
+      "arrivalsUrl": "https://www.fgv.es/fgv/app/es/api/v1/V/horarios-prevision-3/83"
+    },
+    {
+      "id": "tram-84",
+      "name": "Cabanyal (Tranvía L4/L6)",
+      "lat": 39.4728546143,
+      "lon": -0.3275833428,
+      "lines": [
+        "T4",
+        "T6"
+      ],
+      "linesHomeward": [
+        "T4",
+        "T6"
+      ],
+      "type": "tram",
+      "arrivalsUrl": "https://www.fgv.es/fgv/app/es/api/v1/V/horarios-prevision-3/84"
+    },
+    {
+      "id": "tram-85",
+      "name": "La Cadena (Tranvía L4/L6)",
+      "lat": 39.4752044678,
+      "lon": -0.3293749988,
+      "lines": [
+        "T4",
+        "T6"
+      ],
+      "linesHomeward": [
+        "T4",
+        "T6"
+      ],
+      "type": "tram",
+      "arrivalsUrl": "https://www.fgv.es/fgv/app/es/api/v1/V/horarios-prevision-3/85"
+    },
+    {
+      "id": "tram-86",
+      "name": "Beteró (Tranvía L4/L6)",
+      "lat": 39.4765930176,
+      "lon": -0.3342027664,
+      "lines": [
+        "T4",
+        "T6"
+      ],
+      "linesHomeward": [
+        "T4",
+        "T6"
+      ],
+      "type": "tram",
+      "arrivalsUrl": "https://www.fgv.es/fgv/app/es/api/v1/V/horarios-prevision-3/86"
+    },
+    {
+      "id": "tram-87",
+      "name": "Tarongers - Ernest Lluch (Tranvía L4/L6)",
+      "lat": 39.47813797,
+      "lon": -0.3396222293,
+      "lines": [
+        "T4",
+        "T6"
+      ],
+      "linesHomeward": [
+        "T4",
+        "T6"
+      ],
+      "type": "tram",
+      "arrivalsUrl": "https://www.fgv.es/fgv/app/es/api/v1/V/horarios-prevision-3/87"
+    },
+    {
+      "id": "tram-88",
+      "name": "La Carrasca (Tranvía L4/L6)",
+      "lat": 39.4796600342,
+      "lon": -0.3448249996,
+      "lines": [
+        "T4",
+        "T6"
+      ],
+      "linesHomeward": [
+        "T4",
+        "T6"
+      ],
+      "type": "tram",
+      "arrivalsUrl": "https://www.fgv.es/fgv/app/es/api/v1/V/horarios-prevision-3/88"
+    },
+    {
+      "id": "tram-89",
+      "name": "Universitat Politècnica (Tranvía L4/L6)",
+      "lat": 39.4813156128,
+      "lon": -0.3504999876,
+      "lines": [
+        "T4",
+        "T6"
+      ],
+      "linesHomeward": [
+        "T4",
+        "T6"
+      ],
+      "type": "tram",
+      "arrivalsUrl": "https://www.fgv.es/fgv/app/es/api/v1/V/horarios-prevision-3/89"
+    },
+    {
+      "id": "tram-90",
+      "name": "Vicente Zaragozá (Tranvía L4/L6)",
+      "lat": 39.4833717346,
+      "lon": -0.3579472303,
+      "lines": [
+        "T4",
+        "T6"
+      ],
+      "linesHomeward": [
+        "T4",
+        "T6"
+      ],
+      "type": "tram",
+      "arrivalsUrl": "https://www.fgv.es/fgv/app/es/api/v1/V/horarios-prevision-3/90"
+    },
+    {
+      "id": "tram-91",
+      "name": "Trinitat (Tranvía L4/L6)",
+      "lat": 39.4862709045,
+      "lon": -0.3677638769,
+      "lines": [
+        "T4",
+        "T6"
+      ],
+      "linesHomeward": [
+        "T4",
+        "T6"
+      ],
+      "type": "tram",
+      "arrivalsUrl": "https://www.fgv.es/fgv/app/es/api/v1/V/horarios-prevision-3/91"
+    },
+    {
+      "id": "tram-92",
+      "name": "Pont de Fusta (Tranvía L4)",
+      "lat": 39.4817810059,
+      "lon": -0.3731805682,
+      "lines": [
+        "T4"
+      ],
+      "linesHomeward": [
+        "T4"
+      ],
+      "type": "tram",
+      "arrivalsUrl": "https://www.fgv.es/fgv/app/es/api/v1/V/horarios-prevision-3/92"
+    },
+    {
       "id": "tram-93",
       "name": "Sagunt (Tranvía L4)",
       "lat": 39.4864997864,
@@ -6659,6 +7187,76 @@
       ],
       "type": "tram",
       "arrivalsUrl": "https://www.fgv.es/fgv/app/es/api/v1/V/horarios-prevision-3/94"
+    },
+    {
+      "id": "tram-95",
+      "name": "Marxalenes (Tranvía L4)",
+      "lat": 39.4879722595,
+      "lon": -0.3838368952,
+      "lines": [
+        "T4"
+      ],
+      "linesHomeward": [
+        "T4"
+      ],
+      "type": "tram",
+      "arrivalsUrl": "https://www.fgv.es/fgv/app/es/api/v1/V/horarios-prevision-3/95"
+    },
+    {
+      "id": "tram-96",
+      "name": "Trànsits (Tranvía L4)",
+      "lat": 39.4895629883,
+      "lon": -0.387258321,
+      "lines": [
+        "T4"
+      ],
+      "linesHomeward": [
+        "T4"
+      ],
+      "type": "tram",
+      "arrivalsUrl": "https://www.fgv.es/fgv/app/es/api/v1/V/horarios-prevision-3/96"
+    },
+    {
+      "id": "tram-97",
+      "name": "Benicalap (Tranvía L4)",
+      "lat": 39.4900283813,
+      "lon": -0.3909277916,
+      "lines": [
+        "T4"
+      ],
+      "linesHomeward": [
+        "T4"
+      ],
+      "type": "tram",
+      "arrivalsUrl": "https://www.fgv.es/fgv/app/es/api/v1/V/horarios-prevision-3/97"
+    },
+    {
+      "id": "tram-98",
+      "name": "Garbí (Tranvía L4)",
+      "lat": 39.4922904968,
+      "lon": -0.3945111036,
+      "lines": [
+        "T4"
+      ],
+      "linesHomeward": [
+        "T4"
+      ],
+      "type": "tram",
+      "arrivalsUrl": "https://www.fgv.es/fgv/app/es/api/v1/V/horarios-prevision-3/98"
+    },
+    {
+      "id": "tram-99",
+      "name": "Florista (Tranvía L4)",
+      "lat": 39.4944343567,
+      "lon": -0.3968166709,
+      "lines": [
+        "T4"
+      ],
+      "linesHomeward": [
+        "T4"
+      ],
+      "type": "tram",
+      "arrivalsUrl": "https://www.fgv.es/fgv/app/es/api/v1/V/horarios-prevision-3/99"
     }
   ]
 }

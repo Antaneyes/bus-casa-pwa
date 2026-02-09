@@ -16,7 +16,7 @@ const https = require('https');
 const { execSync } = require('child_process');
 
 // URL del GTFS de EMT Valencia (Ajuntament de València - VLCi)
-const GTFS_URL = 'https://opendata.vlci.valencia.es/dataset/ab058cf8-ad3e-4d9c-ac89-0c6367ecf351/resource/c81b69e6-c082-44dc-acc6-66fc417b4e66/download/google_transit2026-02-07.zip';
+const GTFS_URL = 'https://opendata.vlci.valencia.es/dataset/ab058cf8-ad3e-4d9c-ac89-0c6367ecf351/resource/c81b69e6-c082-44dc-acc6-66fc417b4e66/download/google_transit.zip';
 
 const TEMP_DIR = path.join(__dirname, '.gtfs-temp');
 const OUTPUT_FILE = path.join(__dirname, 'stops-data.json');
@@ -35,30 +35,82 @@ const DESTINATION_STOPS = {
 
 // Paradas de tranvía FGV MetroValencia (no provienen del GTFS de EMT)
 // API: https://www.fgv.es/fgv/app/es/api/v1/V/horarios-prevision-3/{estacion_id_FGV}
+const FGV_API_BASE = 'https://www.fgv.es/fgv/app/es/api/v1/V/horarios-prevision-3/';
+
+// IDs de paradas compartidas L4/L6 (Trinitat ↔ Dr. Lluch)
+const L4_L6_SHARED = [83, 82, 81, 84, 85, 86, 87, 88, 89, 90, 12, 91];
+
+// L4: Dr. Lluch ↔ Mas del Rosari (33 estaciones)
 const FGV_TRAM_STOPS = [
-    {
-        id: 'tram-93',
-        name: 'Sagunt (Tranvía L4)',
-        lat: 39.4864997864,
-        lon: -0.3749722242,
-        lines: ['T4'],
-        linesHomeward: ['T4'],
-        type: 'tram',
-        fgvStationId: 93,
-        arrivalsUrl: 'https://www.fgv.es/fgv/app/es/api/v1/V/horarios-prevision-3/93'
-    },
-    {
-        id: 'tram-94',
-        name: 'Reus (Tranvía L4)',
-        lat: 39.4859657288,
-        lon: -0.3817070127,
-        lines: ['T4'],
-        linesHomeward: ['T4'],
-        type: 'tram',
-        fgvStationId: 94,
-        arrivalsUrl: 'https://www.fgv.es/fgv/app/es/api/v1/V/horarios-prevision-3/94'
-    }
-];
+    // Zona Playa (sureste) - compartidas L4/L6
+    { id: 'tram-83',  name: 'Dr. Lluch',                    lat: 39.4693069458, lon: -0.3281527758, fgvId: 83 },
+    { id: 'tram-82',  name: 'Platja les Arenes',            lat: 39.4689292908, lon: -0.3257277906, fgvId: 82 },
+    { id: 'tram-81',  name: 'Platja Malva-rosa',            lat: 39.4736900330, lon: -0.3257277906, fgvId: 81 },
+    { id: 'tram-84',  name: 'Cabanyal',                     lat: 39.4728546143, lon: -0.3275833428, fgvId: 84 },
+    { id: 'tram-85',  name: 'La Cadena',                    lat: 39.4752044678, lon: -0.3293749988, fgvId: 85 },
+    // Zona Universitat / Tarongers - compartidas L4/L6
+    { id: 'tram-86',  name: 'Beteró',                       lat: 39.4765930176, lon: -0.3342027664, fgvId: 86 },
+    { id: 'tram-87',  name: 'Tarongers - Ernest Lluch',     lat: 39.4781379700, lon: -0.3396222293, fgvId: 87 },
+    { id: 'tram-88',  name: 'La Carrasca',                  lat: 39.4796600342, lon: -0.3448249996, fgvId: 88 },
+    { id: 'tram-89',  name: 'Universitat Politècnica',      lat: 39.4813156128, lon: -0.3504999876, fgvId: 89 },
+    { id: 'tram-90',  name: 'Vicente Zaragozá',             lat: 39.4833717346, lon: -0.3579472303, fgvId: 90 },
+    // Zona Centro-Norte - compartidas L4/L6
+    { id: 'tram-12',  name: 'Benimaclet',                   lat: 39.4848518372, lon: -0.3623333275, fgvId: 12 },
+    { id: 'tram-91',  name: 'Trinitat',                     lat: 39.4862709045, lon: -0.3677638769, fgvId: 91 },
+    // Solo L4 desde aquí
+    { id: 'tram-92',  name: 'Pont de Fusta',                lat: 39.4817810059, lon: -0.3731805682, fgvId: 92 },
+    { id: 'tram-93',  name: 'Sagunt',                       lat: 39.4864997864, lon: -0.3749722242, fgvId: 93 },
+    { id: 'tram-94',  name: 'Reus',                         lat: 39.4859657288, lon: -0.3817070127, fgvId: 94 },
+    { id: 'tram-95',  name: 'Marxalenes',                   lat: 39.4879722595, lon: -0.3838368952, fgvId: 95 },
+    { id: 'tram-96',  name: 'Trànsits',                     lat: 39.4895629883, lon: -0.3872583210, fgvId: 96 },
+    { id: 'tram-97',  name: 'Benicalap',                    lat: 39.4900283813, lon: -0.3909277916, fgvId: 97 },
+    { id: 'tram-98',  name: 'Garbí',                        lat: 39.4922904968, lon: -0.3945111036, fgvId: 98 },
+    { id: 'tram-99',  name: 'Florista',                     lat: 39.4944343567, lon: -0.3968166709, fgvId: 99 },
+    { id: 'tram-100', name: 'Palau de Congressos',          lat: 39.4971809387, lon: -0.4001416564, fgvId: 100 },
+    { id: 'tram-55',  name: 'Empalme',                      lat: 39.4995765686, lon: -0.4021083415, fgvId: 55 },
+    { id: 'tram-101', name: 'La Granja',                    lat: 39.5040321350, lon: -0.4124779999, fgvId: 101 },
+    { id: 'tram-102', name: 'Sant Joan',                    lat: 39.5052909851, lon: -0.4163239896, fgvId: 102 },
+    { id: 'tram-103', name: 'Campus',                       lat: 39.5072212219, lon: -0.4174583256, fgvId: 103 },
+    { id: 'tram-104', name: 'Vicent Andrés Estellés',       lat: 39.5085601807, lon: -0.4198839962, fgvId: 104 },
+    { id: 'tram-105', name: 'À Punt',                       lat: 39.5122032166, lon: -0.4247489870, fgvId: 105 },
+    { id: 'tram-106', name: 'Fira València',                lat: 39.5041427612, lon: -0.4254944324, fgvId: 106 },
+    { id: 'tram-114', name: 'Ll. Llarga - Terramelar',      lat: 39.5098991394, lon: -0.4304472208, fgvId: 114 },
+    { id: 'tram-113', name: 'Parc Científic',               lat: 39.5151405334, lon: -0.4226219952, fgvId: 113 },
+    { id: 'tram-112', name: 'Tomás y Valiente',             lat: 39.5197715759, lon: -0.4256361127, fgvId: 112 },
+    { id: 'tram-111', name: 'La Coma',                      lat: 39.5215721130, lon: -0.4317069948, fgvId: 111 },
+    { id: 'tram-110', name: 'Mas del Rosari',               lat: 39.5249595642, lon: -0.4358249903, fgvId: 110 },
+].map(s => {
+    const isShared = L4_L6_SHARED.includes(s.fgvId);
+    const lines = isShared ? ['T4', 'T6'] : ['T4'];
+    const label = isShared ? 'Tranvía L4/L6' : 'Tranvía L4';
+    return {
+        id: s.id, name: s.name + ` (${label})`,
+        lat: s.lat, lon: s.lon,
+        lines, linesHomeward: lines,
+        type: 'tram', arrivalsUrl: FGV_API_BASE + s.fgvId
+    };
+});
+
+// L6: Tossal del Rei ↔ Marítim (paradas exclusivas, no compartidas con L4)
+const FGV_L6_ONLY_STOPS = [
+    // Zona Norte (exclusivas L6)
+    { id: 'tram-128', name: 'Alfauir',                      lat: 39.4892997742, lon: -0.3660329878, fgvId: 128 },
+    { id: 'tram-129', name: 'Orriols',                      lat: 39.4931488037, lon: -0.3676636219, fgvId: 129 },
+    { id: 'tram-130', name: 'Estadi Ciutat de València',    lat: 39.4949188232, lon: -0.3655419946, fgvId: 130 },
+    { id: 'tram-131', name: 'Sant Miquel dels Reis',        lat: 39.4972190857, lon: -0.3684949875, fgvId: 131 },
+    { id: 'tram-132', name: 'Tossal del Rei',               lat: 39.4959526062, lon: -0.3725369871, fgvId: 132 },
+    // Zona Sur/Marítim (exclusivas L6)
+    { id: 'tram-127', name: 'Canyamelar',                   lat: 39.4665222168, lon: -0.3279320002, fgvId: 127 },
+    { id: 'tram-122', name: 'Francesc Cubells',             lat: 39.4632453918, lon: -0.3339729905, fgvId: 122 },
+    { id: 'tram-123', name: 'Grau - La Marina',             lat: 39.4631004333, lon: -0.3294720054, fgvId: 123 },
+    { id: 'tram-126', name: 'Neptú',                        lat: 39.4632530212, lon: -0.3258508444, fgvId: 126 },
+    { id: 'tram-115', name: 'Marítim',                      lat: 39.4649391174, lon: -0.3382369876, fgvId: 115 },
+].map(s => ({
+    id: s.id, name: s.name + ' (Tranvía L6)',
+    lat: s.lat, lon: s.lon,
+    lines: ['T6'], linesHomeward: ['T6'],
+    type: 'tram', arrivalsUrl: FGV_API_BASE + s.fgvId
+}));
 
 // Distancia máxima (metros) entre cualquier parada del shape y la destination stop
 // para considerar que el shape "pasa por" la destination stop
@@ -402,8 +454,9 @@ async function main() {
         });
     });
 
-    // Añadir paradas de tranvía FGV
-    FGV_TRAM_STOPS.forEach(tram => {
+    // Añadir paradas de tranvía FGV (L4 + L6)
+    const allTramStops = [...FGV_TRAM_STOPS, ...FGV_L6_ONLY_STOPS];
+    allTramStops.forEach(tram => {
         outputStops.push({
             id: tram.id,
             name: tram.name,
@@ -415,7 +468,7 @@ async function main() {
             arrivalsUrl: tram.arrivalsUrl
         });
     });
-    console.log(`\n🚊 Añadidas ${FGV_TRAM_STOPS.length} paradas de tranvía FGV`);
+    console.log(`\n🚊 Añadidas ${allTramStops.length} paradas de tranvía FGV (${FGV_TRAM_STOPS.length} L4 + ${FGV_L6_ONLY_STOPS.length} L6-only)`);
 
     outputStops.sort((a, b) => (typeof a.id === 'number' && typeof b.id === 'number') ? a.id - b.id : String(a.id).localeCompare(String(b.id)));
 

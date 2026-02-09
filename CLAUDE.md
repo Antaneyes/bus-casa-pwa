@@ -14,7 +14,7 @@ Bus Casa es una PWA (Progressive Web App) y aplicación nativa Android (usando C
 - **PWA**: Service Worker para funcionalidad offline
 - **Android Nativo**: Capacitor 6.0 para compilar a APK
 - **Deployment Web**: Docker + Nginx Alpine
-- **API**: EMT Valencia OpenDataSoft API para datos de paradas y tiempos
+- **API**: EMT Valencia (scraping HTML) + FGV MetroValencia (JSON API) para tiempos reales
 
 ### Estructura de Archivos Críticos
 
@@ -31,6 +31,15 @@ Bus Casa es una PWA (Progressive Web App) y aplicación nativa Android (usando C
   - `appId`: `com.antaneyes.buscasa`
   - `webDir`: `www` - Directorio donde se copian los assets web
   - Plugin crítico: `CapacitorHttp` habilitado para descargar APKs
+
+#### Generación de datos de paradas
+- `build-stops.js` - Script Node.js que genera `stops-data.json` desde GTFS EMT + paradas FGV hardcoded
+  - Descarga GTFS de EMT Valencia (URL sin fecha: `google_transit.zip`)
+  - Añade paradas de tranvía FGV L4 y L6 (hardcoded en el script)
+  - Detecta dirección (homeward) usando shapes GTFS para buses EMT
+  - Se ejecuta manualmente: `node build-stops.js` (no hay auto-regeneración)
+  - El `stops-data.json` generado se incluye en el Docker build y se commitea al repo
+  - Si EMT cambia el GTFS, hay que re-ejecutar manualmente
 
 #### Docker
 - `Dockerfile` - Imagen Nginx Alpine
@@ -50,10 +59,26 @@ Bus Casa es una PWA (Progressive Web App) y aplicación nativa Android (usando C
 
 #### Configuración en `main.js` (`CONFIG` object):
 - `HOME_COORDS`: Lee de `window.SECRET_CONFIG` o usa valores por defecto
-- `USEFUL_LINES`: Array de líneas de bus relevantes (incluye aliases como 'C2', 'C3', 'C1')
+- `USEFUL_LINES`: Array de líneas relevantes (bus: '6','16','26'... + tranvía: 'T4','T6')
 - `LINE_ALIASES`: Mapeo de números internos API a nombres comerciales (ej: '79'/'80' → 'C2')
-- `DESTINATION_STOPS`: Mapeo de línea → código de parada cerca de casa
+- `DESTINATION_STOPS`: Mapeo de línea → código de parada cerca de casa (incluye 'T4'→'tram-93', 'T6'→'tram-132')
+- `L4_DEST_DIRECTION`: Mapa de substrings uppercase de destinos FGV → dirección ('east'/'west') para filtrar dirección del tranvía L4
 - `EXCLUDED_STOPS`: Paradas con datos erróneos en el dataset
+
+#### FGV MetroValencia (Tranvía L4/L6):
+- **API sin autenticación**: `https://www.fgv.es/fgv/app/es/api/v1/V/horarios-prevision-3/{estacion_id_FGV}`
+- **API estaciones**: `https://www.fgv.es/fgv/app/es/api/v1/V/estaciones`
+- Proxy nginx: `/api/fgv-proxy/` → `https://www.fgv.es/fgv/app/es/api/v1/V/`
+- L4: 33 paradas (Dr. Lluch ↔ Mas del Rosari), dirección filtrada por longitud vs Sagunt
+- L6: 10 paradas exclusivas + 12 compartidas con L4 (Trinitat ↔ Dr. Lluch), siempre dirección Tossal del Rei
+- Paradas definidas en `build-stops.js` como `FGV_TRAM_STOPS` (L4) y `FGV_L6_ONLY_STOPS` (L6)
+- IDs de parada: `tram-{fgvId}` (ej: `tram-93` = Sagunt, `tram-132` = Tossal del Rei)
+
+#### Funciones clave tranvía en `main.js`:
+- `fetchFgvArrivals(url, stopLon)`: Obtiene llegadas FGV, filtra por línea útil y dirección
+- `getArrivalDestInfo(rawLine)`: Genera HTML con parada destino + distancia a casa para cada llegada
+- `buildUsefulLineChips(stop)`: Genera chips interactivos de líneas útiles con tooltip de destino
+- `isTramStop(stop)`: Detecta si una parada es de tranvía
 
 #### Sistema de Puntuación:
 ```javascript

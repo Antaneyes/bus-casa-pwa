@@ -9,7 +9,7 @@ const CONFIG = {
         lon: window.SECRET_CONFIG?.HOME_LON || -0.377689
     },
 
-    USEFUL_LINES: ['11', '6', '16', '26', '98', 'C2', 'C3', 'C1', '94', '95', '60', '64', '28', 'T4'],
+    USEFUL_LINES: ['11', '6', '16', '26', '98', 'C2', 'C3', 'C1', '94', '95', '60', '64', '28', 'T4', 'T6'],
 
     // Mapeo de números internos API de tiempos a nombres comerciales (UI)
     // Nota: El GTFS ya usa C1/C2/C3, pero la web de tiempos EMT sigue usando 79/80/89/90/5
@@ -40,10 +40,26 @@ const CONFIG = {
         '64': 242,    // Doctor Peset Aleixandre - Guardacostes
         '28': 331,    // Burjassot - Centre Cultural Bombas Gens
         'T4': 'tram-93', // Sagunt (Tranvía L4, FGV MetroValencia)
+        'T6': 'tram-132', // Tossal del Rei (Tranvía L6, FGV MetroValencia)
     },
 
     // API FGV para tiempos reales de tranvía
     FGV_API_BASE: 'https://www.fgv.es/fgv/app/es/api/v1/V/horarios-prevision-3/',
+
+    // L4: Filtrado de dirección del tranvía
+    // Mapa de substrings (uppercase) de destinos FGV → dirección del terminus
+    // 'east' = terminus oriental (playa), 'west' = terminus occidental
+    L4_DEST_DIRECTION: {
+        'DR. LLUCH': 'east', 'LLUCH': 'east',
+        'NEPTU': 'east', 'MARINA': 'east',
+        'MAS DEL ROSARI': 'west', 'ROSARI': 'west',
+        'LA COMA': 'west', 'COMA': 'west',
+        'V.A.ESTELLES': 'west', 'ESTELLES': 'west',
+        'FIRA': 'west', 'TERRAMELAR': 'west',
+        'LLARGA': 'west', 'EMPALME': 'west',
+    },
+    // Longitud de Sagunt para decidir si una parada está al este o al oeste
+    L4_HOME_LON: -0.374972,
 
     // Radio de búsqueda por defecto (metros)
     DEFAULT_RADIUS: 500,
@@ -59,7 +75,7 @@ const CONFIG = {
     IS_NATIVE: window.location.protocol === 'capacitor:' || !!window.Capacitor,
 
     // Configuración de actualizaciones (v74)
-    CURRENT_VERSION: '0.89.0', // Sincronizado con el footer
+    CURRENT_VERSION: '0.90.0', // Sincronizado con el footer
     UPDATE_URL: 'https://raw.githubusercontent.com/Antaneyes/bus-casa-pwa/android-capacitor/update.json'
 };
 
@@ -719,29 +735,19 @@ function displayStops() {
             index === 1 ? '🥈 2ª OPCIÓN' :
                 index === 2 ? '🥉 3ª OPCIÓN' : '';
 
-        // Información de la mejor línea
-        const stopIsTram = isTramStop(stop);
-        const typeIcon = stopIsTram ? '🚊' : '🚌';
-        const bestLineInfo = stop.bestLine && stop.bestDestinationStop ?
-            `<p class="stop-best-line">${typeIcon} Mejor: Línea ${stop.bestLine} → ${stop.bestDestinationStop.name}</p>` : '';
+        // Líneas útiles que pasan por esta parada (chips interactivos)
+        const usefulLinesText = buildUsefulLineChips(stop);
 
         return `
         <div class="stop-card ${isBestOption ? 'best-option' : ''}" data-stop-id="${stop.id}">
             ${rankBadge ? `<div class="rank-badge">${rankBadge}</div>` : ''}
             <div class="stop-header">
                 <div>
-                    <h3 class="stop-name">${stop.name}</h3>
+                    <h3 class="stop-name">${stop.name} <span style="font-weight: 400; font-size: 12px; opacity: 0.5;">#${stop.id}</span></h3>
                     <p class="stop-direction">📍 ${stop.distanceToStop}m a pie</p>
-                    ${bestLineInfo}
-                    <p class="stop-home-distance">🏠 Te deja a ${stop.distanceStopToHome}m de casa</p>
+                    ${usefulLinesText}
                 </div>
                 <span class="stop-distance">${formatDistance(stop.distanceToStop)}</span>
-            </div>
-            <div class="stop-lines">
-                ${stop.lines.map(line => {
-            const displayLine = CONFIG.LINE_ALIASES[line] || line;
-            return `<span class="line-badge ${line === stop.bestLine ? 'best-line' : ''}">${displayLine}</span>`;
-        }).join('')}
             </div>
             <button class="btn-show-arrivals" data-arrivals-url="${stop.arrivalsUrl}" data-stop-id="${stop.id}">
                 ⏱️ Ver tiempos de llegada
@@ -760,6 +766,9 @@ function displayStops() {
             highlightStopOnMap(stopId);
         });
     });
+
+    // Tooltip para chips de líneas útiles (tap en móvil)
+    setupLineChipTooltips(elements.stopsList);
 
     // Añadir event listeners a los botones de tiempos
     document.querySelectorAll('.btn-show-arrivals').forEach(button => {
@@ -814,7 +823,7 @@ async function loadArrivalsInline(url, stopId) {
 
         if (isTramStop(stop)) {
             // Tranvía FGV: usar API JSON
-            arrivals = await fetchFgvArrivals(url);
+            arrivals = await fetchFgvArrivals(url, stop?.coords?.lon);
             console.log(`🚊 Parada ${stopId}: ${arrivals.length} llegadas de tranvía`);
         } else {
             // EMT: scraping HTML
@@ -838,6 +847,7 @@ async function loadArrivalsInline(url, stopId) {
                             <div class="arrival-inline-line-group">
                                 <span class="arrival-inline-line ${isTram ? 'tram-line' : ''}">${CONFIG.LINE_ALIASES[arrival.line] || arrival.line}</span>
                                 <span class="arrival-inline-dest">${arrival.destination}</span>
+                                ${getArrivalDestInfo(arrival.line)}
                             </div>
                             <span class="arrival-inline-time">${arrival.time}</span>
                         </div>
@@ -1079,7 +1089,7 @@ window.loadTimesInPopup = async function (url, stopId, usefulLines) {
         let arrivals;
 
         if (isTramStop(stop)) {
-            arrivals = await fetchFgvArrivals(url);
+            arrivals = await fetchFgvArrivals(url, stop?.coords?.lon);
         } else {
             arrivals = await fetchEmtArrivals(url, usefulLines);
         }
@@ -1287,9 +1297,10 @@ function mapElements() {
 
 function openStopDrawer(stop) {
     state.lastOpenedStop = stop;
-    elements.drawerStopName.textContent = stop.name;
+    elements.drawerStopName.innerHTML = `${stop.name} <span style="font-weight: 400; font-size: 13px; opacity: 0.5;">#${stop.id}</span>`;
     const usefulLinesInStop = stop.lines.filter(l => CONFIG.USEFUL_LINES.includes(l));
-    elements.drawerStopInfo.textContent = `📍 ${stop.distanceToStop}m a pie | 🏠 A ${stop.distanceStopToHome}m de casa`;
+    const linesChipsHtml = buildUsefulLineChips(stop);
+    elements.drawerStopInfo.innerHTML = `📍 ${stop.distanceToStop}m a pie${linesChipsHtml}`;
 
     // Cargando...
     elements.drawerArrivals.innerHTML = `
@@ -1311,6 +1322,9 @@ function openStopDrawer(stop) {
 
     elements.stopInfoDrawer.classList.remove('hidden');
     document.body.style.overflow = 'hidden'; // Evitar scroll de fondo
+
+    // Tooltips para chips de líneas útiles en el drawer
+    setupLineChipTooltips(elements.drawerStopInfo);
 
     // Cargar tiempos
     loadArrivalsInDrawer(stop.arrivalsUrl, stop.id, usefulLinesInStop, stop.bestLine);
@@ -1341,7 +1355,8 @@ function closeStopDrawer() {
 }
 
 // Función para cargar tiempos reales desde la API FGV (tranvía)
-async function fetchFgvArrivals(url) {
+// stopLon: longitud de la parada para filtrar dirección
+async function fetchFgvArrivals(url, stopLon) {
     let data;
     if (CONFIG.IS_NATIVE && window.Capacitor?.Plugins?.CapacitorHttp) {
         const response = await window.Capacitor.Plugins.CapacitorHttp.get({
@@ -1356,16 +1371,34 @@ async function fetchFgvArrivals(url) {
         data = await response.json();
     }
 
+    // L4: Determinar dirección según posición este/oeste de Sagunt
+    const isEastOfHome = stopLon !== undefined && stopLon > CONFIG.L4_HOME_LON;
+    const isWestOfHome = stopLon !== undefined && stopLon < CONFIG.L4_HOME_LON;
+
     const arrivals = [];
     if (data.previsiones) {
         data.previsiones.forEach(prev => {
             const lineName = 'T' + prev.line;
+            if (!CONFIG.USEFUL_LINES.includes(lineName)) return;
             (prev.trains || []).forEach(train => {
+                const destino = train.destino || '';
+                const destinoUp = destino.toUpperCase();
+
+                // L6: solo mostrar trenes con dirección Tossal del Rei
+                if (lineName === 'T6' && !destinoUp.includes('TOSSAL')) return;
+
+                // L4: filtrar trenes que se alejan de casa
+                if (lineName === 'T4') {
+                    const destKey = Object.keys(CONFIG.L4_DEST_DIRECTION).find(k => destinoUp.includes(k));
+                    const direction = destKey ? CONFIG.L4_DEST_DIRECTION[destKey] : null;
+                    if (isEastOfHome && direction === 'east') return;
+                    if (isWestOfHome && direction === 'west') return;
+                }
                 const mins = Math.round(train.seconds / 60);
                 arrivals.push({
                     line: lineName,
                     time: mins <= 0 ? 'En parada' : `${mins} min`,
-                    destination: train.destino || 'Desconocido',
+                    destination: destino || 'Desconocido',
                     seconds: train.seconds
                 });
             });
@@ -1378,6 +1411,65 @@ function isTramStop(stop) {
     return stop && (stop.type === 'tram' || String(stop.id).startsWith('tram-'));
 }
 
+// Devuelve HTML con info de destino para una llegada (parada donde bajarse + distancia a casa)
+function getArrivalDestInfo(rawLine) {
+    const commercialLine = CONFIG.LINE_ALIASES[rawLine] || rawLine;
+    // Buscar la key en DESTINATION_STOPS que corresponda a esta línea
+    const lineKey = Object.keys(CONFIG.DESTINATION_STOPS).find(k =>
+        (CONFIG.LINE_ALIASES[k] || k) === commercialLine
+    ) || rawLine;
+    const destId = CONFIG.DESTINATION_STOPS[lineKey];
+    if (!destId) return '';
+    const destStop = state.stopsById?.get(destId);
+    if (!destStop) return '';
+    const dist = Math.round(calculateDistance(
+        destStop.coords.lat, destStop.coords.lon,
+        CONFIG.HOME_COORDS.lat, CONFIG.HOME_COORDS.lon
+    ));
+    return `<div style="font-size:11px; opacity:0.6; margin-top:2px;">Bajarse en: ${destStop.name} #${destId} · 🏠 ${dist}m</div>`;
+}
+
+// Genera HTML de chips interactivos para las líneas útiles de una parada
+function buildUsefulLineChips(stop) {
+    const usefulLinesInStop = stop.lines
+        .filter(l => CONFIG.USEFUL_LINES.includes(l))
+        .map(l => CONFIG.LINE_ALIASES[l] || l);
+    const uniqueLines = [...new Set(usefulLinesInStop)];
+    if (uniqueLines.length === 0) return '';
+
+    const chips = uniqueLines.map(displayName => {
+        // Encontrar la key original en DESTINATION_STOPS
+        const rawLine = Object.keys(CONFIG.DESTINATION_STOPS).find(k =>
+            (CONFIG.LINE_ALIASES[k] || k) === displayName
+        ) || displayName;
+        const destId = CONFIG.DESTINATION_STOPS[rawLine];
+        const destStop = destId ? state.stopsById?.get(destId) : null;
+        const tooltip = destStop ? `Bajarse en: ${destStop.name} #${destId}` : '';
+        return `<span class="useful-line-chip" title="${tooltip}" data-dest="${tooltip}">${displayName}</span>`;
+    }).join('');
+
+    return `<div class="useful-lines-row">${chips}</div>`;
+}
+
+// Añade listeners de tooltip para chips de líneas útiles dentro de un contenedor
+function setupLineChipTooltips(container) {
+    container.querySelectorAll('.useful-line-chip').forEach(chip => {
+        chip.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const dest = chip.dataset.dest;
+            if (!dest) return;
+            // Eliminar tooltips previos
+            document.querySelectorAll('.useful-line-chip-tooltip').forEach(t => t.remove());
+            const tip = document.createElement('div');
+            tip.className = 'useful-line-chip-tooltip';
+            tip.textContent = dest;
+            chip.style.position = 'relative';
+            chip.appendChild(tip);
+            setTimeout(() => tip.remove(), 2500);
+        });
+    });
+}
+
 async function loadArrivalsInDrawer(url, stopId, usefulLines, bestLine) {
     try {
         const stop = state.allStops.find(s => s.id == stopId);
@@ -1385,7 +1477,7 @@ async function loadArrivalsInDrawer(url, stopId, usefulLines, bestLine) {
 
         if (isTramStop(stop)) {
             // Tranvía FGV: usar API JSON
-            arrivals = await fetchFgvArrivals(url);
+            arrivals = await fetchFgvArrivals(url, stop?.coords?.lon);
         } else {
             // EMT: scraping HTML
             arrivals = await fetchEmtArrivals(url, usefulLines);
@@ -1410,6 +1502,7 @@ async function loadArrivalsInDrawer(url, stopId, usefulLines, bestLine) {
             const isTram = commercialLine.startsWith('T');
             const accentColor = isTram ? '#10b981' : (isBestLine ? '#ec4899' : '#6366f1');
             const typeIcon = isTram ? '🚊' : '';
+            const destInfo = getArrivalDestInfo(arrival.line);
 
             return `
                 <div class="drawer-arrival-item" style="border-left-color: ${accentColor}">
@@ -1418,6 +1511,7 @@ async function loadArrivalsInDrawer(url, stopId, usefulLines, bestLine) {
                             <span class="line-badge" style="margin:0; min-width: 40px; background: ${accentColor}">${typeIcon} ${commercialLine}</span>
                             <span style="font-weight: 600; font-size: 14px; margin-left: 8px; color: var(--color-text);">${arrival.destination}</span>
                         </div>
+                        ${destInfo}
                     </div>
                     <div class="drawer-arrival-time" style="color: ${accentColor}; font-weight: 800;">${arrival.time}</div>
                 </div>
