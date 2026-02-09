@@ -21,8 +21,8 @@ const CONFIG = {
         '5': 'C1'
     },
 
-    // Paradas a excluir (datos erróneos en dataset)
-    EXCLUDED_STOPS: [2220, 2221, 2014, 2313, 488, 1696, 2229, 1552, 1754, 1749, 1753],
+    // Paradas a excluir (vacío: el GTFS oficial tiene datos correctos + isHeadingHome filtra dirección)
+    EXCLUDED_STOPS: [],
 
     // Paradas de destino cerca de casa por línea
     DESTINATION_STOPS: {
