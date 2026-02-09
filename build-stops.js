@@ -308,10 +308,18 @@ async function main() {
             const nextShapes = ep.byFirst.get(firstStopId) || [];
             for (const nextShapeId of nextShapes) {
                 if (shapeDestSeq.has(nextShapeId)) {
-                    // Este shape encadena con uno que tiene la destination
-                    // Marcarlo como homeward con destSeq = maxSeq + 1 (todas sus paradas son "antes")
-                    shapeDestSeq.set(shapeId, maxSeq + 1);
-                    chainCount++;
+                    // Solo encadenar si la destination está en la primera mitad del next shape
+                    // Evita marcar como homeward shapes donde el bus da casi toda la vuelta
+                    const nextSi = shapeInfo.get(nextShapeId);
+                    const nextDestSeq = shapeDestSeq.get(nextShapeId);
+                    let nextMaxSeq = 0;
+                    for (const seq of nextSi.stopSeqs.values()) {
+                        if (seq > nextMaxSeq) nextMaxSeq = seq;
+                    }
+                    if (nextDestSeq <= nextMaxSeq * 0.5) {
+                        shapeDestSeq.set(shapeId, maxSeq + 1);
+                        chainCount++;
+                    }
                     break;
                 }
             }
