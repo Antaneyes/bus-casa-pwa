@@ -1,10 +1,11 @@
 // Service Worker para Bus Casa PWA
-const CACHE_NAME = 'bus-casa-v19';
+const CACHE_NAME = 'bus-casa-v20';
 const ASSETS_TO_CACHE = [
     './',
     './index.html',
     './styles.css',
     './main.js',
+    './stops-data.json',
     './manifest.json',
     './icon-192.png',
     './icon-512.png',
@@ -47,26 +48,6 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
     const { request } = event;
     const url = new URL(request.url);
-
-    // Network First para API de EMT
-    if (url.hostname === 'valencia.opendatasoft.com') {
-        event.respondWith(
-            fetch(request)
-                .then(response => {
-                    // Clonar respuesta para cachear
-                    const responseClone = response.clone();
-                    caches.open(CACHE_NAME).then(cache => {
-                        cache.put(request, responseClone);
-                    });
-                    return response;
-                })
-                .catch(() => {
-                    // Si falla, intentar desde cache
-                    return caches.match(request);
-                })
-        );
-        return;
-    }
 
     // Cache First para assets locales
     event.respondWith(

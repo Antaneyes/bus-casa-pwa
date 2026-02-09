@@ -38,7 +38,7 @@ jobs:
           mkdir www
           # Generar config.private.js dinámicamente si los secrets existen
           echo "window.SECRET_CONFIG = { HOME_LAT: ${HOME_LAT:-39.486}, HOME_LON: ${HOME_LON:--0.377} };" > config.private.js
-          cp index.html main.js styles.css manifest.json sw.js icon-192.png config.private.js www/
+          cp index.html main.js styles.css manifest.json sw.js icon-192.png stops-data.json config.private.js www/
 
       - name: Initialize Capacitor Android
         run: node node_modules/@capacitor/cli/bin/capacitor add android
@@ -58,8 +58,8 @@ jobs:
           # Incrementar versionCode usando el run_number de GitHub (siempre sube)
           sed -i 's/versionCode 1/versionCode ${{ github.run_number }}/' $BUILD_GRADLE
           # Sincronizar versionName con la versión de la App
-          sed -i 's/versionName "1.0"/versionName "0.87"/' $BUILD_GRADLE
-          echo "✅ Versión configurada: 0.87 (Build ${{ github.run_number }})"
+          sed -i 's/versionName "1.0"/versionName "0.88"/' $BUILD_GRADLE
+          echo "✅ Versión configurada: 0.88 (Build ${{ github.run_number }})"
 
       - name: Decode Keystore
         env:

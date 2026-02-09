@@ -1,0 +1,5542 @@
+{
+  "generated": "2026-02-09",
+  "source": "GTFS EMT Valencia (opendata.vlci.valencia.es)",
+  "totalStops": 488,
+  "stops": [
+    {
+      "id": 7,
+      "name": "Doctor J.J. Dòmine  - Edifici del Rellotge",
+      "lat": 39.4603570198278,
+      "lon": -0.332496101097385,
+      "lines": [
+        "19",
+        "92",
+        "95"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=7"
+    },
+    {
+      "id": 58,
+      "name": "Manuel Soto Enginyer - Estació",
+      "lat": 39.4583147544214,
+      "lon": -0.332269641195335,
+      "lines": [
+        "30",
+        "4",
+        "95"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=58"
+    },
+    {
+      "id": 59,
+      "name": "Manuel Soto Enginyer - Comandància Marina",
+      "lat": 39.4557711430533,
+      "lon": -0.330348552419288,
+      "lines": [
+        "30",
+        "4",
+        "95"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=59"
+    },
+    {
+      "id": 60,
+      "name": "Pont de les Drassanes - Terminal marítima (front)",
+      "lat": 39.4544939351273,
+      "lon": -0.330657852765861,
+      "lines": [
+        "30",
+        "4",
+        "95"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=60"
+    },
+    {
+      "id": 61,
+      "name": "Major de Natzaret - Vilanova i Piera",
+      "lat": 39.451968311655,
+      "lon": -0.333647007347004,
+      "lines": [
+        "30",
+        "4",
+        "95"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=61"
+    },
+    {
+      "id": 62,
+      "name": "Mercat de Natzaret",
+      "lat": 39.4502372975639,
+      "lon": -0.334156176105852,
+      "lines": [
+        "30",
+        "4",
+        "95"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=62"
+    },
+    {
+      "id": 64,
+      "name": "Vall de la Ballestera - Campanar",
+      "lat": 39.4808906489389,
+      "lon": -0.393684986539343,
+      "lines": [
+        "98",
+        "99"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=64"
+    },
+    {
+      "id": 70,
+      "name": "Parc de Natzaret - Poliesportiu",
+      "lat": 39.4504068668129,
+      "lon": -0.332537403879129,
+      "lines": [
+        "30",
+        "4",
+        "95"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=70"
+    },
+    {
+      "id": 150,
+      "name": "Cardenal Benlloch (parell) - Port",
+      "lat": 39.4675814879095,
+      "lon": -0.356182176239999,
+      "lines": [
+        "18",
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=150"
+    },
+    {
+      "id": 153,
+      "name": "Cardenal Benlloch - Doctor Vicente Pallarés",
+      "lat": 39.4742220331948,
+      "lon": -0.352916079914028,
+      "lines": [
+        "18",
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=153"
+    },
+    {
+      "id": 154,
+      "name": "Blasco Ibáñez - Rubén Darío",
+      "lat": 39.4758461920743,
+      "lon": -0.353876682314694,
+      "lines": [
+        "30",
+        "31",
+        "71",
+        "81",
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=154"
+    },
+    {
+      "id": 157,
+      "name": "Blasco Ibáñez - Gascó Oliag",
+      "lat": 39.4771903854985,
+      "lon": -0.357628377042021,
+      "lines": [
+        "10",
+        "12",
+        "C2",
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=157"
+    },
+    {
+      "id": 158,
+      "name": "Blasco Ibáñez - Facultat de Psicologia",
+      "lat": 39.4779194726762,
+      "lon": -0.360060859276868,
+      "lines": [
+        "12",
+        "30",
+        "31",
+        "71",
+        "81",
+        "C2",
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=158"
+    },
+    {
+      "id": 160,
+      "name": "Blasco Ibáñez (imparell) - Hospitals",
+      "lat": 39.4789048394776,
+      "lon": -0.36343598431311,
+      "lines": [
+        "12",
+        "31",
+        "71",
+        "81",
+        "C2"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=160"
+    },
+    {
+      "id": 162,
+      "name": "Blasco Ibáñez - Jaume Roig",
+      "lat": 39.4795680038677,
+      "lon": -0.365549666790116,
+      "lines": [
+        "31",
+        "71",
+        "81",
+        "C2"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=162"
+    },
+    {
+      "id": 163,
+      "name": "Blasco Ibáñez - Jardí de Monforte",
+      "lat": 39.4788524158214,
+      "lon": -0.365665405397575,
+      "lines": [
+        "12",
+        "C2"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=163"
+    },
+    {
+      "id": 165,
+      "name": "Blasco Ibáñez (parell) - Hospitals",
+      "lat": 39.478112896758,
+      "lon": -0.363160500267464,
+      "lines": [
+        "12",
+        "C2"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=165"
+    },
+    {
+      "id": 166,
+      "name": "Blasco Ibáñez - Facultat de Geografia",
+      "lat": 39.4775901297358,
+      "lon": -0.361381914452936,
+      "lines": [
+        "12",
+        "30",
+        "31",
+        "71",
+        "81",
+        "C2"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=166"
+    },
+    {
+      "id": 167,
+      "name": "Blasco Ibáñez - Facultat de Filologia",
+      "lat": 39.4769298063058,
+      "lon": -0.359158695416252,
+      "lines": [
+        "12",
+        "30",
+        "31",
+        "71",
+        "81",
+        "C2"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=167"
+    },
+    {
+      "id": 169,
+      "name": "Blasco Ibáñez - Bèlgica",
+      "lat": 39.4758318894389,
+      "lon": -0.354839995841416,
+      "lines": [
+        "30",
+        "31",
+        "71",
+        "81",
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=169"
+    },
+    {
+      "id": 170,
+      "name": "Doctor Gómez Ferrer - Menéndez y Pelayo",
+      "lat": 39.4799149635537,
+      "lon": -0.360973212978639,
+      "lines": [
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=170"
+    },
+    {
+      "id": 186,
+      "name": "Primat Reig - Jaume Roig",
+      "lat": 39.4840739863448,
+      "lon": -0.363380326453222,
+      "lines": [
+        "98",
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=186"
+    },
+    {
+      "id": 188,
+      "name": "Primat Reig - Campus Universitari",
+      "lat": 39.4801859378094,
+      "lon": -0.358104063352953,
+      "lines": [
+        "10",
+        "98",
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=188"
+    },
+    {
+      "id": 192,
+      "name": "Primat Reig - Camí Vera",
+      "lat": 39.4803150840453,
+      "lon": -0.357935418906495,
+      "lines": [
+        "10",
+        "98"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=192"
+    },
+    {
+      "id": 194,
+      "name": "Primat Reig - Emili Baró",
+      "lat": 39.4842369131319,
+      "lon": -0.363221269502899,
+      "lines": [
+        "98",
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=194"
+    },
+    {
+      "id": 197,
+      "name": "Primat Reig - Sant Vicent de Paül",
+      "lat": 39.4900468782268,
+      "lon": -0.371041979797436,
+      "lines": [
+        "11",
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=197"
+    },
+    {
+      "id": 198,
+      "name": "Pare Viñas - Reig Genovés",
+      "lat": 39.4921700143971,
+      "lon": -0.371618893116698,
+      "lines": [
+        "11"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=198"
+    },
+    {
+      "id": 199,
+      "name": "Pare Viñas - Duc de Mandas",
+      "lat": 39.4941266874631,
+      "lon": -0.370439011225175,
+      "lines": [
+        "11"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=199"
+    },
+    {
+      "id": 200,
+      "name": "Pare Viñas - Daroca",
+      "lat": 39.4957885521837,
+      "lon": -0.369006364093352,
+      "lines": [
+        "11"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=200"
+    },
+    {
+      "id": 202,
+      "name": "Sant Joan Bosco - Daroca",
+      "lat": 39.4966044952136,
+      "lon": -0.369854350089009,
+      "lines": [
+        "11"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=202"
+    },
+    {
+      "id": 206,
+      "name": "Primat Reig - Bilbao",
+      "lat": 39.4901534998608,
+      "lon": -0.371488794365309,
+      "lines": [
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=206"
+    },
+    {
+      "id": 207,
+      "name": "Primat Reig - Almassora",
+      "lat": 39.4882781638522,
+      "lon": -0.368974883906151,
+      "lines": [
+        "11",
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=207"
+    },
+    {
+      "id": 215,
+      "name": "Alboraia - Primat Reig",
+      "lat": 39.4869938132997,
+      "lon": -0.367890667915141,
+      "lines": [
+        "11"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=215"
+    },
+    {
+      "id": 216,
+      "name": "Primat Reig - Calderón de la Barca",
+      "lat": 39.486068942403,
+      "lon": -0.366035753756245,
+      "lines": [
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=216"
+    },
+    {
+      "id": 219,
+      "name": "Aragó - Passeig de l'Albereda",
+      "lat": 39.4694375503949,
+      "lon": -0.360091218178871,
+      "lines": [
+        "10",
+        "12",
+        "93",
+        "C2"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=219"
+    },
+    {
+      "id": 223,
+      "name": "Vivers - General Elio",
+      "lat": 39.4779269240001,
+      "lon": -0.366970047032652,
+      "lines": [
+        "70",
+        "C2"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=223"
+    },
+    {
+      "id": 224,
+      "name": "Vivers",
+      "lat": 39.4773620381967,
+      "lon": -0.367506170132449,
+      "lines": [
+        "31",
+        "70",
+        "71",
+        "81",
+        "C2"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=224"
+    },
+    {
+      "id": 225,
+      "name": "Cardenal Benlloch - Ciutat de Mula",
+      "lat": 39.4741744379537,
+      "lon": -0.353133419379167,
+      "lines": [
+        "18",
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=225"
+    },
+    {
+      "id": 226,
+      "name": "Cardenal Benlloch - Ernest Ferrer",
+      "lat": 39.47199782643,
+      "lon": -0.354179920150321,
+      "lines": [
+        "18",
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=226"
+    },
+    {
+      "id": 229,
+      "name": "Cardenal Benlloch (imparell) - Port",
+      "lat": 39.4674406046033,
+      "lon": -0.356439599463804,
+      "lines": [
+        "18",
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=229"
+    },
+    {
+      "id": 230,
+      "name": "Eduard Boscà - Passeig de l'Albereda",
+      "lat": 39.4646311308842,
+      "lon": -0.357835276572863,
+      "lines": [
+        "18",
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=230"
+    },
+    {
+      "id": 231,
+      "name": "Eduard Boscà - Balears",
+      "lat": 39.4645609348721,
+      "lon": -0.357652679787357,
+      "lines": [
+        "18",
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=231"
+    },
+    {
+      "id": 238,
+      "name": "Doctor Peset Aleixandre - Joan XXIII",
+      "lat": 39.4901787339054,
+      "lon": -0.382982676932048,
+      "lines": [
+        "60",
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=238"
+    },
+    {
+      "id": 242,
+      "name": "Doctor Peset Aleixandre - Guardacostes",
+      "lat": 39.4900307611573,
+      "lon": -0.382790182504263,
+      "lines": [
+        "60",
+        "64",
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=242"
+    },
+    {
+      "id": 243,
+      "name": "Doctor Peset Aleixandre - Camí de Moncada",
+      "lat": 39.4908821786457,
+      "lon": -0.378897815338959,
+      "lines": [
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=243"
+    },
+    {
+      "id": 244,
+      "name": "Doctor Peset Aleixandre - Constitució",
+      "lat": 39.4917655777309,
+      "lon": -0.374810427678318,
+      "lines": [
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=244"
+    },
+    {
+      "id": 246,
+      "name": "Constitució - Duc de Mandas",
+      "lat": 39.4945802349848,
+      "lon": -0.371912741300313,
+      "lines": [
+        "16"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=246"
+    },
+    {
+      "id": 247,
+      "name": "Constitució - Sant Joan de la Penya",
+      "lat": 39.4965349969155,
+      "lon": -0.370815522218061,
+      "lines": [
+        "16"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=247"
+    },
+    {
+      "id": 248,
+      "name": "Sant Miquel dels Reis",
+      "lat": 39.4988762210595,
+      "lon": -0.370230036116127,
+      "lines": [
+        "16"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=248"
+    },
+    {
+      "id": 249,
+      "name": "Constitució (parell) - Campaneta",
+      "lat": 39.5023432403682,
+      "lon": -0.368529528793576,
+      "lines": [
+        "16"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=249"
+    },
+    {
+      "id": 250,
+      "name": "Constitució (parell) - Tavernes Blanques",
+      "lat": 39.5042012476239,
+      "lon": -0.367802073171548,
+      "lines": [
+        "16"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=250"
+    },
+    {
+      "id": 257,
+      "name": "Constitució (imparell) - Tavernes Blanques",
+      "lat": 39.504689909252,
+      "lon": -0.367689161547201,
+      "lines": [
+        "16"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=257"
+    },
+    {
+      "id": 258,
+      "name": "Constitució (imparell) - Campaneta",
+      "lat": 39.5024273206881,
+      "lon": -0.36861830453422,
+      "lines": [
+        "16"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=258"
+    },
+    {
+      "id": 259,
+      "name": "Sant Miquel dels Reis (front)",
+      "lat": 39.4993079274604,
+      "lon": -0.370273528733512,
+      "lines": [
+        "16"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=259"
+    },
+    {
+      "id": 268,
+      "name": "Joan XXIII (parell) - Félix del Río",
+      "lat": 39.4911243428505,
+      "lon": -0.382275390936261,
+      "lines": [
+        "60",
+        "64"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=268"
+    },
+    {
+      "id": 272,
+      "name": "Sant Doménec Savio - Mestre Marçal",
+      "lat": 39.4934951462781,
+      "lon": -0.374504218609969,
+      "lines": [
+        "6",
+        "60"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=272"
+    },
+    {
+      "id": 273,
+      "name": "Sant Doménec Savio - Constitució",
+      "lat": 39.4925823258315,
+      "lon": -0.374122830887616,
+      "lines": [
+        "6",
+        "60"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=273"
+    },
+    {
+      "id": 279,
+      "name": "Camí de Moncada - Doctor Peset Aleixandre",
+      "lat": 39.4914608442896,
+      "lon": -0.378705850288158,
+      "lines": [
+        "26"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=279"
+    },
+    {
+      "id": 280,
+      "name": "Camí de Moncada (parell) - Cambrils",
+      "lat": 39.4946544230344,
+      "lon": -0.380199023254222,
+      "lines": [
+        "26"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=280"
+    },
+    {
+      "id": 281,
+      "name": "Camí de Moncada (parell) - Alemany",
+      "lat": 39.4964490264497,
+      "lon": -0.380923697227369,
+      "lines": [
+        "26"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=281"
+    },
+    {
+      "id": 282,
+      "name": "Camí de Moncada - Entrada Camí Carpesa",
+      "lat": 39.5027825508681,
+      "lon": -0.382711230747397,
+      "lines": [
+        "26"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=282"
+    },
+    {
+      "id": 283,
+      "name": "Camí de Moncada - Poble Nou (parell)",
+      "lat": 39.5050566890163,
+      "lon": -0.383697365449634,
+      "lines": [
+        "26"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=283"
+    },
+    {
+      "id": 284,
+      "name": "Camí de Moncada - Casa d'Àngel",
+      "lat": 39.5068479177681,
+      "lon": -0.38401950371849,
+      "lines": [
+        "26"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=284"
+    },
+    {
+      "id": 285,
+      "name": "Camí de Moncada - Alqueria Ballester",
+      "lat": 39.5102971626887,
+      "lon": -0.385825653359297,
+      "lines": [
+        "26"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=285"
+    },
+    {
+      "id": 286,
+      "name": "Camí de Moncada (parell) - Matador",
+      "lat": 39.5154938171239,
+      "lon": -0.386885855177179,
+      "lines": [
+        "26"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=286"
+    },
+    {
+      "id": 290,
+      "name": "Carpesa",
+      "lat": 39.514985186544,
+      "lon": -0.376930818203196,
+      "lines": [
+        "26"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=290"
+    },
+    {
+      "id": 291,
+      "name": "Camí de Moncada (parell) - Alqueria Senent",
+      "lat": 39.5215682587148,
+      "lon": -0.386469202536235,
+      "lines": [
+        "26"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=291"
+    },
+    {
+      "id": 292,
+      "name": "Benifaraig a Moncada - Casa Silvestre",
+      "lat": 39.5252535589581,
+      "lon": -0.386045292418078,
+      "lines": [
+        "26"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=292"
+    },
+    {
+      "id": 296,
+      "name": "Benifaraig a Moncada - Boquera",
+      "lat": 39.5252665647827,
+      "lon": -0.386220934211167,
+      "lines": [
+        "26"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=296"
+    },
+    {
+      "id": 297,
+      "name": "Camí de Moncada (imparell) - Alqueria Senent",
+      "lat": 39.5215866838973,
+      "lon": -0.386546190107087,
+      "lines": [
+        "26"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=297"
+    },
+    {
+      "id": 299,
+      "name": "Camí de Moncada (imparell) - Matador",
+      "lat": 39.5154724135858,
+      "lon": -0.386975229164838,
+      "lines": [
+        "26"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=299"
+    },
+    {
+      "id": 300,
+      "name": "Camí de Moncada - Alqueria Paella",
+      "lat": 39.5100714256962,
+      "lon": -0.385823152900578,
+      "lines": [
+        "26"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=300"
+    },
+    {
+      "id": 301,
+      "name": "Camí de Moncada - Carretera Daniel",
+      "lat": 39.5064397779174,
+      "lon": -0.384106124018526,
+      "lines": [
+        "26"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=301"
+    },
+    {
+      "id": 302,
+      "name": "Camí de Moncada - Poble Nou (imparell)",
+      "lat": 39.5050306435267,
+      "lon": -0.383804382639967,
+      "lines": [
+        "26"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=302"
+    },
+    {
+      "id": 303,
+      "name": "Camí de Moncada - Carretera Carpesa",
+      "lat": 39.5027200371464,
+      "lon": -0.382694100336926,
+      "lines": [
+        "26"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=303"
+    },
+    {
+      "id": 304,
+      "name": "Camí de Moncada (imparell) - Alemany",
+      "lat": 39.4965693351919,
+      "lon": -0.381201074248221,
+      "lines": [
+        "26"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=304"
+    },
+    {
+      "id": 305,
+      "name": "Camí de Moncada (imparell) - Cambrils",
+      "lat": 39.4948853664217,
+      "lon": -0.380465244400362,
+      "lines": [
+        "26"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=305"
+    },
+    {
+      "id": 306,
+      "name": "Camí de Moncada - Félix del Río",
+      "lat": 39.4918043321135,
+      "lon": -0.379033530362995,
+      "lines": [
+        "26"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=306"
+    },
+    {
+      "id": 307,
+      "name": "Burjassot - Mondúver",
+      "lat": 39.489488980981,
+      "lon": -0.390290572433092,
+      "lines": [
+        "28"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=307"
+    },
+    {
+      "id": 308,
+      "name": "Burjassot - Pintor Matarana",
+      "lat": 39.4923934395667,
+      "lon": -0.39330973221075,
+      "lines": [
+        "28"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=308"
+    },
+    {
+      "id": 309,
+      "name": "Burjassot - Salvador Tuset",
+      "lat": 39.4945797144003,
+      "lon": -0.395602623740789,
+      "lines": [
+        "28"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=309"
+    },
+    {
+      "id": 310,
+      "name": "Louis Braille (parell) - Parc de Benicalap",
+      "lat": 39.4956788477779,
+      "lon": -0.396210686811134,
+      "lines": [
+        "28"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=310"
+    },
+    {
+      "id": 311,
+      "name": "Sant Josep Artesà - Luis Martí Alegre",
+      "lat": 39.4983110910341,
+      "lon": -0.393799795770908,
+      "lines": [
+        "12",
+        "28"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=311"
+    },
+    {
+      "id": 314,
+      "name": "Louis Braille (imparell) - Parc de Benicalap",
+      "lat": 39.4957989496711,
+      "lon": -0.396287725144595,
+      "lines": [
+        "28"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=314"
+    },
+    {
+      "id": 319,
+      "name": "Campanar - Doctor Nicasi Benlloch",
+      "lat": 39.4881967019273,
+      "lon": -0.389613410118518,
+      "lines": [
+        "60",
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=319"
+    },
+    {
+      "id": 321,
+      "name": "Sagunt - Sant Guillem",
+      "lat": 39.4843760405237,
+      "lon": -0.374740755207114,
+      "lines": [
+        "16",
+        "26",
+        "6"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=321"
+    },
+    {
+      "id": 322,
+      "name": "Sagunt - Fra Pere Vives",
+      "lat": 39.4862298096979,
+      "lon": -0.37465609885753,
+      "lines": [
+        "16",
+        "26",
+        "6"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=322"
+    },
+    {
+      "id": 323,
+      "name": "Sagunt - Pare Urbà",
+      "lat": 39.4889866473073,
+      "lon": -0.375011972868017,
+      "lines": [
+        "16",
+        "26",
+        "6"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=323"
+    },
+    {
+      "id": 324,
+      "name": "Sagunt - Don Bosco",
+      "lat": 39.4915759184613,
+      "lon": -0.373954327104706,
+      "lines": [
+        "16",
+        "26",
+        "6"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=324"
+    },
+    {
+      "id": 325,
+      "name": "Constitució - Doctor Peset Aleixandre",
+      "lat": 39.4915297409496,
+      "lon": -0.374452700184874,
+      "lines": [
+        "16",
+        "26",
+        "6"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=325"
+    },
+    {
+      "id": 326,
+      "name": "Constitució - Xest",
+      "lat": 39.4893127349157,
+      "lon": -0.375997606004721,
+      "lines": [
+        "16",
+        "26",
+        "6"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=326"
+    },
+    {
+      "id": 327,
+      "name": "Constitució - Sarrión",
+      "lat": 39.4872755141249,
+      "lon": -0.37745660203681,
+      "lines": [
+        "16",
+        "26",
+        "6"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=327"
+    },
+    {
+      "id": 328,
+      "name": "Constitució - Màlaga",
+      "lat": 39.4852254898777,
+      "lon": -0.378759337067959,
+      "lines": [
+        "16",
+        "26",
+        "6"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=328"
+    },
+    {
+      "id": 329,
+      "name": "Constitució - Pla de la Saïdia",
+      "lat": 39.4830881367549,
+      "lon": -0.378839955823492,
+      "lines": [
+        "16",
+        "26",
+        "6"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=329"
+    },
+    {
+      "id": 330,
+      "name": "Burjassot - Màlaga",
+      "lat": 39.4837226366065,
+      "lon": -0.383247127128197,
+      "lines": [
+        "94"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=330"
+    },
+    {
+      "id": 331,
+      "name": "Burjassot - Centre Cultural Bombas Gens",
+      "lat": 39.4854851626598,
+      "lon": -0.385629895503867,
+      "lines": [
+        "28",
+        "94"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=331"
+    },
+    {
+      "id": 333,
+      "name": "Burjassot - Doctor Peset Aleixandre",
+      "lat": 39.4883346990293,
+      "lon": -0.389068907813921,
+      "lines": [
+        "28",
+        "94"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=333"
+    },
+    {
+      "id": 338,
+      "name": "Museu de Belles Arts",
+      "lat": 39.4790094275649,
+      "lon": -0.371349025696354,
+      "lines": [
+        "11",
+        "16",
+        "26",
+        "6",
+        "94",
+        "95",
+        "C2"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=338"
+    },
+    {
+      "id": 339,
+      "name": "La Plata - Sapadors",
+      "lat": 39.4558049102176,
+      "lon": -0.365505594938444,
+      "lines": [
+        "18",
+        "6"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=339"
+    },
+    {
+      "id": 341,
+      "name": "Pont de Fusta",
+      "lat": 39.4808327306242,
+      "lon": -0.373986948661651,
+      "lines": [
+        "16",
+        "26",
+        "6",
+        "94",
+        "95",
+        "C2"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=341"
+    },
+    {
+      "id": 342,
+      "name": "Guadalaviar - Sagunt",
+      "lat": 39.4818695863257,
+      "lon": -0.375423757869737,
+      "lines": [
+        "94",
+        "95",
+        "C2"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=342"
+    },
+    {
+      "id": 343,
+      "name": "El Pla de la Saïdia - Constitució",
+      "lat": 39.4828328578202,
+      "lon": -0.37744693064284,
+      "lines": [
+        "94",
+        "95",
+        "C2"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=343"
+    },
+    {
+      "id": 344,
+      "name": "Escola Oficial d'Idiomes",
+      "lat": 39.4829023250833,
+      "lon": -0.381185860576464,
+      "lines": [
+        "94",
+        "95",
+        "C2"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=344"
+    },
+    {
+      "id": 345,
+      "name": "Menéndez Pidal (parell) - Pare Ferrís",
+      "lat": 39.4816190059087,
+      "lon": -0.384547372037258,
+      "lines": [
+        "95",
+        "C2"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=345"
+    },
+    {
+      "id": 346,
+      "name": "Estació d'autobusos",
+      "lat": 39.4802119148825,
+      "lon": -0.387708751728686,
+      "lines": [
+        "95",
+        "C2"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=346"
+    },
+    {
+      "id": 347,
+      "name": "Menéndez Pidal - Pasarel·la",
+      "lat": 39.4790462734356,
+      "lon": -0.390091254302063,
+      "lines": [
+        "C2"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=347"
+    },
+    {
+      "id": 348,
+      "name": "Estació d'autobusos (riu)",
+      "lat": 39.4799083099609,
+      "lon": -0.387802307280915,
+      "lines": [
+        "C2"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=348"
+    },
+    {
+      "id": 349,
+      "name": "Menéndez Pidal (imparell) - Pare Ferrís",
+      "lat": 39.4814951349031,
+      "lon": -0.384302724356909,
+      "lines": [
+        "C2"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=349"
+    },
+    {
+      "id": 350,
+      "name": "Escola Oficial d'Idiomes (riu)",
+      "lat": 39.4826614865218,
+      "lon": -0.38148068925425,
+      "lines": [
+        "94",
+        "C2"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=350"
+    },
+    {
+      "id": 351,
+      "name": "El Pla de la Saïdia (riu) - Constitució",
+      "lat": 39.4828192214762,
+      "lon": -0.379532034381401,
+      "lines": [
+        "94",
+        "C2"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=351"
+    },
+    {
+      "id": 352,
+      "name": "Guadalaviar - Pont dels Serrans",
+      "lat": 39.4816431961679,
+      "lon": -0.375359515702762,
+      "lines": [
+        "16",
+        "26",
+        "6",
+        "94",
+        "C2"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=352"
+    },
+    {
+      "id": 353,
+      "name": "Doctor Nicasi Benlloch - Alcubles",
+      "lat": 39.4873900041834,
+      "lon": -0.388747273247162,
+      "lines": [
+        "28",
+        "94"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=353"
+    },
+    {
+      "id": 354,
+      "name": "Pare Ferrís - Joaquim Ballester",
+      "lat": 39.4848981454359,
+      "lon": -0.386399005561756,
+      "lines": [
+        "28",
+        "94"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=354"
+    },
+    {
+      "id": 358,
+      "name": "Joaquim Ballester (parell) - Ricardo Micó",
+      "lat": 39.4829902963513,
+      "lon": -0.38969616948663,
+      "lines": [
+        "98"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=358"
+    },
+    {
+      "id": 359,
+      "name": "Joaquim Ballester - Campanar",
+      "lat": 39.4818601195536,
+      "lon": -0.392099876342407,
+      "lines": [
+        "98"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=359"
+    },
+    {
+      "id": 361,
+      "name": "Joaquim Ballester (imparell) - Ricardo Micó",
+      "lat": 39.482694775011,
+      "lon": -0.389747251178929,
+      "lines": [
+        "98"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=361"
+    },
+    {
+      "id": 364,
+      "name": "Campanar - Ricardo Micó",
+      "lat": 39.4858917480442,
+      "lon": -0.390687982424515,
+      "lines": [
+        "60",
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=364"
+    },
+    {
+      "id": 367,
+      "name": "Campanar - Joan Pau II",
+      "lat": 39.4800258086425,
+      "lon": -0.393690044539006,
+      "lines": [
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=367"
+    },
+    {
+      "id": 368,
+      "name": "Campanar - Tirso de Molina",
+      "lat": 39.4777758007069,
+      "lon": -0.394769557392805,
+      "lines": [
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=368"
+    },
+    {
+      "id": 370,
+      "name": "Campanar - Pius XII",
+      "lat": 39.4806197411303,
+      "lon": -0.393252055463107,
+      "lines": [
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=370"
+    },
+    {
+      "id": 371,
+      "name": "Pius XII (parell) - Centre Comercial",
+      "lat": 39.479482774267,
+      "lon": -0.391398881755002,
+      "lines": [
+        "60",
+        "62",
+        "63",
+        "64",
+        "92"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=371"
+    },
+    {
+      "id": 372,
+      "name": "Pius XII - Campanar",
+      "lat": 39.4823288191902,
+      "lon": -0.393377072565819,
+      "lines": [
+        "62",
+        "63",
+        "64",
+        "92",
+        "99"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=372"
+    },
+    {
+      "id": 373,
+      "name": "Pius XII (parell) - Metro Campanar",
+      "lat": 39.4843958911584,
+      "lon": -0.394693341390331,
+      "lines": [
+        "62",
+        "64",
+        "92",
+        "99"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=373"
+    },
+    {
+      "id": 407,
+      "name": "Pius XII - Bisbe Soler",
+      "lat": 39.481693230002,
+      "lon": -0.393394949635536,
+      "lines": [
+        "62",
+        "63",
+        "64",
+        "92"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=407"
+    },
+    {
+      "id": 409,
+      "name": "Pius XII (imparell) - Centre Comercial",
+      "lat": 39.479296583261,
+      "lon": -0.391617841604334,
+      "lines": [
+        "60",
+        "62",
+        "63",
+        "64",
+        "92"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=409"
+    },
+    {
+      "id": 415,
+      "name": "Vall de la Ballestera (parell) - Mestre Rodrigo",
+      "lat": 39.4791507970912,
+      "lon": -0.398171371826421,
+      "lines": [
+        "98",
+        "99"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=415"
+    },
+    {
+      "id": 419,
+      "name": "Manuel de Falla - Mestre Rodrigo",
+      "lat": 39.4762488951553,
+      "lon": -0.39778123057707,
+      "lines": [
+        "67",
+        "95"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=419"
+    },
+    {
+      "id": 420,
+      "name": "Manuel de Falla - Professor López Ibor",
+      "lat": 39.4755503686392,
+      "lon": -0.401267447473179,
+      "lines": [
+        "67",
+        "95"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=420"
+    },
+    {
+      "id": 425,
+      "name": "Pérez Galdós - Democràcia",
+      "lat": 39.4744792679619,
+      "lon": -0.395542376985726,
+      "lines": [
+        "67",
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=425"
+    },
+    {
+      "id": 426,
+      "name": "Pérez Galdós - Torres Torres",
+      "lat": 39.4723936918792,
+      "lon": -0.394053825245288,
+      "lines": [
+        "67",
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=426"
+    },
+    {
+      "id": 427,
+      "name": "Pérez Galdós - Olimpia Arozena Torres",
+      "lat": 39.470032561639,
+      "lon": -0.392393650552791,
+      "lines": [
+        "67",
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=427"
+    },
+    {
+      "id": 432,
+      "name": "Pérez Galdós - Lladró i Mallí",
+      "lat": 39.4628760342681,
+      "lon": -0.387250005037634,
+      "lines": [
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=432"
+    },
+    {
+      "id": 436,
+      "name": "Giorgeta (imparell) - Metro Jesús",
+      "lat": 39.4591732885607,
+      "lon": -0.384369400313734,
+      "lines": [
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=436"
+    },
+    {
+      "id": 439,
+      "name": "Pérez Galdós - Conca",
+      "lat": 39.4648817612888,
+      "lon": -0.388438792494287,
+      "lines": [
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=439"
+    },
+    {
+      "id": 441,
+      "name": "Pérez Galdós - Calixt III",
+      "lat": 39.4696215718525,
+      "lon": -0.391763552878849,
+      "lines": [
+        "67",
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=441"
+    },
+    {
+      "id": 442,
+      "name": "Pérez Galdós - Mestre Guerrero",
+      "lat": 39.4724247230414,
+      "lon": -0.3938245536162,
+      "lines": [
+        "67",
+        "73",
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=442"
+    },
+    {
+      "id": 443,
+      "name": "Pérez Galdós - Doctor Zamenhof",
+      "lat": 39.4745823082408,
+      "lon": -0.395372486500911,
+      "lines": [
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=443"
+    },
+    {
+      "id": 445,
+      "name": "Joan XXIII - Periodista Gil Sumbiela",
+      "lat": 39.4926450573016,
+      "lon": -0.383133312858702,
+      "lines": [
+        "64"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=445"
+    },
+    {
+      "id": 472,
+      "name": "Petxina - Racó d'Ademús",
+      "lat": 39.4735509845398,
+      "lon": -0.402715462594651,
+      "lines": [
+        "73",
+        "95"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=472"
+    },
+    {
+      "id": 486,
+      "name": "Cid - Particular",
+      "lat": 39.469869705622,
+      "lon": -0.411555924713199,
+      "lines": [
+        "93",
+        "98"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=486"
+    },
+    {
+      "id": 487,
+      "name": "Cid - Pere Maria Orts",
+      "lat": 39.4696675818973,
+      "lon": -0.414160510069403,
+      "lines": [
+        "93",
+        "98"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=487"
+    },
+    {
+      "id": 495,
+      "name": "Cid - Marconi",
+      "lat": 39.4692333277099,
+      "lon": -0.413211062431302,
+      "lines": [
+        "93",
+        "98"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=495"
+    },
+    {
+      "id": 496,
+      "name": "Cid - Casa de la Misericòrdia",
+      "lat": 39.4695769232471,
+      "lon": -0.409895524535674,
+      "lines": [
+        "93",
+        "98"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=496"
+    },
+    {
+      "id": 504,
+      "name": "Tres Creus (imparell) - Hospital General",
+      "lat": 39.4687807792608,
+      "lon": -0.405713688737946,
+      "lines": [
+        "70",
+        "73",
+        "95",
+        "99"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=504"
+    },
+    {
+      "id": 546,
+      "name": "Hospital Verge del Consol",
+      "lat": 39.461788380995,
+      "lon": -0.387282005879912,
+      "lines": [
+        "11",
+        "9"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=546"
+    },
+    {
+      "id": 548,
+      "name": "Mercat de Jesús",
+      "lat": 39.4602004003417,
+      "lon": -0.388683754586169,
+      "lines": [
+        "11"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=548"
+    },
+    {
+      "id": 549,
+      "name": "Centre de Salut Pare Jofré",
+      "lat": 39.4605692969194,
+      "lon": -0.390003946875268,
+      "lines": [
+        "11"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=549"
+    },
+    {
+      "id": 550,
+      "name": "Humanista Mariner - Beat Nicolau Factor",
+      "lat": 39.4617584495294,
+      "lon": -0.392597591357299,
+      "lines": [
+        "11"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=550"
+    },
+    {
+      "id": 552,
+      "name": "Pius XI - Manuel Simó",
+      "lat": 39.459887906179,
+      "lon": -0.392191240251716,
+      "lines": [
+        "11"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=552"
+    },
+    {
+      "id": 554,
+      "name": "Conca - Mossén Fenollar",
+      "lat": 39.4617518015521,
+      "lon": -0.390357847049817,
+      "lines": [
+        "11"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=554"
+    },
+    {
+      "id": 555,
+      "name": "Conca - Pérez Galdós",
+      "lat": 39.4637615270597,
+      "lon": -0.388613655243434,
+      "lines": [
+        "11"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=555"
+    },
+    {
+      "id": 575,
+      "name": "Sant Vicent Màrtir - Dolores Alcaide",
+      "lat": 39.4557917625913,
+      "lon": -0.38405670151945,
+      "lines": [
+        "27",
+        "64"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=575"
+    },
+    {
+      "id": 576,
+      "name": "Sant Vicent Màrtir - Joaquín Navarro",
+      "lat": 39.4527911495738,
+      "lon": -0.384697692492846,
+      "lines": [
+        "27",
+        "64"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=576"
+    },
+    {
+      "id": 577,
+      "name": "Sant Vicent Màrtir (parell) - Creu Coberta",
+      "lat": 39.4482378630574,
+      "lon": -0.385778743865354,
+      "lines": [
+        "27",
+        "64"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=577"
+    },
+    {
+      "id": 592,
+      "name": "San Vicent Màrtir (imparell) - Creu Coberta",
+      "lat": 39.4472888210056,
+      "lon": -0.385950663274372,
+      "lines": [
+        "27",
+        "64"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=592"
+    },
+    {
+      "id": 593,
+      "name": "Sant Vicent Màrtir - Altamira",
+      "lat": 39.4491463884979,
+      "lon": -0.385278927784305,
+      "lines": [
+        "27",
+        "64"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=593"
+    },
+    {
+      "id": 594,
+      "name": "Sant Vicent Màrtir - Fernández de Mesa",
+      "lat": 39.4513367162382,
+      "lon": -0.384786459349715,
+      "lines": [
+        "27",
+        "64"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=594"
+    },
+    {
+      "id": 595,
+      "name": "Sant Vicent Màrtir - Millars",
+      "lat": 39.4567420085113,
+      "lon": -0.383691731448115,
+      "lines": [
+        "27",
+        "64"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=595"
+    },
+    {
+      "id": 596,
+      "name": "Peris i Valero - Ausiàs March",
+      "lat": 39.4572338616945,
+      "lon": -0.374822903628287,
+      "lines": [
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=596"
+    },
+    {
+      "id": 598,
+      "name": "Peris i Valero - Sapadors",
+      "lat": 39.4588963475257,
+      "lon": -0.370859228940722,
+      "lines": [
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=598"
+    },
+    {
+      "id": 599,
+      "name": "Peris i Valero - Bisbe Jaume Pérez",
+      "lat": 39.4603258713144,
+      "lon": -0.367504597637098,
+      "lines": [
+        "14",
+        "35",
+        "6",
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=599"
+    },
+    {
+      "id": 600,
+      "name": "Peris i Valero - Pere Aleixandre",
+      "lat": 39.4611517159445,
+      "lon": -0.365539050525785,
+      "lines": [
+        "14",
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=600"
+    },
+    {
+      "id": 602,
+      "name": "Mestre Racional - Regne de València",
+      "lat": 39.4633997839321,
+      "lon": -0.36330275196231,
+      "lines": [
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=602"
+    },
+    {
+      "id": 603,
+      "name": "Maties Perelló - Lluís de Santàngel",
+      "lat": 39.4620999440832,
+      "lon": -0.36642065324402,
+      "lines": [
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=603"
+    },
+    {
+      "id": 604,
+      "name": "Maties Perelló - Mestre Aguilar",
+      "lat": 39.4608810623314,
+      "lon": -0.36924394470116,
+      "lines": [
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=604"
+    },
+    {
+      "id": 605,
+      "name": "Els Centelles - Sueca",
+      "lat": 39.45929082629,
+      "lon": -0.373026688054444,
+      "lines": [
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=605"
+    },
+    {
+      "id": 606,
+      "name": "Parc Central - Centelles",
+      "lat": 39.4579046352091,
+      "lon": -0.376472151022008,
+      "lines": [
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=606"
+    },
+    {
+      "id": 620,
+      "name": "Joaquín Benlloch - Illa Cabrera",
+      "lat": 39.4497082298777,
+      "lon": -0.373877414234642,
+      "lines": [
+        "6"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=620"
+    },
+    {
+      "id": 621,
+      "name": "Joaquín Benlloch - Oltà",
+      "lat": 39.452289856888,
+      "lon": -0.375694920886748,
+      "lines": [
+        "6"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=621"
+    },
+    {
+      "id": 643,
+      "name": "Sapadors - Policia Nacional",
+      "lat": 39.4554965978135,
+      "lon": -0.366882058334511,
+      "lines": [
+        "6"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=643"
+    },
+    {
+      "id": 644,
+      "name": "Sapadors - Dos d'Abril",
+      "lat": 39.4574062911317,
+      "lon": -0.368063774003377,
+      "lines": [
+        "6"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=644"
+    },
+    {
+      "id": 645,
+      "name": "Sapadors - Sant Gregori",
+      "lat": 39.4590554039932,
+      "lon": -0.368969389080854,
+      "lines": [
+        "6"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=645"
+    },
+    {
+      "id": 686,
+      "name": "Marqués del Túria (imparell) - Plaça Cánovas",
+      "lat": 39.4684889802844,
+      "lon": -0.365818583873912,
+      "lines": [
+        "92",
+        "93",
+        "C2"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=686"
+    },
+    {
+      "id": 687,
+      "name": "Marqués del Túria - Jorge Juan",
+      "lat": 39.4677157798943,
+      "lon": -0.367603501614684,
+      "lines": [
+        "92",
+        "93",
+        "C2"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=687"
+    },
+    {
+      "id": 688,
+      "name": "Marqués del Túria - Hernán Cortés",
+      "lat": 39.466398814644,
+      "lon": -0.37072857870054,
+      "lines": [
+        "92",
+        "93",
+        "C2"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=688"
+    },
+    {
+      "id": 689,
+      "name": "Marqués del Túria - Russafa",
+      "lat": 39.4652200545103,
+      "lon": -0.373500067385325,
+      "lines": [
+        "92",
+        "93",
+        "C2"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=689"
+    },
+    {
+      "id": 690,
+      "name": "Germanies - Castelló",
+      "lat": 39.4644240857376,
+      "lon": -0.375192898812884,
+      "lines": [
+        "92",
+        "93",
+        "C2"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=690"
+    },
+    {
+      "id": 691,
+      "name": "Plaça d'Espanya - Ermita",
+      "lat": 39.4652067251471,
+      "lon": -0.381153949575508,
+      "lines": [
+        "92",
+        "C2"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=691"
+    },
+    {
+      "id": 692,
+      "name": "Ramón y Cajal (parell) - Jesús",
+      "lat": 39.4676090089531,
+      "lon": -0.382815607954594,
+      "lines": [
+        "67",
+        "92",
+        "C2"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=692"
+    },
+    {
+      "id": 693,
+      "name": "Ferran el Catòlic (parell) - Àngel Guimerà",
+      "lat": 39.4701539084812,
+      "lon": -0.384660964959617,
+      "lines": [
+        "63",
+        "64",
+        "92",
+        "C2"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=693"
+    },
+    {
+      "id": 694,
+      "name": "Ferran el Catòlic - Juan de Mena",
+      "lat": 39.472298630383,
+      "lon": -0.386165396809009,
+      "lines": [
+        "60",
+        "62",
+        "64",
+        "92",
+        "C2"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=694"
+    },
+    {
+      "id": 695,
+      "name": "Ferran el Catòlic (parell) - Jardí Botànic",
+      "lat": 39.4749431899549,
+      "lon": -0.388011431027884,
+      "lines": [
+        "60",
+        "62",
+        "63",
+        "64",
+        "92",
+        "C2"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=695"
+    },
+    {
+      "id": 696,
+      "name": "Ferran el Catòlic (imparell)  - Metro Túria",
+      "lat": 39.4769303766281,
+      "lon": -0.389999272154186,
+      "lines": [
+        "60",
+        "62",
+        "64",
+        "92",
+        "C2"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=696"
+    },
+    {
+      "id": 697,
+      "name": "Ferran el Catòlic (imparell) - Jardí Botànic",
+      "lat": 39.4753485391983,
+      "lon": -0.388891251648826,
+      "lines": [
+        "60",
+        "62",
+        "63",
+        "64",
+        "92",
+        "C2"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=697"
+    },
+    {
+      "id": 701,
+      "name": "Ferran el Catòlic - Gabriel Miró",
+      "lat": 39.4726450929378,
+      "lon": -0.386957690052239,
+      "lines": [
+        "64",
+        "92",
+        "C2"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=701"
+    },
+    {
+      "id": 702,
+      "name": "Ferran el Catòlic (imparell) - Àngel Guimerà",
+      "lat": 39.470051698918,
+      "lon": -0.385078709592618,
+      "lines": [
+        "63",
+        "64",
+        "92",
+        "C2"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=702"
+    },
+    {
+      "id": 704,
+      "name": "Ramón y Cajal - Prefectura Policia Nacional",
+      "lat": 39.4685528244354,
+      "lon": -0.384003489742491,
+      "lines": [
+        "64",
+        "92",
+        "C2"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=704"
+    },
+    {
+      "id": 705,
+      "name": "Ramón y Cajal (imparell) - Jesús",
+      "lat": 39.4671396787126,
+      "lon": -0.382984101874642,
+      "lines": [
+        "64",
+        "92",
+        "C2"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=705"
+    },
+    {
+      "id": 708,
+      "name": "Germanies - Sevilla",
+      "lat": 39.4644453169566,
+      "lon": -0.374662789242961,
+      "lines": [
+        "19",
+        "92",
+        "93",
+        "C2"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=708"
+    },
+    {
+      "id": 709,
+      "name": "Marqués del Túria - Gregori Maians",
+      "lat": 39.4652962946643,
+      "lon": -0.372386971231353,
+      "lines": [
+        "92",
+        "93",
+        "C2"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=709"
+    },
+    {
+      "id": 710,
+      "name": "Marqués del Túria - Mestre Gozalbo",
+      "lat": 39.4665117247475,
+      "lon": -0.369483718314716,
+      "lines": [
+        "40",
+        "92",
+        "93",
+        "C2"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=710"
+    },
+    {
+      "id": 711,
+      "name": "Marqués del Túria - Joaquín Costa",
+      "lat": 39.467433757903,
+      "lon": -0.367293371069679,
+      "lines": [
+        "92",
+        "93",
+        "C2"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=711"
+    },
+    {
+      "id": 712,
+      "name": "Marqués del Túria (parell) - Plaça Cánovas",
+      "lat": 39.468145353836,
+      "lon": -0.365597821344637,
+      "lines": [
+        "92",
+        "93",
+        "C2"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=712"
+    },
+    {
+      "id": 720,
+      "name": "Mercat de Russafa",
+      "lat": 39.4617324977056,
+      "lon": -0.370549744640803,
+      "lines": [
+        "14",
+        "35",
+        "6"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=720"
+    },
+    {
+      "id": 721,
+      "name": "Sant Valero",
+      "lat": 39.4633540695474,
+      "lon": -0.371959863744125,
+      "lines": [
+        "14",
+        "35",
+        "6"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=721"
+    },
+    {
+      "id": 728,
+      "name": "Pintor Salvador Abril - Mestre Josep Serrano",
+      "lat": 39.4637161949785,
+      "lon": -0.37087060656106,
+      "lines": [
+        "14",
+        "35",
+        "6"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=728"
+    },
+    {
+      "id": 737,
+      "name": "Sant Vicent Màrtir - Giorgeta",
+      "lat": 39.4603975656666,
+      "lon": -0.382704231044045,
+      "lines": [
+        "27",
+        "64"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=737"
+    },
+    {
+      "id": 738,
+      "name": "Centre de Salut Gil i Morte",
+      "lat": 39.4618197741938,
+      "lon": -0.38239993115889,
+      "lines": [
+        "10",
+        "27",
+        "31",
+        "64",
+        "9"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=738"
+    },
+    {
+      "id": 739,
+      "name": "Jesús - Sant Francesc de Borja",
+      "lat": 39.466141458956,
+      "lon": -0.383521802157766,
+      "lines": [
+        "10",
+        "11",
+        "27",
+        "71",
+        "9"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=739"
+    },
+    {
+      "id": 741,
+      "name": "Jesús - Pintor Segrelles",
+      "lat": 39.463738516399,
+      "lon": -0.38558410689192,
+      "lines": [
+        "10",
+        "11",
+        "27",
+        "71",
+        "9"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=741"
+    },
+    {
+      "id": 744,
+      "name": "Conca - Bisbe Amigó",
+      "lat": 39.466055249834,
+      "lon": -0.386733429115624,
+      "lines": [
+        "11",
+        "71"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=744"
+    },
+    {
+      "id": 745,
+      "name": "Conca - Alzira",
+      "lat": 39.4684113817562,
+      "lon": -0.384801781145037,
+      "lines": [
+        "11"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=745"
+    },
+    {
+      "id": 764,
+      "name": "Plaça d'Amèrica - Pont d'Aragó",
+      "lat": 39.4693289706279,
+      "lon": -0.364301311866236,
+      "lines": [
+        "10",
+        "12",
+        "23",
+        "24",
+        "25",
+        "4",
+        "94",
+        "95"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=764"
+    },
+    {
+      "id": 771,
+      "name": "Torres dels Serrans",
+      "lat": 39.4790885884801,
+      "lon": -0.375161169833366,
+      "lines": [
+        "28",
+        "95",
+        "C1"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=771"
+    },
+    {
+      "id": 773,
+      "name": "Plaça del Temple",
+      "lat": 39.4769686731428,
+      "lon": -0.371162757115094,
+      "lines": [
+        "11",
+        "16",
+        "26",
+        "28",
+        "6",
+        "94",
+        "95",
+        "C1",
+        "C2"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=773"
+    },
+    {
+      "id": 777,
+      "name": "Plaça d'Amèrica - Marqués del Túria",
+      "lat": 39.4695746184143,
+      "lon": -0.36485287885519,
+      "lines": [
+        "13",
+        "23",
+        "24",
+        "25",
+        "95"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=777"
+    },
+    {
+      "id": 792,
+      "name": "Encarnació - Guillem de Castro",
+      "lat": 39.4739074763512,
+      "lon": -0.383890172847007,
+      "lines": [
+        "28",
+        "C1"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=792"
+    },
+    {
+      "id": 793,
+      "name": "Torres de Quart",
+      "lat": 39.4749976397363,
+      "lon": -0.384011341270189,
+      "lines": [
+        "28",
+        "C1"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=793"
+    },
+    {
+      "id": 795,
+      "name": "Guillem de Castro - Centre la Beneficència",
+      "lat": 39.4778409185688,
+      "lon": -0.383694070836757,
+      "lines": [
+        "28",
+        "C1"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=795"
+    },
+    {
+      "id": 796,
+      "name": "IVAM",
+      "lat": 39.4801017466218,
+      "lon": -0.383003672855248,
+      "lines": [
+        "C1"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=796"
+    },
+    {
+      "id": 814,
+      "name": "Jesús - Pare Jofré",
+      "lat": 39.4680428810125,
+      "lon": -0.381859317185046,
+      "lines": [
+        "10",
+        "11",
+        "27",
+        "31",
+        "63",
+        "67",
+        "71",
+        "9"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=814"
+    },
+    {
+      "id": 823,
+      "name": "Félix Pizcueta - Ciril Amorós",
+      "lat": 39.4659755012546,
+      "lon": -0.372429934550853,
+      "lines": [
+        "14",
+        "35",
+        "6"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=823"
+    },
+    {
+      "id": 830,
+      "name": "Russafa - Ciril Amorós",
+      "lat": 39.4658737406041,
+      "lon": -0.374272827338545,
+      "lines": [
+        "14",
+        "19",
+        "35",
+        "6",
+        "7",
+        "8"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=830"
+    },
+    {
+      "id": 833,
+      "name": "Vall de la Ballestera - Pius XII",
+      "lat": 39.4811163031066,
+      "lon": -0.393618531056264,
+      "lines": [
+        "98",
+        "99"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=833"
+    },
+    {
+      "id": 866,
+      "name": "Catalunya - Santa Cruz de la Zarza",
+      "lat": 39.4789132020709,
+      "lon": -0.354146506504317,
+      "lines": [
+        "93",
+        "98"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=866"
+    },
+    {
+      "id": 880,
+      "name": "Pintor Salvador Abril - Maties Perelló",
+      "lat": 39.4620624608817,
+      "lon": -0.369671129697836,
+      "lines": [
+        "14",
+        "35",
+        "6"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=880"
+    },
+    {
+      "id": 948,
+      "name": "Tavernes Blanques - Plaça del Mercat",
+      "lat": 39.506530744543,
+      "lon": -0.365802552433311,
+      "lines": [
+        "16"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=948"
+    },
+    {
+      "id": 949,
+      "name": "Almàssera",
+      "lat": 39.5164424617983,
+      "lon": -0.361433503606923,
+      "lines": [
+        "16"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=949"
+    },
+    {
+      "id": 950,
+      "name": "Cases de Bàrcena (I)",
+      "lat": 39.5205617029115,
+      "lon": -0.358622084814898,
+      "lines": [
+        "16"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=950"
+    },
+    {
+      "id": 951,
+      "name": "Cases de Bàrcena (II)",
+      "lat": 39.5222717750137,
+      "lon": -0.357407214191928,
+      "lines": [
+        "16"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=951"
+    },
+    {
+      "id": 953,
+      "name": "Cases de Bàrcena (III)",
+      "lat": 39.5220221589675,
+      "lon": -0.35775334126656,
+      "lines": [
+        "16"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=953"
+    },
+    {
+      "id": 954,
+      "name": "Cases de Bàrcena (IV)",
+      "lat": 39.5206136400372,
+      "lon": -0.358762035811635,
+      "lines": [
+        "16"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=954"
+    },
+    {
+      "id": 955,
+      "name": "Bonrepòs i Mirambell",
+      "lat": 39.5164398661096,
+      "lon": -0.361533755963921,
+      "lines": [
+        "16"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=955"
+    },
+    {
+      "id": 956,
+      "name": "Tavernes Blanques - Poeta Miguel Hernández",
+      "lat": 39.5062457800809,
+      "lon": -0.366329418401162,
+      "lines": [
+        "16"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=956"
+    },
+    {
+      "id": 958,
+      "name": "Doctor Peset Aleixandre (parell) - Metro Trànsits",
+      "lat": 39.4893416629825,
+      "lon": -0.386764469237239,
+      "lines": [
+        "60",
+        "64",
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=958"
+    },
+    {
+      "id": 983,
+      "name": "Ramón y Cajal - Bailén",
+      "lat": 39.4631744826786,
+      "lon": -0.379731406010466,
+      "lines": [
+        "31",
+        "63",
+        "64",
+        "67"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=983"
+    },
+    {
+      "id": 1020,
+      "name": "Metro Alameda",
+      "lat": 39.474207058361,
+      "lon": -0.365086519076336,
+      "lines": [
+        "11",
+        "16",
+        "26",
+        "6",
+        "70",
+        "94",
+        "95"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1020"
+    },
+    {
+      "id": 1021,
+      "name": "Pla del Real",
+      "lat": 39.4762107241445,
+      "lon": -0.366729816674263,
+      "lines": [
+        "11",
+        "16",
+        "26",
+        "6",
+        "70",
+        "94",
+        "95"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1021"
+    },
+    {
+      "id": 1035,
+      "name": "Aragó - Finlàndia",
+      "lat": 39.4709219926619,
+      "lon": -0.358522514059762,
+      "lines": [
+        "10",
+        "12",
+        "93",
+        "C2"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1035"
+    },
+    {
+      "id": 1041,
+      "name": "Plaça d'Espanya (imparell) - Ramón y Cajal",
+      "lat": 39.4659720228398,
+      "lon": -0.382154003959401,
+      "lines": [
+        "31",
+        "63",
+        "64",
+        "92",
+        "C2"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1041"
+    },
+    {
+      "id": 1054,
+      "name": "Aragó - Saragossa",
+      "lat": 39.4686498340796,
+      "lon": -0.359977246065488,
+      "lines": [
+        "10",
+        "12",
+        "93",
+        "C2"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1054"
+    },
+    {
+      "id": 1055,
+      "name": "Aragó - Ernest Ferrer",
+      "lat": 39.4728188990153,
+      "lon": -0.356996622206953,
+      "lines": [
+        "10",
+        "12",
+        "93",
+        "C2"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1055"
+    },
+    {
+      "id": 1057,
+      "name": "Estadi de Mestalla (front)",
+      "lat": 39.4749516000556,
+      "lon": -0.355950781933368,
+      "lines": [
+        "10",
+        "12",
+        "93",
+        "C2"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1057"
+    },
+    {
+      "id": 1080,
+      "name": "Sant Vicent de Paül - Peníscola",
+      "lat": 39.4908807844071,
+      "lon": -0.370581474898421,
+      "lines": [
+        "11"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1080"
+    },
+    {
+      "id": 1083,
+      "name": "Aragó - Amadeu de Savoia",
+      "lat": 39.4726482356367,
+      "lon": -0.357689977844285,
+      "lines": [
+        "10",
+        "12",
+        "93",
+        "C2"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1083"
+    },
+    {
+      "id": 1085,
+      "name": "Aragó - Xile",
+      "lat": 39.4701728811634,
+      "lon": -0.358289503628534,
+      "lines": [
+        "10",
+        "12",
+        "93",
+        "C2"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1085"
+    },
+    {
+      "id": 1125,
+      "name": "Comte de Torrefiel - Mestre Marçal",
+      "lat": 39.4932532902705,
+      "lon": -0.375937053350292,
+      "lines": [
+        "6",
+        "60"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1125"
+    },
+    {
+      "id": 1126,
+      "name": "Comte de Torrefiel - Josep Esteve",
+      "lat": 39.4958258221902,
+      "lon": -0.376812274344939,
+      "lines": [
+        "6",
+        "60"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1126"
+    },
+    {
+      "id": 1127,
+      "name": "Comte de Torrefiel - Riu Bidasoa",
+      "lat": 39.4980540774501,
+      "lon": -0.377347287257671,
+      "lines": [
+        "6",
+        "60"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1127"
+    },
+    {
+      "id": 1128,
+      "name": "Mercat de Torrefiel",
+      "lat": 39.4979393918329,
+      "lon": -0.376233980121576,
+      "lines": [
+        "6",
+        "60"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1128"
+    },
+    {
+      "id": 1129,
+      "name": "Sant Doménec Savio - Josep Esteve",
+      "lat": 39.4960892973167,
+      "lon": -0.375505181185615,
+      "lines": [
+        "6",
+        "60"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1129"
+    },
+    {
+      "id": 1130,
+      "name": "Pere Patrici Mey - Felip Rinaldi",
+      "lat": 39.4925156252075,
+      "lon": -0.377088555735587,
+      "lines": [
+        "60"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1130"
+    },
+    {
+      "id": 1133,
+      "name": "Tossal del Rei",
+      "lat": 39.4961294131898,
+      "lon": -0.372232746516251,
+      "lines": [
+        "12",
+        "16"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1133"
+    },
+    {
+      "id": 1136,
+      "name": "Palma de Gandia - Venta del Moro",
+      "lat": 39.5295470511444,
+      "lon": -0.384152244980391,
+      "lines": [
+        "26"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1136"
+    },
+    {
+      "id": 1137,
+      "name": "Ferrer i Bigné - Clavells",
+      "lat": 39.5276439474385,
+      "lon": -0.385803887296922,
+      "lines": [
+        "26"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1137"
+    },
+    {
+      "id": 1138,
+      "name": "Ferrer i Bigné - Santíssima Creu",
+      "lat": 39.5297412539938,
+      "lon": -0.385591986758257,
+      "lines": [
+        "26"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1138"
+    },
+    {
+      "id": 1139,
+      "name": "Ferrer i Bigné - Nelo el Fariner",
+      "lat": 39.530800085416,
+      "lon": -0.385341211894302,
+      "lines": [
+        "26"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1139"
+    },
+    {
+      "id": 1140,
+      "name": "Camí de Moncada - Gasolinera",
+      "lat": 39.5122945724875,
+      "lon": -0.386464264145788,
+      "lines": [
+        "26"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1140"
+    },
+    {
+      "id": 1151,
+      "name": "Centre de Salut Salvador Allende",
+      "lat": 39.4947096411474,
+      "lon": -0.372614964368258,
+      "lines": [
+        "16"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1151"
+    },
+    {
+      "id": 1152,
+      "name": "Camí de Moncada - Camí Alqueria de Marquet",
+      "lat": 39.5122017261265,
+      "lon": -0.386330820035239,
+      "lines": [
+        "26"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1152"
+    },
+    {
+      "id": 1168,
+      "name": "Comissaria Policia Local Marítim",
+      "lat": 39.4630421684029,
+      "lon": -0.328636236810173,
+      "lines": [
+        "95"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1168"
+    },
+    {
+      "id": 1170,
+      "name": "Foc - Amadeu Desfilis",
+      "lat": 39.4999428452636,
+      "lon": -0.39451030445539,
+      "lines": [
+        "12",
+        "28"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1170"
+    },
+    {
+      "id": 1183,
+      "name": "General Avilés - Doctor Nicasi Benlloch",
+      "lat": 39.4881164198286,
+      "lon": -0.391119645273943,
+      "lines": [
+        "64",
+        "94"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1183"
+    },
+    {
+      "id": 1184,
+      "name": "General Avilés - Miguel Servet (parell)",
+      "lat": 39.4869233299837,
+      "lon": -0.393924850846441,
+      "lines": [
+        "64",
+        "94"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1184"
+    },
+    {
+      "id": 1199,
+      "name": "Comte de Torrefiel - Escultor Piquer",
+      "lat": 39.492203520811,
+      "lon": -0.375574613472168,
+      "lines": [
+        "6"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1199"
+    },
+    {
+      "id": 1217,
+      "name": "Doctor Peset Aleixandre - Felip Rinaldi",
+      "lat": 39.491677944102,
+      "lon": -0.376153141964646,
+      "lines": [
+        "26",
+        "60",
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1217"
+    },
+    {
+      "id": 1229,
+      "name": "Els Orriols - Metro Sant Miquel dels Reis",
+      "lat": 39.4969315655346,
+      "lon": -0.369162148540523,
+      "lines": [
+        "11"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1229"
+    },
+    {
+      "id": 1239,
+      "name": "Primat Reig - Xàbia",
+      "lat": 39.4790370042129,
+      "lon": -0.356553842713472,
+      "lines": [
+        "10",
+        "98",
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1239"
+    },
+    {
+      "id": 1254,
+      "name": "Cid - Aiora",
+      "lat": 39.4673002377939,
+      "lon": -0.391879475532206,
+      "lines": [
+        "67",
+        "70",
+        "93",
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1254"
+    },
+    {
+      "id": 1265,
+      "name": "Conselleria d'Educació",
+      "lat": 39.4838811747782,
+      "lon": -0.391894461877825,
+      "lines": [
+        "60",
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1265"
+    },
+    {
+      "id": 1266,
+      "name": "Avinguda Campanar - Centre de Salut",
+      "lat": 39.4843632876364,
+      "lon": -0.39144405971029,
+      "lines": [
+        "60",
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1266"
+    },
+    {
+      "id": 1268,
+      "name": "Tres Creus (parell) - Hospital General",
+      "lat": 39.4682964558997,
+      "lon": -0.406421623456784,
+      "lines": [
+        "70",
+        "73",
+        "95",
+        "99"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1268"
+    },
+    {
+      "id": 1272,
+      "name": "Campanar - Monestir de Poblet",
+      "lat": 39.4850218221047,
+      "lon": -0.396020459028534,
+      "lines": [
+        "62",
+        "64",
+        "92",
+        "99"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1272"
+    },
+    {
+      "id": 1277,
+      "name": "Primat Reig - Ministre Luis Mayans",
+      "lat": 39.4897638438493,
+      "lon": -0.370957154791487,
+      "lines": [
+        "11"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1277"
+    },
+    {
+      "id": 1278,
+      "name": "Àngel Guimerà - Ferran el Catòlic",
+      "lat": 39.4703573818644,
+      "lon": -0.384505371005064,
+      "lines": [
+        "60",
+        "62",
+        "70",
+        "72"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1278"
+    },
+    {
+      "id": 1295,
+      "name": "Mestre Rodrigo - Marqués de Sant Joan",
+      "lat": 39.4773649793447,
+      "lon": -0.397361945712533,
+      "lines": [
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1295"
+    },
+    {
+      "id": 1296,
+      "name": "Marqués de Sant Joan - Campanar",
+      "lat": 39.4787135190527,
+      "lon": -0.395248741044584,
+      "lines": [
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1296"
+    },
+    {
+      "id": 1298,
+      "name": "Espinosa - Guillem de Castro",
+      "lat": 39.4721221930791,
+      "lon": -0.384395970395442,
+      "lines": [
+        "60",
+        "62",
+        "73"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1298"
+    },
+    {
+      "id": 1305,
+      "name": "Guillem de Castro - Na Jordana",
+      "lat": 39.4811031148276,
+      "lon": -0.381013246289148,
+      "lines": [
+        "28",
+        "95",
+        "C1"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1305"
+    },
+    {
+      "id": 1306,
+      "name": "Pont de les Drassanes - Terminal marítima",
+      "lat": 39.4550242972957,
+      "lon": -0.329989332848598,
+      "lines": [
+        "30",
+        "4",
+        "95"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1306"
+    },
+    {
+      "id": 1311,
+      "name": "Pare Ferrís (imparell) - Gregori Gea",
+      "lat": 39.4830848789946,
+      "lon": -0.384928008123,
+      "lines": [
+        "28",
+        "94"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1311"
+    },
+    {
+      "id": 1318,
+      "name": "Molinell (parell) - Alboraia",
+      "lat": 39.4849965554311,
+      "lon": -0.36950099228692,
+      "lines": [
+        "98"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1318"
+    },
+    {
+      "id": 1326,
+      "name": "Ciutat de l'Artista Faller",
+      "lat": 39.5005441789274,
+      "lon": -0.393280307016311,
+      "lines": [
+        "12",
+        "28"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1326"
+    },
+    {
+      "id": 1329,
+      "name": "Palmaret - Moncada",
+      "lat": 39.5176982807822,
+      "lon": -0.386332300785273,
+      "lines": [
+        "26"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1329"
+    },
+    {
+      "id": 1330,
+      "name": "Quartell - Metro Florista",
+      "lat": 39.4955744885931,
+      "lon": -0.397432630032852,
+      "lines": [
+        "28"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1330"
+    },
+    {
+      "id": 1331,
+      "name": "Florista - Carrasqueta",
+      "lat": 39.4938258607124,
+      "lon": -0.395935235080168,
+      "lines": [
+        "28"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1331"
+    },
+    {
+      "id": 1332,
+      "name": "Florista - Metro Garbí",
+      "lat": 39.4918914257455,
+      "lon": -0.393869540264264,
+      "lines": [
+        "28"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1332"
+    },
+    {
+      "id": 1333,
+      "name": "Bon Recés - Florista",
+      "lat": 39.4904212469812,
+      "lon": -0.392439423068414,
+      "lines": [
+        "28"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1333"
+    },
+    {
+      "id": 1348,
+      "name": "Doctor Nicasi Benlloch - Emili Nadal",
+      "lat": 39.4888948740089,
+      "lon": -0.392083498409554,
+      "lines": [
+        "28"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1348"
+    },
+    {
+      "id": 1349,
+      "name": "Sant Vicent Màrtir - Mossén Febrer",
+      "lat": 39.450973413017,
+      "lon": -0.385065756733945,
+      "lines": [
+        "27",
+        "64"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1349"
+    },
+    {
+      "id": 1350,
+      "name": "Sant Vicent Màrtir - Almudaina",
+      "lat": 39.4529865885564,
+      "lon": -0.38445875409536,
+      "lines": [
+        "27",
+        "64"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1350"
+    },
+    {
+      "id": 1352,
+      "name": "La Plata - Alberola",
+      "lat": 39.4543222677236,
+      "lon": -0.369107540207907,
+      "lines": [
+        "18",
+        "6"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1352"
+    },
+    {
+      "id": 1353,
+      "name": "La Plata - Ausiàs March",
+      "lat": 39.4532075126224,
+      "lon": -0.371803104602242,
+      "lines": [
+        "18",
+        "6"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1353"
+    },
+    {
+      "id": 1355,
+      "name": "Oltà - Ausiàs March",
+      "lat": 39.4533196635296,
+      "lon": -0.373816937076633,
+      "lines": [
+        "18",
+        "6"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1355"
+    },
+    {
+      "id": 1356,
+      "name": "La Plata  - Fonteta de Sant Lluís",
+      "lat": 39.4529623125055,
+      "lon": -0.371838637770952,
+      "lines": [
+        "18",
+        "6"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1356"
+    },
+    {
+      "id": 1357,
+      "name": "Parc central de Bombers",
+      "lat": 39.4541373763968,
+      "lon": -0.36894526138144,
+      "lines": [
+        "18",
+        "6"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1357"
+    },
+    {
+      "id": 1361,
+      "name": "Tarongers - Metro La Carrasca",
+      "lat": 39.4798244784042,
+      "lon": -0.34463037869967,
+      "lines": [
+        "93",
+        "98"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1361"
+    },
+    {
+      "id": 1410,
+      "name": "Guillermina Medrano (imparell) - Borbotó",
+      "lat": 39.5141768574216,
+      "lon": -0.388606127071767,
+      "lines": [
+        "26"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1410"
+    },
+    {
+      "id": 1411,
+      "name": "Guillermina Medrano (parell) - Borbotó",
+      "lat": 39.514164260525,
+      "lon": -0.388539378912203,
+      "lines": [
+        "26"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1411"
+    },
+    {
+      "id": 1421,
+      "name": "Petxina - Torres",
+      "lat": 39.4742104877658,
+      "lon": -0.399309639292945,
+      "lines": [
+        "95"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1421"
+    },
+    {
+      "id": 1422,
+      "name": "Petxina - Pérez Galdos",
+      "lat": 39.4746627975993,
+      "lon": -0.396867181256303,
+      "lines": [
+        "95"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1422"
+    },
+    {
+      "id": 1423,
+      "name": "Petxina - Terol",
+      "lat": 39.476083773291,
+      "lon": -0.393562311021939,
+      "lines": [
+        "95"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1423"
+    },
+    {
+      "id": 1424,
+      "name": "Petxina - Ferran el Catòlic",
+      "lat": 39.4772143664485,
+      "lon": -0.390759605158588,
+      "lines": [
+        "95"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1424"
+    },
+    {
+      "id": 1425,
+      "name": "Petxina - Túria",
+      "lat": 39.4792697182347,
+      "lon": -0.385094297429462,
+      "lines": [
+        "95"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1425"
+    },
+    {
+      "id": 1427,
+      "name": "Jacinto Benavente - Borriana",
+      "lat": 39.4662256285985,
+      "lon": -0.362737901207631,
+      "lines": [
+        "13",
+        "23",
+        "24",
+        "25",
+        "95"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1427"
+    },
+    {
+      "id": 1428,
+      "name": "Jacinto Benavente - Peris i Valero",
+      "lat": 39.4634514465532,
+      "lon": -0.361268119900538,
+      "lines": [
+        "13",
+        "23",
+        "24",
+        "25",
+        "95"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1428"
+    },
+    {
+      "id": 1430,
+      "name": "Albereda - Illes Canàries",
+      "lat": 39.4679834655729,
+      "lon": -0.360531273566901,
+      "lines": [
+        "4",
+        "92",
+        "94"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1430"
+    },
+    {
+      "id": 1431,
+      "name": "Tirso de Molina - Pius XII",
+      "lat": 39.4785359863228,
+      "lon": -0.392360787146289,
+      "lines": [
+        "95"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1431"
+    },
+    {
+      "id": 1432,
+      "name": "Tirso de Molina - Mestre Rodrigo",
+      "lat": 39.4767695195222,
+      "lon": -0.396345752717158,
+      "lines": [
+        "95"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1432"
+    },
+    {
+      "id": 1461,
+      "name": "França (imparell) - Albereda",
+      "lat": 39.4614573123502,
+      "lon": -0.356556799778665,
+      "lines": [
+        "19",
+        "40",
+        "94"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1461"
+    },
+    {
+      "id": 1462,
+      "name": "Albereda - Pont del Regne",
+      "lat": 39.4609972432138,
+      "lon": -0.356676673833139,
+      "lines": [
+        "19",
+        "40",
+        "94"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1462"
+    },
+    {
+      "id": 1485,
+      "name": "Palmaret - Rosa dels Vents (davant)",
+      "lat": 39.5161658855773,
+      "lon": -0.38131870349948,
+      "lines": [
+        "26"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1485"
+    },
+    {
+      "id": 1489,
+      "name": "Tarongers - Facultat de Magisteri",
+      "lat": 39.4801816889282,
+      "lon": -0.347159113738047,
+      "lines": [
+        "18",
+        "93",
+        "98"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1489"
+    },
+    {
+      "id": 1490,
+      "name": "Tarongers - Escola d'Edificació",
+      "lat": 39.480695459385,
+      "lon": -0.34766704885071,
+      "lines": [
+        "93",
+        "98"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1490"
+    },
+    {
+      "id": 1520,
+      "name": "Sant Agustí",
+      "lat": 39.4684775392302,
+      "lon": -0.380549150437247,
+      "lines": [
+        "28",
+        "60",
+        "62",
+        "70",
+        "72",
+        "C1"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1520"
+    },
+    {
+      "id": 1536,
+      "name": "Albereda - Parc Gulliver",
+      "lat": 39.4632154032186,
+      "lon": -0.358467953795862,
+      "lines": [
+        "19",
+        "94"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1536"
+    },
+    {
+      "id": 1537,
+      "name": "Albereda (riu) - Parc Gulliver",
+      "lat": 39.4630180223463,
+      "lon": -0.358587818921887,
+      "lines": [
+        "19",
+        "94"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1537"
+    },
+    {
+      "id": 1551,
+      "name": "Tarongers (imparell)  - Metro La Cadena",
+      "lat": 39.4753017374296,
+      "lon": -0.32905164159065,
+      "lines": [
+        "92",
+        "93",
+        "98"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1551"
+    },
+    {
+      "id": 1552,
+      "name": "Marí Blas de Lezo - Felip de Gauna",
+      "lat": 39.4722149687986,
+      "lon": -0.334054973155544,
+      "lines": [
+        "31",
+        "98",
+        "99"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1552"
+    },
+    {
+      "id": 1562,
+      "name": "Palmaret - Rosa dels Vents",
+      "lat": 39.5162648302705,
+      "lon": -0.381388368005829,
+      "lines": [
+        "26"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1562"
+    },
+    {
+      "id": 1574,
+      "name": "Ferran el Catòlic (parell) - Metro Túria",
+      "lat": 39.4771238771447,
+      "lon": -0.389624582318513,
+      "lines": [
+        "60",
+        "62",
+        "64",
+        "92",
+        "C2"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1574"
+    },
+    {
+      "id": 1584,
+      "name": "Joaquim Ballester - Pare Ferrís",
+      "lat": 39.4846305121677,
+      "lon": -0.386569234827174,
+      "lines": [
+        "98"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1584"
+    },
+    {
+      "id": 1589,
+      "name": "Doctor J.J. Dòmine - Front Edifici del Rellotge",
+      "lat": 39.4605114644194,
+      "lon": -0.33260294674205,
+      "lines": [
+        "19",
+        "92",
+        "95"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1589"
+    },
+    {
+      "id": 1613,
+      "name": "Comissaria Policia Local Marítim (front)",
+      "lat": 39.46289592742,
+      "lon": -0.328577407355703,
+      "lines": [
+        "95"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1613"
+    },
+    {
+      "id": 1661,
+      "name": "Pío Baroja - Bioparc",
+      "lat": 39.4762215069761,
+      "lon": -0.406383085980662,
+      "lines": [
+        "98",
+        "99"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1661"
+    },
+    {
+      "id": 1662,
+      "name": "Vall de la Ballestera - Pío Baroja",
+      "lat": 39.4786179774081,
+      "lon": -0.404095922839444,
+      "lines": [
+        "98",
+        "99"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1662"
+    },
+    {
+      "id": 1663,
+      "name": "Alcalde Reig (riu) - Parc Gulliver",
+      "lat": 39.4618072927506,
+      "lon": -0.360132569280893,
+      "lines": [
+        "23",
+        "24",
+        "25",
+        "95"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1663"
+    },
+    {
+      "id": 1664,
+      "name": "Alcalde Reig - Parc Gulliver",
+      "lat": 39.4615175032083,
+      "lon": -0.36026962261465,
+      "lines": [
+        "13",
+        "23",
+        "24",
+        "25",
+        "95"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1664"
+    },
+    {
+      "id": 1665,
+      "name": "Alcalde Reig (riu) - Museu Faller",
+      "lat": 39.4598616101473,
+      "lon": -0.358717025415269,
+      "lines": [
+        "23",
+        "24",
+        "25",
+        "95"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1665"
+    },
+    {
+      "id": 1677,
+      "name": "Cardenal Benlloch - La Pobla de Farnals",
+      "lat": 39.4698474836547,
+      "lon": -0.355074910183395,
+      "lines": [
+        "18",
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1677"
+    },
+    {
+      "id": 1678,
+      "name": "Cardenal Benlloch - Sants Just i Pastor",
+      "lat": 39.4720839848877,
+      "lon": -0.353962394866066,
+      "lines": [
+        "18",
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1678"
+    },
+    {
+      "id": 1679,
+      "name": "Primat Reig - Cuenca Tramoyeres",
+      "lat": 39.4822846860095,
+      "lon": -0.360474552354459,
+      "lines": [
+        "98",
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1679"
+    },
+    {
+      "id": 1680,
+      "name": "Primat Reig - Viver",
+      "lat": 39.4860543165722,
+      "lon": -0.365668604557135,
+      "lines": [
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1680"
+    },
+    {
+      "id": 1681,
+      "name": "Primat Reig - Motilla del Palancar",
+      "lat": 39.4886223602714,
+      "lon": -0.369137948320867,
+      "lines": [
+        "11",
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1681"
+    },
+    {
+      "id": 1682,
+      "name": "Primat Reig - Constitució",
+      "lat": 39.4917954588007,
+      "lon": -0.373425677486518,
+      "lines": [
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1682"
+    },
+    {
+      "id": 1683,
+      "name": "Doctor Peset Aleixandre - Moncada",
+      "lat": 39.4910279044583,
+      "lon": -0.379074184513627,
+      "lines": [
+        "60",
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1683"
+    },
+    {
+      "id": 1684,
+      "name": "Doctor Peset Aleixandre - Avinguda de Burjassot",
+      "lat": 39.4889328489862,
+      "lon": -0.388570297532104,
+      "lines": [
+        "60",
+        "64",
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1684"
+    },
+    {
+      "id": 1685,
+      "name": "Campanar - Conchita Piquer",
+      "lat": 39.4859173496018,
+      "lon": -0.390919111826305,
+      "lines": [
+        "60",
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1685"
+    },
+    {
+      "id": 1686,
+      "name": "Pérez Galdós - Tres Forques",
+      "lat": 39.4645997120729,
+      "lon": -0.388546639621061,
+      "lines": [
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1686"
+    },
+    {
+      "id": 1687,
+      "name": "Giorgeta - Carcaixent",
+      "lat": 39.460728877388,
+      "lon": -0.385717440288683,
+      "lines": [
+        "27",
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1687"
+    },
+    {
+      "id": 1688,
+      "name": "Peris i Valero - Escultor Josep Capuz",
+      "lat": 39.4621262211032,
+      "lon": -0.363240237419981,
+      "lines": [
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1688"
+    },
+    {
+      "id": 1690,
+      "name": "Giorgeta - Albacete",
+      "lat": 39.4614974742967,
+      "lon": -0.386030804686072,
+      "lines": [
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1690"
+    },
+    {
+      "id": 1691,
+      "name": "Pérez Galdós - Martínez Aloy",
+      "lat": 39.4635910774355,
+      "lon": -0.387490476421827,
+      "lines": [
+        "71",
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1691"
+    },
+    {
+      "id": 1692,
+      "name": "Pérez Galdós - Heroi Romeu",
+      "lat": 39.4674629966104,
+      "lon": -0.39028195231343,
+      "lines": [
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1692"
+    },
+    {
+      "id": 1693,
+      "name": "Doctor Peset Aleixandre (imparell) - Metro Trànsits",
+      "lat": 39.4890217486342,
+      "lon": -0.387211403285654,
+      "lines": [
+        "60",
+        "64",
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1693"
+    },
+    {
+      "id": 1694,
+      "name": "Primat Reig - Doctor Gómez Ferrer",
+      "lat": 39.4818122301691,
+      "lon": -0.360317090580977,
+      "lines": [
+        "98",
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1694"
+    },
+    {
+      "id": 1695,
+      "name": "Cardenal Benlloch - Doctor Ferran",
+      "lat": 39.4696222919304,
+      "lon": -0.355406399524208,
+      "lines": [
+        "18",
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1695"
+    },
+    {
+      "id": 1696,
+      "name": "Giorgeta (parell) - Metro Jesús",
+      "lat": 39.4589677390466,
+      "lon": -0.38450706562134,
+      "lines": [
+        "64",
+        "C3"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1696"
+    },
+    {
+      "id": 1716,
+      "name": "Ferran el Catòlic - Sant Ignasi de Loiola",
+      "lat": 39.4737793206447,
+      "lon": -0.387795406405041,
+      "lines": [
+        "60",
+        "62",
+        "73"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1716"
+    },
+    {
+      "id": 1720,
+      "name": "Corts Valencianes - Constitució",
+      "lat": 39.5087990505743,
+      "lon": -0.365300311712938,
+      "lines": [
+        "16"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1720"
+    },
+    {
+      "id": 1721,
+      "name": "Corts Valencianes - Doctor Barraquer",
+      "lat": 39.5087222037331,
+      "lon": -0.36517785806251,
+      "lines": [
+        "16"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1721"
+    },
+    {
+      "id": 1741,
+      "name": "Pius XII (imparell) - Metro Campanar",
+      "lat": 39.4834395179079,
+      "lon": -0.394791555819387,
+      "lines": [
+        "62",
+        "64",
+        "92",
+        "99"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1741"
+    },
+    {
+      "id": 1743,
+      "name": "Albereda - Palau de la Música",
+      "lat": 39.4653078239665,
+      "lon": -0.359478563206632,
+      "lines": [
+        "94"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1743"
+    },
+    {
+      "id": 1744,
+      "name": "Albereda (riu) - L'Hemisfèric",
+      "lat": 39.4593360936766,
+      "lon": -0.352807912404954,
+      "lines": [
+        "94"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1744"
+    },
+    {
+      "id": 1745,
+      "name": "Albereda (riu) - Museu de les Ciències",
+      "lat": 39.4575527125649,
+      "lon": -0.350214188067785,
+      "lines": [
+        "94"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1745"
+    },
+    {
+      "id": 1746,
+      "name": "Menorca (imparell) - Centre Comercial",
+      "lat": 39.4576426194419,
+      "lon": -0.345080999553805,
+      "lines": [
+        "94",
+        "99"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1746"
+    },
+    {
+      "id": 1749,
+      "name": "Lluís Peixó - Comte Melito",
+      "lat": 39.4753829447277,
+      "lon": -0.333466202054936,
+      "lines": [
+        "98",
+        "99"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1749"
+    },
+    {
+      "id": 1753,
+      "name": "Lluís Peixó - Tarongers",
+      "lat": 39.475238951871,
+      "lon": -0.333710031069088,
+      "lines": [
+        "98",
+        "99"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1753"
+    },
+    {
+      "id": 1754,
+      "name": "Marí Blas de Lezo - Camí del Cabanyal",
+      "lat": 39.4724280910343,
+      "lon": -0.334274065444248,
+      "lines": [
+        "31",
+        "98",
+        "99"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1754"
+    },
+    {
+      "id": 1755,
+      "name": "Estació del Cabanyal (front)",
+      "lat": 39.4708654148068,
+      "lon": -0.334748639112398,
+      "lines": [
+        "31",
+        "98",
+        "99"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1755"
+    },
+    {
+      "id": 1759,
+      "name": "Menorca (parell) - Centre Comercial",
+      "lat": 39.4573471230241,
+      "lon": -0.345954855596095,
+      "lines": [
+        "94",
+        "99"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1759"
+    },
+    {
+      "id": 1760,
+      "name": "Albereda - Museu de les Ciències",
+      "lat": 39.4577180422663,
+      "lon": -0.350032021222573,
+      "lines": [
+        "94"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1760"
+    },
+    {
+      "id": 1761,
+      "name": "Albereda - L'Hemisfèric",
+      "lat": 39.4594869595502,
+      "lon": -0.352664759608518,
+      "lines": [
+        "94"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1761"
+    },
+    {
+      "id": 1763,
+      "name": "Jacinto Benavente - Pont de l'Àngel Custodi",
+      "lat": 39.4646832136561,
+      "lon": -0.361350773681035,
+      "lines": [
+        "23",
+        "24",
+        "25",
+        "95"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1763"
+    },
+    {
+      "id": 1764,
+      "name": "Jacinto Benavente - Palau de la Música",
+      "lat": 39.4664779759851,
+      "lon": -0.36242966972054,
+      "lines": [
+        "23",
+        "24",
+        "25",
+        "95"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1764"
+    },
+    {
+      "id": 1765,
+      "name": "Alcalde Reig - Museu Faller",
+      "lat": 39.4590530252458,
+      "lon": -0.358452337515706,
+      "lines": [
+        "13",
+        "23",
+        "24",
+        "25",
+        "95"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1765"
+    },
+    {
+      "id": 1766,
+      "name": "Guillem de Castro - Comissaria de policia",
+      "lat": 39.4708994272375,
+      "lon": -0.383647719095345,
+      "lines": [
+        "11",
+        "28",
+        "C1"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1766"
+    },
+    {
+      "id": 1775,
+      "name": "Palau de la Música",
+      "lat": 39.4672072093791,
+      "lon": -0.360432404453387,
+      "lines": [
+        "94"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1775"
+    },
+    {
+      "id": 1776,
+      "name": "Albereda - Palau de la Música (imparell)",
+      "lat": 39.4657818328827,
+      "lon": -0.359396622007857,
+      "lines": [
+        "94"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1776"
+    },
+    {
+      "id": 1806,
+      "name": "Molinell (imparell) - Alboraia",
+      "lat": 39.4851680505518,
+      "lon": -0.370351985256173,
+      "lines": [
+        "98"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1806"
+    },
+    {
+      "id": 1807,
+      "name": "Argenter Suárez - Ministre Lluís Mayans",
+      "lat": 39.4854159308175,
+      "lon": -0.372977761984102,
+      "lines": [
+        "98"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1807"
+    },
+    {
+      "id": 1808,
+      "name": "Ruaya (parell) - Visitació",
+      "lat": 39.4855417906125,
+      "lon": -0.377130568866582,
+      "lines": [
+        "98"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1808"
+    },
+    {
+      "id": 1809,
+      "name": "Metro Reus - Poeta Fernández Heredia",
+      "lat": 39.485711590107,
+      "lon": -0.379929961100929,
+      "lines": [
+        "98"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1809"
+    },
+    {
+      "id": 1810,
+      "name": "Reus - Periodista Llorente",
+      "lat": 39.4857947093353,
+      "lon": -0.383548803750497,
+      "lines": [
+        "98"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1810"
+    },
+    {
+      "id": 1812,
+      "name": "Joaquim Ballester (imparell) - Pare Ferrís",
+      "lat": 39.4848743755116,
+      "lon": -0.385408574061794,
+      "lines": [
+        "98"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1812"
+    },
+    {
+      "id": 1813,
+      "name": "Metro Reus - Alqueria de l'Estrella",
+      "lat": 39.4857536079312,
+      "lon": -0.382890441541685,
+      "lines": [
+        "98"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1813"
+    },
+    {
+      "id": 1814,
+      "name": "Reus - Poeta Fernández Heredia",
+      "lat": 39.485567211083,
+      "lon": -0.379462405598265,
+      "lines": [
+        "98"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1814"
+    },
+    {
+      "id": 1815,
+      "name": "Ruaya (imparell) - Visitació",
+      "lat": 39.4853615994698,
+      "lon": -0.376461206401343,
+      "lines": [
+        "98"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1815"
+    },
+    {
+      "id": 1816,
+      "name": "Argenter Suárez - Miraculosa",
+      "lat": 39.4852990280312,
+      "lon": -0.372916228553479,
+      "lines": [
+        "98"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1816"
+    },
+    {
+      "id": 1821,
+      "name": "Ausiàs March - Bernat Descoll",
+      "lat": 39.4521240926844,
+      "lon": -0.372750205139448,
+      "lines": [
+        "6"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1821"
+    },
+    {
+      "id": 1822,
+      "name": "Ausiàs March - Na Rovella",
+      "lat": 39.4501378291323,
+      "lon": -0.371329203990293,
+      "lines": [
+        "6"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1822"
+    },
+    {
+      "id": 1824,
+      "name": "Benicalap - Joan XXIII",
+      "lat": 39.4969113645613,
+      "lon": -0.384781897904812,
+      "lines": [
+        "64"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1824"
+    },
+    {
+      "id": 1825,
+      "name": "Joan XXIII - Federico Alcácer Aguilar",
+      "lat": 39.4950216615064,
+      "lon": -0.38409753012068,
+      "lines": [
+        "64"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1825"
+    },
+    {
+      "id": 1826,
+      "name": "Joan XXIII (imparell) - Félix del Río",
+      "lat": 39.4905400807528,
+      "lon": -0.382356422122556,
+      "lines": [
+        "64"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1826"
+    },
+    {
+      "id": 1827,
+      "name": "General Avilés - Pius XII",
+      "lat": 39.4861518842138,
+      "lon": -0.394964587521651,
+      "lines": [
+        "64"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1827"
+    },
+    {
+      "id": 1828,
+      "name": "General Avilés - Miguel Servet (imparell)",
+      "lat": 39.4871834068967,
+      "lon": -0.392637860771212,
+      "lines": [
+        "64",
+        "94"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1828"
+    },
+    {
+      "id": 1829,
+      "name": "General Avilés - Conchita Piquer",
+      "lat": 39.488019497858,
+      "lon": -0.390596835542334,
+      "lines": [
+        "64",
+        "94"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1829"
+    },
+    {
+      "id": 1838,
+      "name": "Duc de Mandas - Constitució",
+      "lat": 39.4946906297337,
+      "lon": -0.370859932384907,
+      "lines": [
+        "11",
+        "12"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1838"
+    },
+    {
+      "id": 1839,
+      "name": "Duc de Mandas (parell) - Centre de Salut Arquitecte Tolsà",
+      "lat": 39.4930597868705,
+      "lon": -0.368580480591909,
+      "lines": [
+        "11",
+        "12"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1839"
+    },
+    {
+      "id": 1847,
+      "name": "Castellonet - Joan XXIII",
+      "lat": 39.4931783178081,
+      "lon": -0.383582629933571,
+      "lines": [
+        "12",
+        "64"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1847"
+    },
+    {
+      "id": 1848,
+      "name": "Castellonet - Alfara del Patriarca",
+      "lat": 39.4926419591735,
+      "lon": -0.386075114562189,
+      "lines": [
+        "12",
+        "64"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1848"
+    },
+    {
+      "id": 1849,
+      "name": "Equador - General Llorens",
+      "lat": 39.4932292134432,
+      "lon": -0.388127156352994,
+      "lines": [
+        "12",
+        "64"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1849"
+    },
+    {
+      "id": 1850,
+      "name": "Equador (parell) - Centre de Salut Assutzena",
+      "lat": 39.4941557313127,
+      "lon": -0.390695769433944,
+      "lines": [
+        "12",
+        "64"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1850"
+    },
+    {
+      "id": 1861,
+      "name": "Constitució - Reig Genovés",
+      "lat": 39.4932265627026,
+      "lon": -0.373226251752983,
+      "lines": [
+        "16"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1861"
+    },
+    {
+      "id": 1862,
+      "name": "Constitució - Coronel Montesinos",
+      "lat": 39.4932862986829,
+      "lon": -0.37336577780361,
+      "lines": [
+        "16"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1862"
+    },
+    {
+      "id": 1895,
+      "name": "Catalunya - Clariano",
+      "lat": 39.4808687903738,
+      "lon": -0.351855282288638,
+      "lines": [
+        "93",
+        "98"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1895"
+    },
+    {
+      "id": 1896,
+      "name": "Tarongers - Facultat de Dret",
+      "lat": 39.4792019570423,
+      "lon": -0.343698802950183,
+      "lines": [
+        "93",
+        "98"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1896"
+    },
+    {
+      "id": 1897,
+      "name": "Tarongers - Facultat d'Economia",
+      "lat": 39.4781700671001,
+      "lon": -0.340083281921396,
+      "lines": [
+        "93",
+        "98"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1897"
+    },
+    {
+      "id": 1898,
+      "name": "Tarongers (parell) - Metro Beteró",
+      "lat": 39.476917579065,
+      "lon": -0.335845181262783,
+      "lines": [
+        "93",
+        "98"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1898"
+    },
+    {
+      "id": 1900,
+      "name": "Tarongers - Institut Tecnològic",
+      "lat": 39.4785234729495,
+      "lon": -0.33990711501552,
+      "lines": [
+        "93",
+        "98"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1900"
+    },
+    {
+      "id": 1901,
+      "name": "Catalunya - Direcció General de Salut Pública",
+      "lat": 39.4812609625552,
+      "lon": -0.352406440429521,
+      "lines": [
+        "93",
+        "98"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1901"
+    },
+    {
+      "id": 1902,
+      "name": "Catalunya - Guàrdia Civil",
+      "lat": 39.4796983495518,
+      "lon": -0.354269785335861,
+      "lines": [
+        "93",
+        "98"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1902"
+    },
+    {
+      "id": 1918,
+      "name": "Tarongers (imparell) - Metro Beteró",
+      "lat": 39.4770894226237,
+      "lon": -0.335148044956621,
+      "lines": [
+        "93",
+        "98"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1918"
+    },
+    {
+      "id": 1919,
+      "name": "Parc de Natzaret - Pont de les Drassanes",
+      "lat": 39.4518571306293,
+      "lon": -0.332064562529195,
+      "lines": [
+        "30",
+        "4",
+        "95"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1919"
+    },
+    {
+      "id": 1943,
+      "name": "Bulevard Sud - Pont",
+      "lat": 39.4462182042927,
+      "lon": -0.386450692073709,
+      "lines": [
+        "64"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1943"
+    },
+    {
+      "id": 1944,
+      "name": "Bulevard Sud (parell) - Malilla",
+      "lat": 39.445432768359,
+      "lon": -0.381277921270937,
+      "lines": [
+        "18",
+        "64",
+        "99"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1944"
+    },
+    {
+      "id": 1946,
+      "name": "Bulevard Sud (imparell) - Hospital La Fe",
+      "lat": 39.4448941865749,
+      "lon": -0.375654078815892,
+      "lines": [
+        "64",
+        "99"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1946"
+    },
+    {
+      "id": 1947,
+      "name": "Bulevard Sud - Rotonda Ausiàs March",
+      "lat": 39.445940447027,
+      "lon": -0.370038389808137,
+      "lines": [
+        "6",
+        "64",
+        "99"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1947"
+    },
+    {
+      "id": 1959,
+      "name": "Blanqueria - Pare d'Òrfens",
+      "lat": 39.480419097181,
+      "lon": -0.377821390808979,
+      "lines": [
+        "28",
+        "95",
+        "C1"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1959"
+    },
+    {
+      "id": 1964,
+      "name": "Bulevard Sud (parell) - Hospital La Fe",
+      "lat": 39.4454530586462,
+      "lon": -0.377274917439981,
+      "lines": [
+        "64",
+        "99"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1964"
+    },
+    {
+      "id": 1965,
+      "name": "Bulevard Sud (imparell) - Malilla",
+      "lat": 39.4458060203468,
+      "lon": -0.380815593015616,
+      "lines": [
+        "18",
+        "64",
+        "99"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1965"
+    },
+    {
+      "id": 1968,
+      "name": "Plaça d'Espanya (parell) - Ramón y Cajal",
+      "lat": 39.4664499335122,
+      "lon": -0.381949950002788,
+      "lines": [
+        "64",
+        "93"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1968"
+    },
+    {
+      "id": 1980,
+      "name": "Major de Natzaret - Castell de Pop",
+      "lat": 39.4485387353987,
+      "lon": -0.334608859213673,
+      "lines": [
+        "30",
+        "4",
+        "95"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1980"
+    },
+    {
+      "id": 1981,
+      "name": "Aras de los Olmos - Castell de Pop",
+      "lat": 39.4486416301604,
+      "lon": -0.333058761756897,
+      "lines": [
+        "30",
+        "4",
+        "95"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=1981"
+    },
+    {
+      "id": 2014,
+      "name": "Poeta Querol - Teatre Principal",
+      "lat": 39.47080096636,
+      "lon": -0.374266826202862,
+      "lines": [
+        "16",
+        "26"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2014"
+    },
+    {
+      "id": 2032,
+      "name": "Torres dels Serrans - Les Corts",
+      "lat": 39.4787552200671,
+      "lon": -0.374353591573173,
+      "lines": [
+        "11",
+        "16",
+        "26",
+        "6",
+        "94",
+        "C2"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2032"
+    },
+    {
+      "id": 2041,
+      "name": "Les Arts",
+      "lat": 39.4567913080561,
+      "lon": -0.356689900796534,
+      "lines": [
+        "13",
+        "23",
+        "24",
+        "25",
+        "95"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2041"
+    },
+    {
+      "id": 2042,
+      "name": "Ciutat de la Justícia",
+      "lat": 39.4546172544074,
+      "lon": -0.354344036591131,
+      "lines": [
+        "23",
+        "24",
+        "25",
+        "35",
+        "95"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2042"
+    },
+    {
+      "id": 2043,
+      "name": "Àgora (front)",
+      "lat": 39.4529826709915,
+      "lon": -0.350469975263979,
+      "lines": [
+        "23",
+        "95"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2043"
+    },
+    {
+      "id": 2044,
+      "name": "Oceanogràfic (front)",
+      "lat": 39.452199126768,
+      "lon": -0.347969750457084,
+      "lines": [
+        "23",
+        "95"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2044"
+    },
+    {
+      "id": 2045,
+      "name": "Centre d'Investigació Príncep Felip (front)",
+      "lat": 39.4515593395221,
+      "lon": -0.345021136399184,
+      "lines": [
+        "95"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2045"
+    },
+    {
+      "id": 2046,
+      "name": "Barraques del Figuero (parell) - Llauradors",
+      "lat": 39.4506935037794,
+      "lon": -0.340630675435874,
+      "lines": [
+        "23",
+        "95"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2046"
+    },
+    {
+      "id": 2047,
+      "name": "Barraques del Figuero - Ignacio Zuloaga",
+      "lat": 39.4496246155469,
+      "lon": -0.336234962621704,
+      "lines": [
+        "23",
+        "95"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2047"
+    },
+    {
+      "id": 2048,
+      "name": "Barraques del Figuero - Cocoters",
+      "lat": 39.4497221671781,
+      "lon": -0.336257474914237,
+      "lines": [
+        "23",
+        "95"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2048"
+    },
+    {
+      "id": 2049,
+      "name": "Barraques del Figuero (imparell) - Llauradors",
+      "lat": 39.4507433299317,
+      "lon": -0.340508517707085,
+      "lines": [
+        "23",
+        "95"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2049"
+    },
+    {
+      "id": 2050,
+      "name": "Centre d'Investigació Príncep Felip",
+      "lat": 39.4520085709951,
+      "lon": -0.346680051064043,
+      "lines": [
+        "23",
+        "95"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2050"
+    },
+    {
+      "id": 2051,
+      "name": "Oceanogràfic",
+      "lat": 39.4522824879225,
+      "lon": -0.347969631567491,
+      "lines": [
+        "23",
+        "95"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2051"
+    },
+    {
+      "id": 2052,
+      "name": "Àgora",
+      "lat": 39.4530809435527,
+      "lon": -0.35040498139033,
+      "lines": [
+        "23",
+        "95"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2052"
+    },
+    {
+      "id": 2053,
+      "name": "Museu de les Ciències",
+      "lat": 39.4548086300992,
+      "lon": -0.353449192843842,
+      "lines": [
+        "23",
+        "24",
+        "25",
+        "35",
+        "95"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2053"
+    },
+    {
+      "id": 2054,
+      "name": "Les Arts (riu)",
+      "lat": 39.4570903309636,
+      "lon": -0.35617274622438,
+      "lines": [
+        "13",
+        "23",
+        "24",
+        "25",
+        "95"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2054"
+    },
+    {
+      "id": 2063,
+      "name": "Vinalesa - Cases de Bàrcena",
+      "lat": 39.5228452545642,
+      "lon": -0.357115603788224,
+      "lines": [
+        "16"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2063"
+    },
+    {
+      "id": 2066,
+      "name": "Hospital 9 d'Octubre",
+      "lat": 39.4784319815393,
+      "lon": -0.402821122368005,
+      "lines": [
+        "67",
+        "98",
+        "99"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2066"
+    },
+    {
+      "id": 2070,
+      "name": "Ciutat Administrativa 9 d'Octubre - Cieza",
+      "lat": 39.4717716482467,
+      "lon": -0.405490590049662,
+      "lines": [
+        "73",
+        "95",
+        "98",
+        "99"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2070"
+    },
+    {
+      "id": 2071,
+      "name": "Ciutat Administrativa 9 d'Octubre - Lluís Lamarca",
+      "lat": 39.4710086974194,
+      "lon": -0.405101205419611,
+      "lines": [
+        "73",
+        "95",
+        "98",
+        "99"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2071"
+    },
+    {
+      "id": 2072,
+      "name": "Ciutat Administrativa 9 d'Octubre - Democràcia",
+      "lat": 39.4724511848896,
+      "lon": -0.405338477748361,
+      "lines": [
+        "73",
+        "95"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2072"
+    },
+    {
+      "id": 2084,
+      "name": "Vinalesa",
+      "lat": 39.5338613641683,
+      "lon": -0.36814292798786,
+      "lines": [
+        "16"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2084"
+    },
+    {
+      "id": 2085,
+      "name": "Torrefiel",
+      "lat": 39.4985654593183,
+      "lon": -0.377246386999088,
+      "lines": [
+        "6",
+        "60"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2085"
+    },
+    {
+      "id": 2093,
+      "name": "Parc de Capçalera",
+      "lat": 39.4749512748755,
+      "lon": -0.404308898979097,
+      "lines": [
+        "95"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2093"
+    },
+    {
+      "id": 2094,
+      "name": "Molinell (parell) - Pintor Genaro Lahuerta",
+      "lat": 39.4848320944657,
+      "lon": -0.367053125880754,
+      "lines": [
+        "98"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2094"
+    },
+    {
+      "id": 2095,
+      "name": "Molinell (imparell) - Pintor Genaro Lahuerta",
+      "lat": 39.4849353659343,
+      "lon": -0.36693447717782,
+      "lines": [
+        "98"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2095"
+    },
+    {
+      "id": 2096,
+      "name": "Pío Baroja - Front Bioparc",
+      "lat": 39.4760708452805,
+      "lon": -0.40598490920655,
+      "lines": [
+        "98",
+        "99"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2096"
+    },
+    {
+      "id": 2097,
+      "name": "Vall de la Ballestera (imparell) - Mestre Rodrigo",
+      "lat": 39.4791554687043,
+      "lon": -0.397790086641626,
+      "lines": [
+        "98",
+        "99"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2097"
+    },
+    {
+      "id": 2098,
+      "name": "Hospital 9 d'Octubre (front)",
+      "lat": 39.4784736928499,
+      "lon": -0.400406583377476,
+      "lines": [
+        "98",
+        "99"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2098"
+    },
+    {
+      "id": 2105,
+      "name": "Moncada - Alfara",
+      "lat": 39.542724546048,
+      "lon": -0.38785747089846,
+      "lines": [
+        "26"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2105"
+    },
+    {
+      "id": 2157,
+      "name": "Ausiàs March - Pianista Martínez Carrasco",
+      "lat": 39.4478232853798,
+      "lon": -0.369730404762677,
+      "lines": [
+        "6"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2157"
+    },
+    {
+      "id": 2158,
+      "name": "Bulevard Sud (via de servici) - Hospital La Fe",
+      "lat": 39.4454926268299,
+      "lon": -0.37354961497068,
+      "lines": [
+        "6"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2158"
+    },
+    {
+      "id": 2160,
+      "name": "Burjassot - Marxalenes",
+      "lat": 39.4863834736398,
+      "lon": -0.386892608725581,
+      "lines": [
+        "28",
+        "94"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2160"
+    },
+    {
+      "id": 2206,
+      "name": "Plaça d'Amèrica - Navarro Reverter",
+      "lat": 39.4707143187435,
+      "lon": -0.365785798487213,
+      "lines": [
+        "10",
+        "4",
+        "94"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2206"
+    },
+    {
+      "id": 2213,
+      "name": "Estadi de Mestalla",
+      "lat": 39.4753840941096,
+      "lon": -0.356501298049684,
+      "lines": [
+        "10",
+        "12",
+        "93",
+        "C2"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2213"
+    },
+    {
+      "id": 2219,
+      "name": "Plaça de l'Ajuntament - Barques",
+      "lat": 39.4701034323566,
+      "lon": -0.375857787612168,
+      "lines": [
+        "11",
+        "6",
+        "70",
+        "8"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2219"
+    },
+    {
+      "id": 2220,
+      "name": "Llotja - Mercat Central",
+      "lat": 39.4721217564428,
+      "lon": -0.376821697775168,
+      "lines": [
+        "11",
+        "31",
+        "32",
+        "4",
+        "70"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2220"
+    },
+    {
+      "id": 2221,
+      "name": "Plaça de l'Ajuntament - Correus",
+      "lat": 39.469946737583,
+      "lon": -0.375948191329323,
+      "lines": [
+        "11",
+        "31",
+        "70"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2221"
+    },
+    {
+      "id": 2222,
+      "name": "Plaça de la Reina",
+      "lat": 39.4736105249751,
+      "lon": -0.375816365862231,
+      "lines": [
+        "11",
+        "31",
+        "32",
+        "4",
+        "70"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2222"
+    },
+    {
+      "id": 2223,
+      "name": "Tetuan (exterior)",
+      "lat": 39.4737886769868,
+      "lon": -0.369696659400408,
+      "lines": [
+        "28",
+        "71",
+        "81",
+        "94",
+        "95",
+        "C1"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2223"
+    },
+    {
+      "id": 2227,
+      "name": "Carrer de la Pau",
+      "lat": 39.4731322500328,
+      "lon": -0.372180508434161,
+      "lines": [
+        "11",
+        "16",
+        "26",
+        "31",
+        "32",
+        "4",
+        "6",
+        "70"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2227"
+    },
+    {
+      "id": 2229,
+      "name": "Estació del Cabanyal",
+      "lat": 39.4705552072931,
+      "lon": -0.334646537304726,
+      "lines": [
+        "31",
+        "98",
+        "99"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2229"
+    },
+    {
+      "id": 2231,
+      "name": "Alboraia - Centre d'especialitats",
+      "lat": 39.4818183656779,
+      "lon": -0.370634732470099,
+      "lines": [
+        "11"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2231"
+    },
+    {
+      "id": 2232,
+      "name": "Alboraia - Jaca",
+      "lat": 39.4840813164033,
+      "lon": -0.36946603199726,
+      "lines": [
+        "11"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2232"
+    },
+    {
+      "id": 2233,
+      "name": "Almassora - Argenter Suàrez",
+      "lat": 39.4861380998358,
+      "lon": -0.370674329411132,
+      "lines": [
+        "11"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2233"
+    },
+    {
+      "id": 2234,
+      "name": "Almassora - Pintor Vilar",
+      "lat": 39.4831095177643,
+      "lon": -0.372621445709121,
+      "lines": [
+        "11"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2234"
+    },
+    {
+      "id": 2250,
+      "name": "Porta de la Mar - Navarro Reverter (parell)",
+      "lat": 39.4716747281194,
+      "lon": -0.367746387314484,
+      "lines": [
+        "10",
+        "13",
+        "4",
+        "94",
+        "95"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2250"
+    },
+    {
+      "id": 2252,
+      "name": "Porta de la Mar - Justícia",
+      "lat": 39.4722660511393,
+      "lon": -0.367811813515504,
+      "lines": [
+        "94",
+        "95"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2252"
+    },
+    {
+      "id": 2257,
+      "name": "Palau de Justícia",
+      "lat": 39.4720086697351,
+      "lon": -0.369218148109148,
+      "lines": [
+        "11",
+        "16",
+        "26",
+        "31",
+        "32",
+        "6",
+        "70",
+        "71",
+        "81"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2257"
+    },
+    {
+      "id": 2258,
+      "name": "Colón - Porta de la Mar",
+      "lat": 39.4714672431675,
+      "lon": -0.369197120642059,
+      "lines": [
+        "10",
+        "28",
+        "71",
+        "81",
+        "C1"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2258"
+    },
+    {
+      "id": 2259,
+      "name": "Colón - Metro Colón",
+      "lat": 39.4699522918477,
+      "lon": -0.37097664512185,
+      "lines": [
+        "10",
+        "28",
+        "40",
+        "71",
+        "8",
+        "81",
+        "C1"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2259"
+    },
+    {
+      "id": 2260,
+      "name": "Colón - Pascual i Genís",
+      "lat": 39.4683388392669,
+      "lon": -0.37320834926151,
+      "lines": [
+        "10",
+        "28",
+        "40",
+        "71",
+        "8",
+        "81",
+        "C1"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2260"
+    },
+    {
+      "id": 2261,
+      "name": "Xàtiva - Estació del Nord",
+      "lat": 39.4675146348292,
+      "lon": -0.376495263230755,
+      "lines": [
+        "19",
+        "35",
+        "6",
+        "8"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2261"
+    },
+    {
+      "id": 2262,
+      "name": "Palmaret (parell) - Moncada",
+      "lat": 39.5176119525032,
+      "lon": -0.386440534636649,
+      "lines": [
+        "26"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2262"
+    },
+    {
+      "id": 2263,
+      "name": "La Marina - Metro Neptú",
+      "lat": 39.4631881536072,
+      "lon": -0.325982591456731,
+      "lines": [
+        "95"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2263"
+    },
+    {
+      "id": 2270,
+      "name": "Tarongers (parell) - Metro La Cadena",
+      "lat": 39.475064791748,
+      "lon": -0.329222219366592,
+      "lines": [
+        "93",
+        "98"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2270"
+    },
+    {
+      "id": 2271,
+      "name": "Passeig Marítim - Hospital Malva-rosa",
+      "lat": 39.4744063580763,
+      "lon": -0.324743566668989,
+      "lines": [
+        "93",
+        "98"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2271"
+    },
+    {
+      "id": 2277,
+      "name": "Xàtiva - Institut Lluís Vives",
+      "lat": 39.4679992185698,
+      "lon": -0.378354564971826,
+      "lines": [
+        "10",
+        "11",
+        "28",
+        "31",
+        "60",
+        "62",
+        "7",
+        "70",
+        "71",
+        "72",
+        "73",
+        "9",
+        "C1"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2277"
+    },
+    {
+      "id": 2281,
+      "name": "Pintor Sorolla",
+      "lat": 39.4713789240356,
+      "lon": -0.371312772253265,
+      "lines": [
+        "10",
+        "11",
+        "16",
+        "26",
+        "31",
+        "32",
+        "4",
+        "6",
+        "70",
+        "71",
+        "8",
+        "81"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2281"
+    },
+    {
+      "id": 2284,
+      "name": "Estació Joaquín Sorolla",
+      "lat": 39.4608300853446,
+      "lon": -0.381584271352022,
+      "lines": [
+        "31",
+        "64"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2284"
+    },
+    {
+      "id": 2287,
+      "name": "Editor Manuel Aguilar - Guillem Sorolla",
+      "lat": 39.4727159085246,
+      "lon": -0.380517634262899,
+      "lines": [
+        "11",
+        "60",
+        "62",
+        "73"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2287"
+    },
+    {
+      "id": 2290,
+      "name": "Avinguda de l'Oest - Hospital",
+      "lat": 39.4714327812807,
+      "lon": -0.379805661107022,
+      "lines": [
+        "11",
+        "27",
+        "60",
+        "7",
+        "73"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2290"
+    },
+    {
+      "id": 2291,
+      "name": "Amado Granell Mesado (parell) - Lluís Oliag",
+      "lat": 39.4597294453977,
+      "lon": -0.365578079351122,
+      "lines": [
+        "35",
+        "6"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2291"
+    },
+    {
+      "id": 2292,
+      "name": "Amado Granell Mesado (parell) - La Plata",
+      "lat": 39.4570167779023,
+      "lon": -0.363673843623168,
+      "lines": [
+        "35",
+        "6"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2292"
+    },
+    {
+      "id": 2301,
+      "name": "Félix del Río - Camí de Moncada",
+      "lat": 39.4919572301276,
+      "lon": -0.379714165483542,
+      "lines": [
+        "60"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2301"
+    },
+    {
+      "id": 2303,
+      "name": "Andreu Alfaro - Louis Braille",
+      "lat": 39.4975125062385,
+      "lon": -0.394939846162222,
+      "lines": [
+        "12",
+        "28"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2303"
+    },
+    {
+      "id": 2307,
+      "name": "Campanar - General Avilés (illeta)",
+      "lat": 39.4855336041447,
+      "lon": -0.395912204645251,
+      "lines": [
+        "94"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2307"
+    },
+    {
+      "id": 2312,
+      "name": "Sant Pau - Estació del Nord",
+      "lat": 39.468555071387,
+      "lon": -0.378211535232717,
+      "lines": [
+        "11",
+        "60",
+        "62",
+        "7",
+        "73",
+        "9"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2312"
+    },
+    {
+      "id": 2316,
+      "name": "Marqués de Dosaigües",
+      "lat": 39.4732895830615,
+      "lon": -0.374324381844164,
+      "lines": [
+        "16",
+        "26",
+        "6"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2316"
+    },
+    {
+      "id": 2317,
+      "name": "Pascual i Genís - Roger de Llòria",
+      "lat": 39.468489362073,
+      "lon": -0.373911423518721,
+      "lines": [
+        "14",
+        "35",
+        "6"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2317"
+    },
+    {
+      "id": 2319,
+      "name": "Pare Ferrís (parell) - Gregori Gea",
+      "lat": 39.483148249151,
+      "lon": -0.384808421009376,
+      "lines": [
+        "28"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2319"
+    },
+    {
+      "id": 2324,
+      "name": "França - Camí Fondo del Grao",
+      "lat": 39.4578677473881,
+      "lon": -0.341661804951684,
+      "lines": [
+        "94"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2324"
+    },
+    {
+      "id": 2343,
+      "name": "Vicent Marco Miranda - Lluís Alcanyís",
+      "lat": 39.4477539459057,
+      "lon": -0.373840805465436,
+      "lines": [
+        "6"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2343"
+    },
+    {
+      "id": 2380,
+      "name": "Patraix",
+      "lat": 39.4547638947703,
+      "lon": -0.398543500921043,
+      "lines": [
+        "11"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2380"
+    },
+    {
+      "id": 2381,
+      "name": "Campos Crespo - Fra Juníper Serra",
+      "lat": 39.4561317798851,
+      "lon": -0.396354817746004,
+      "lines": [
+        "11"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2381"
+    },
+    {
+      "id": 2382,
+      "name": "Pius XI - Xera",
+      "lat": 39.4581550825371,
+      "lon": -0.394100420172539,
+      "lines": [
+        "11"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2382"
+    },
+    {
+      "id": 2383,
+      "name": "Humanista Mariner - Fontanars",
+      "lat": 39.4598485427537,
+      "lon": -0.394543655813618,
+      "lines": [
+        "11"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2383"
+    },
+    {
+      "id": 2384,
+      "name": "Humanista Mariner - José Roca Coll",
+      "lat": 39.4583507821493,
+      "lon": -0.396472835206531,
+      "lines": [
+        "11"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2384"
+    },
+    {
+      "id": 2385,
+      "name": "Canonge Tàrrega - Campaners",
+      "lat": 39.4561467937641,
+      "lon": -0.398765453551128,
+      "lines": [
+        "11"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2385"
+    },
+    {
+      "id": 2389,
+      "name": "Llevant Unió Esportiva - Federico Alcácer Aguilar",
+      "lat": 39.4957978891749,
+      "lon": -0.388619798143163,
+      "lines": [
+        "64"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2389"
+    },
+    {
+      "id": 2390,
+      "name": "Arnau de Vilanova - Doctor Mollà",
+      "lat": 39.5351829841307,
+      "lon": -0.369793373891952,
+      "lines": [
+        "16"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2390"
+    },
+    {
+      "id": 2391,
+      "name": "Vinalesa - Plaça d'Ausiàs March",
+      "lat": 39.5357001356401,
+      "lon": -0.368811685644397,
+      "lines": [
+        "16"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2391"
+    },
+    {
+      "id": 2404,
+      "name": "Tetuan (interior)",
+      "lat": 39.4739889154669,
+      "lon": -0.369883941344204,
+      "lines": [
+        "11",
+        "16",
+        "26",
+        "31",
+        "32",
+        "6",
+        "70"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2404"
+    },
+    {
+      "id": 2418,
+      "name": "Teatre Principal - Ballesters",
+      "lat": 39.4711366327286,
+      "lon": -0.374253412914016,
+      "lines": [
+        "6"
+      ],
+      "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2418"
+    }
+  ]
+}

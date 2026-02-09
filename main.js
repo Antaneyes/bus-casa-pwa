@@ -9,9 +9,10 @@ const CONFIG = {
         lon: window.SECRET_CONFIG?.HOME_LON || -0.377689
     },
 
-    USEFUL_LINES: ['11', '6', '16', '26', '98', 'C2', 'C3', 'C1', '94', '95', '60', '64', '28', '79', '80', '89', '90', '5'],
+    USEFUL_LINES: ['11', '6', '16', '26', '98', 'C2', 'C3', 'C1', '94', '95', '60', '64', '28'],
 
-    // Mapeo de números antiguos (API) a nombres comerciales (UI)
+    // Mapeo de números internos API de tiempos a nombres comerciales (UI)
+    // Nota: El GTFS ya usa C1/C2/C3, pero la web de tiempos EMT sigue usando 79/80/89/90/5
     LINE_ALIASES: {
         '79': 'C2',
         '80': 'C2',
@@ -38,17 +39,7 @@ const CONFIG = {
         '60': 1217,   // Doctor Peset Aleixandre - Felip Rinaldi
         '64': 242,    // Doctor Peset Aleixandre - Guardacostes
         '28': 331,    // Burjassot - Centre Cultural Bombas Gens
-        '79': 351,    // C2 Interior
-        '80': 351,    // C2 Exterior
-        '89': 1682,   // C3 Exterior
-        '90': 1682,   // C3 Interior
-        '5': 1305     // C1
     },
-
-    // API de EMT Valencia
-    API_URL: 'https://valencia.opendatasoft.com/api/explore/v2.1/catalog/datasets/emt/records',
-    API_LIMIT: 100, // Límite por petición
-    API_MAX_REQUESTS: 15, // Máximo de peticiones para obtener todas las paradas
 
     // Radio de búsqueda por defecto (metros)
     DEFAULT_RADIUS: 500,
@@ -64,7 +55,7 @@ const CONFIG = {
     IS_NATIVE: window.location.protocol === 'capacitor:' || !!window.Capacitor,
 
     // Configuración de actualizaciones (v74)
-    CURRENT_VERSION: '0.87.0', // Sincronizado con el footer
+    CURRENT_VERSION: '0.88.0', // Sincronizado con el footer
     UPDATE_URL: 'https://raw.githubusercontent.com/Antaneyes/bus-casa-pwa/android-capacitor/update.json'
 };
 
@@ -554,105 +545,40 @@ function handleLocationError(error) {
 }
 
 // ========================================
-// API - CARGAR PARADAS
+// CARGAR PARADAS (desde stops-data.json generado por GTFS)
 // ========================================
 
 async function loadStops() {
     try {
-        showLocationStatus('Cargando paradas de EMT...');
+        showLocationStatus('Cargando paradas...');
 
-        let allResults = [];
-        let offset = 0;
-        let hasMore = true;
-        let requestCount = 0;
+        const response = await fetch('stops-data.json');
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const data = await response.json();
 
-        // Cargar paradas con paginación
-        while (hasMore && requestCount < CONFIG.API_MAX_REQUESTS) {
-            const url = `${CONFIG.API_URL}?limit=${CONFIG.API_LIMIT}&offset=${offset}`;
-            console.log(`🌐 Petición ${requestCount + 1}: offset=${offset}`);
+        console.log(`📦 stops-data.json: ${data.totalStops} paradas (generado: ${data.generated})`);
 
-            let response;
-            // Usar CapacitorHttp si está disponible para evitar problemas de CORS/protocolo en nativo
-            if (CONFIG.IS_NATIVE && window.Capacitor?.Plugins?.CapacitorHttp) {
-                const options = { url };
-                const res = await window.Capacitor.Plugins.CapacitorHttp.get(options);
-                response = {
-                    ok: res.status >= 200 && res.status < 300,
-                    status: res.status,
-                    json: async () => res.data
-                };
-            } else {
-                response = await fetch(url);
-            }
-
-            if (!response.ok) {
-                throw new Error(`Error HTTP: ${response.status}`);
-            }
-
-            const data = await response.json();
-            console.log(`📊 Recibidas ${data.results.length} paradas (total acumulado: ${allResults.length + data.results.length})`);
-
-            allResults = allResults.concat(data.results);
-
-            // Verificar si hay más resultados
-            if (data.results.length < CONFIG.API_LIMIT) {
-                hasMore = false;
-                console.log('✅ Todas las paradas cargadas');
-            } else {
-                offset += CONFIG.API_LIMIT;
-                requestCount++;
-            }
-        }
-
-        console.log(`📦 Total paradas cargadas: ${allResults.length}`);
-        if (allResults.length > 0) {
-            console.log('� Ejemplo de parada:', allResults[0]);
-        }
-
-        // Procesar y filtrar paradas
-        const allProcessed = allResults
-            .filter(stop => !stop.suprimida && !CONFIG.EXCLUDED_STOPS.includes(parseInt(stop.id_parada)))
+        state.allStops = data.stops
+            .filter(stop => !CONFIG.EXCLUDED_STOPS.includes(stop.id) && hasUsefulLine(stop.lines))
             .map(stop => ({
-                id: stop.id_parada,
-                name: stop.denominacion,
-                lines: stop.lineas ? stop.lineas.split(',').map(l => l.trim()) : [],
-                coords: {
-                    lat: stop.geo_point_2d.lat,
-                    lon: stop.geo_point_2d.lon
-                },
-                arrivalsUrl: stop.proximas_llegadas
+                ...stop,
+                coords: { lat: stop.lat, lon: stop.lon }
             }));
 
-        console.log(`📍 Paradas procesadas (sin suprimir): ${allProcessed.length}`);
-        console.log('🔍 Líneas útiles configuradas:', CONFIG.USEFUL_LINES);
-
-        state.allStops = allProcessed.filter(stop => hasUsefulLine(stop.lines));
-
-        // Cachear mapa de paradas por ID para acceso rápido en filterAndDisplayStops
         state.stopsById = new Map();
         state.allStops.forEach(stop => state.stopsById.set(stop.id, stop));
 
         console.log(`✅ Paradas con líneas útiles: ${state.allStops.length}`);
-        if (state.allStops.length > 0) {
-            console.log('📋 Ejemplo de parada útil:', state.allStops[0]);
-        } else {
-            console.warn('⚠️ NO SE ENCONTRARON PARADAS CON LÍNEAS ÚTILES');
-            console.log('🔎 Verificando algunas paradas al azar:');
-            allProcessed.slice(0, 10).forEach(stop => {
-                console.log(`  - ${stop.name}: líneas [${stop.lines.join(', ')}]`);
-            });
-        }
 
         hideLocationStatus();
 
-        // Si ya tenemos ubicación, filtrar y mostrar
         if (state.userLocation) {
             filterAndDisplayStops();
         }
 
     } catch (error) {
         console.error('❌ Error cargando paradas:', error);
-        showError('Error al cargar las paradas de EMT');
+        showError('Error al cargar las paradas');
     }
 }
 
@@ -664,127 +590,8 @@ function hasUsefulLine(lines) {
     return lines.some(line => CONFIG.USEFUL_LINES.includes(line));
 }
 
-function filterAndDisplayStops() {
-    if (!state.userLocation) {
-        console.log('⏳ Esperando ubicación del usuario...');
-        return;
-    }
-
-    console.log('📍 Ubicación del usuario:', state.userLocation);
-    console.log('🏠 Ubicación de casa:', CONFIG.HOME_COORDS);
-    console.log(`📏 Radio de búsqueda: ${state.selectedRadius}m`);
-    console.log(`🏪 Total paradas útiles disponibles: ${state.allStops.length}`);
-
-    // Calcular distancias y puntuar paradas
-    const stopsWithDistance = state.allStops
-        .map(stop => {
-            // Distancia desde tu ubicación actual a la parada de subida
-            const distanceToStop = calculateDistance(
-                state.userLocation.lat,
-                state.userLocation.lon,
-                stop.coords.lat,
-                stop.coords.lon
-            );
-
-            // Calcular la distancia mínima a casa considerando todas las líneas de esta parada
-            let minDistanceToHome = Infinity;
-            let bestLine = null;
-            let bestDestinationStop = null;
-
-            stop.lines.forEach(line => {
-                const destinationStopId = CONFIG.DESTINATION_STOPS[line];
-                if (destinationStopId) {
-                    const destinationStop = state.stopsById.get(destinationStopId);
-                    if (destinationStop) {
-                        const distanceToHome = calculateDistance(
-                            destinationStop.coords.lat,
-                            destinationStop.coords.lon,
-                            CONFIG.HOME_COORDS.lat,
-                            CONFIG.HOME_COORDS.lon
-                        );
-
-                        if (distanceToHome < minDistanceToHome) {
-                            minDistanceToHome = distanceToHome;
-                            bestLine = line;
-                            bestDestinationStop = destinationStop;
-                        }
-                    }
-                }
-            });
-
-            // Si no encontramos parada de destino, usar la distancia directa (fallback)
-            const distanceStopToHome = minDistanceToHome !== Infinity ? minDistanceToHome :
-                calculateDistance(
-                    stop.coords.lat,
-                    stop.coords.lon,
-                    CONFIG.HOME_COORDS.lat,
-                    CONFIG.HOME_COORDS.lon
-                );
-
-            // Calcular dirección
-            const direction = calculateDirection(
-                state.userLocation.lat,
-                state.userLocation.lon,
-                stop.coords.lat,
-                stop.coords.lon
-            );
-
-            // Sistema de puntuación inteligente (menor es mejor)
-            // Se prioriza la cercanía a la parada (60%) sobre la distancia de la parada a casa (40%).
-            // Esto asegura que no caminemos demasiado hasta una parada lejana aunque nos deje en la puerta.
-            const score = (distanceToStop * 0.6) + (distanceStopToHome * 0.4);
-
-            return {
-                ...stop,
-                distanceToStop,
-                distanceStopToHome,
-                direction,
-                score,
-                bestLine,
-                bestDestinationStop,
-            };
-        });
-
-    // Mostrar las 5 paradas mejor puntuadas para debug
-    const topScored = stopsWithDistance
-        .sort((a, b) => a.score - b.score)
-        .slice(0, 5);
-
-    console.log('🏆 Top 5 paradas mejor puntuadas:');
-    topScored.forEach((stop, index) => {
-        console.log(`  ${index + 1}. ${stop.name}`);
-        console.log(`     📍 A parada: ${stop.distanceToStop}m`);
-        if (stop.bestLine && stop.bestDestinationStop) {
-            console.log(`     🚌 Mejor línea: ${stop.bestLine} → ${stop.bestDestinationStop.name}`);
-        }
-        console.log(`     🏠 Te deja a: ${stop.distanceStopToHome}m de casa`);
-        console.log(`     ⭐ Score: ${Math.round(stop.score)}m`);
-    });
-
-    // Filtrar por radio y ordenar por puntuación (mejor primero)
-    const stopsInRadius = stopsWithDistance
-        .filter(stop => stop.distanceToStop <= state.selectedRadius)
-        .sort((a, b) => a.score - b.score);
-
-    // Simplificado: Mostrar simplemente las 10 mejores paradas en radio (sin filtro de duplicados)
-    // El usuario prefiere ver todo lo disponible sin que el sistema elija por él
-    state.filteredStops = stopsInRadius.slice(0, 10);
-    const shownLines = new Set();
-    state.filteredStops.forEach(stop => {
-        stop.lines.filter(line => CONFIG.USEFUL_LINES.includes(line))
-            .forEach(l => shownLines.add(l));
-    });
-
-    console.log(`✅ Paradas dentro del radio de ${state.selectedRadius}m: ${state.filteredStops.length}`);
-    console.log(`📋 Líneas útiles cubiertas: ${Array.from(shownLines).join(', ')}`);
-
-    // Actualizar UI
-    displayStops();
-    updateMapMarkers();
-}
-
 function calculateDistance(lat1, lon1, lat2, lon2) {
-    const R = 6371e3; // Radio de la Tierra en metros
+    const R = 6371e3;
     const φ1 = lat1 * Math.PI / 180;
     const φ2 = lat2 * Math.PI / 180;
     const Δφ = (lat2 - lat1) * Math.PI / 180;
@@ -795,24 +602,114 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
         Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
-    return Math.round(R * c); // Distancia en metros
+    return Math.round(R * c);
+}
+
+function calculateBearing(lat1, lon1, lat2, lon2) {
+    const toRad = v => v * Math.PI / 180;
+    const dLon = toRad(lon2 - lon1);
+    const phi1 = toRad(lat1);
+    const phi2 = toRad(lat2);
+    const y = Math.sin(dLon) * Math.cos(phi2);
+    const x = Math.cos(phi1) * Math.sin(phi2) - Math.sin(phi1) * Math.cos(phi2) * Math.cos(dLon);
+    return (Math.atan2(y, x) * 180 / Math.PI + 360) % 360;
 }
 
 function calculateDirection(lat1, lon1, lat2, lon2) {
-    const Δλ = (lon2 - lon1) * Math.PI / 180;
-    const φ1 = lat1 * Math.PI / 180;
-    const φ2 = lat2 * Math.PI / 180;
-
-    const y = Math.sin(Δλ) * Math.cos(φ2);
-    const x = Math.cos(φ1) * Math.sin(φ2) -
-        Math.sin(φ1) * Math.cos(φ2) * Math.cos(Δλ);
-    const θ = Math.atan2(y, x);
-    const bearing = (θ * 180 / Math.PI + 360) % 360;
-
-    // Convertir grados a dirección cardinal
+    const bearing = calculateBearing(lat1, lon1, lat2, lon2);
     const directions = ['N', 'NE', 'E', 'SE', 'S', 'SO', 'O', 'NO'];
-    const index = Math.round(bearing / 45) % 8;
-    return directions[index];
+    return directions[Math.round(bearing / 45) % 8];
+}
+
+function isHeadingHome(stop, destinationStop) {
+    const distToDest = calculateDistance(
+        stop.coords.lat, stop.coords.lon,
+        destinationStop.coords.lat, destinationStop.coords.lon
+    );
+    if (distToDest < 300) return true;
+
+    const bearingToDest = calculateBearing(
+        stop.coords.lat, stop.coords.lon,
+        destinationStop.coords.lat, destinationStop.coords.lon
+    );
+    const bearingToHome = calculateBearing(
+        stop.coords.lat, stop.coords.lon,
+        CONFIG.HOME_COORDS.lat, CONFIG.HOME_COORDS.lon
+    );
+
+    let diff = Math.abs(bearingToDest - bearingToHome);
+    if (diff > 180) diff = 360 - diff;
+    return diff < 90;
+}
+
+function filterAndDisplayStops() {
+    if (!state.userLocation) return;
+
+    // 1. Pre-filtrar por radio
+    const inRadius = state.allStops
+        .map(stop => ({
+            ...stop,
+            distanceToStop: calculateDistance(
+                state.userLocation.lat, state.userLocation.lon,
+                stop.coords.lat, stop.coords.lon
+            )
+        }))
+        .filter(stop => stop.distanceToStop <= state.selectedRadius);
+
+    // 2. Calcular bestLine, dirección, distanceStopToHome, headingHome
+    const scored = inRadius.map(stop => {
+        let minDistanceToHome = Infinity;
+        let bestLine = null;
+        let bestDestinationStop = null;
+
+        stop.lines.forEach(line => {
+            const destId = CONFIG.DESTINATION_STOPS[line];
+            if (!destId) return;
+            const destStop = state.stopsById.get(destId);
+            if (!destStop) return;
+            const dist = calculateDistance(
+                destStop.coords.lat, destStop.coords.lon,
+                CONFIG.HOME_COORDS.lat, CONFIG.HOME_COORDS.lon
+            );
+            if (dist < minDistanceToHome) {
+                minDistanceToHome = dist;
+                bestLine = line;
+                bestDestinationStop = destStop;
+            }
+        });
+
+        const distanceStopToHome = minDistanceToHome !== Infinity
+            ? minDistanceToHome
+            : calculateDistance(stop.coords.lat, stop.coords.lon, CONFIG.HOME_COORDS.lat, CONFIG.HOME_COORDS.lon);
+
+        const headingHome = bestDestinationStop ? isHeadingHome(stop, bestDestinationStop) : true;
+
+        const direction = calculateDirection(
+            state.userLocation.lat, state.userLocation.lon,
+            stop.coords.lat, stop.coords.lon
+        );
+
+        return { ...stop, distanceStopToHome, direction, bestLine, bestDestinationStop, headingHome };
+    });
+
+    // 3. Filtrar por dirección
+    const homeward = scored.filter(s => s.headingHome);
+
+    // 4. Normalizar y calcular score
+    const maxDestDist = Math.max(...homeward.map(s => s.distanceStopToHome), 1);
+    homeward.forEach(s => {
+        const normalizedDest = s.distanceStopToHome / maxDestDist;
+        s.score = s.distanceToStop + (normalizedDest * 150);
+    });
+
+    // 5. Ordenar y tomar top 10
+    homeward.sort((a, b) => a.score - b.score);
+    state.filteredStops = homeward.slice(0, 10);
+
+    console.log(`📏 Radio: ${state.selectedRadius}m | En radio: ${inRadius.length} | Hacia casa: ${homeward.length} | Mostradas: ${state.filteredStops.length}`);
+
+    displayStops();
+    updateMapMarkers();
 }
 
 // ========================================
