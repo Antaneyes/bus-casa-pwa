@@ -238,6 +238,89 @@ async function main() {
 
     console.log(`   ${shapeDestSeq.size} shapes contienen destination stop (de ${shapeInfo.size} total)`);
 
+    // 7b. Encadenar shapes de la misma línea
+    // Algunas líneas (ej: C3 circular) se dividen en múltiples shapes consecutivos.
+    // Si shape A termina en parada X, y shape B empieza en X y contiene la destination,
+    // entonces shape A también es "homeward" (todas sus paradas van hacia la destination).
+    console.log('🔗 Encadenando shapes consecutivos...');
+
+    // Construir mapa: para cada línea, shapes que empiezan/terminan en cada parada
+    const lineShapeEndpoints = new Map(); // line -> { byFirst: Map<stopId, [shapeId]>, byLast: Map<stopId, [shapeId]> }
+    for (const [shapeId, si] of shapeInfo) {
+        const line = si.route;
+        if (!USEFUL_LINES.includes(line)) continue;
+
+        // Encontrar primera y última parada del shape
+        let minSeq = Infinity, maxSeq = -Infinity, firstStop = null, lastStop = null;
+        for (const [sid, seq] of si.stopSeqs) {
+            if (seq < minSeq) { minSeq = seq; firstStop = sid; }
+            if (seq > maxSeq) { maxSeq = seq; lastStop = sid; }
+        }
+
+        if (!lineShapeEndpoints.has(line)) {
+            lineShapeEndpoints.set(line, { byFirst: new Map(), byLast: new Map() });
+        }
+        const ep = lineShapeEndpoints.get(line);
+        if (firstStop) {
+            if (!ep.byFirst.has(firstStop)) ep.byFirst.set(firstStop, []);
+            ep.byFirst.get(firstStop).push(shapeId);
+        }
+        if (lastStop) {
+            if (!ep.byLast.has(lastStop)) ep.byLast.set(lastStop, []);
+            ep.byLast.get(lastStop).push(shapeId);
+        }
+    }
+
+    // Para cada shape sin destination, ver si encadena con uno que sí la tiene
+    let chainCount = 0;
+    for (const [shapeId, si] of shapeInfo) {
+        if (shapeDestSeq.has(shapeId)) continue; // Ya tiene destination
+        const line = si.route;
+        if (!USEFUL_LINES.includes(line)) continue;
+
+        // Encontrar última parada de este shape
+        let maxSeq = -Infinity, lastStop = null;
+        for (const [sid, seq] of si.stopSeqs) {
+            if (seq > maxSeq) { maxSeq = seq; lastStop = sid; }
+        }
+        if (!lastStop) continue;
+
+        // Buscar shapes de la misma línea que empiecen donde este termina
+        const ep = lineShapeEndpoints.get(line);
+        if (!ep) continue;
+
+        // También buscar por proximidad (la última parada puede no ser exactamente la misma)
+        const lastCoords = stopCoords.get(lastStop);
+        const candidateFirstStops = new Set();
+        if (ep.byFirst.has(lastStop)) {
+            candidateFirstStops.add(lastStop);
+        }
+        if (lastCoords) {
+            for (const [firstStopId] of ep.byFirst) {
+                const fc = stopCoords.get(firstStopId);
+                if (fc && haversineDistance(lastCoords.lat, lastCoords.lon, fc.lat, fc.lon) <= HOMEWARD_THRESHOLD) {
+                    candidateFirstStops.add(firstStopId);
+                }
+            }
+        }
+
+        for (const firstStopId of candidateFirstStops) {
+            const nextShapes = ep.byFirst.get(firstStopId) || [];
+            for (const nextShapeId of nextShapes) {
+                if (shapeDestSeq.has(nextShapeId)) {
+                    // Este shape encadena con uno que tiene la destination
+                    // Marcarlo como homeward con destSeq = maxSeq + 1 (todas sus paradas son "antes")
+                    shapeDestSeq.set(shapeId, maxSeq + 1);
+                    chainCount++;
+                    break;
+                }
+            }
+            if (shapeDestSeq.has(shapeId)) break;
+        }
+    }
+
+    console.log(`   ${chainCount} shapes encadenados (total homeward: ${shapeDestSeq.size})`);
+
     // 8. Para cada parada, determinar linesHomeward
     const isUsefulLine = (name) => USEFUL_LINES.includes(name);
 
