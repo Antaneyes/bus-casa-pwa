@@ -173,6 +173,8 @@ const state = {
     selectedRadius: CONFIG.DEFAULT_RADIUS,
     map: null,
     markers: [],
+    markersById: new Map(),
+    highlightedStopId: null,
     userMarker: null,
     useFakeLocation: false,
     fakeLocation: null,
@@ -770,6 +772,14 @@ function displayStops() {
     `;
     }).join('');
 
+    // Click en tarjeta -> resaltar en mapa y centrar
+    document.querySelectorAll('.stop-card').forEach(card => {
+        card.addEventListener('click', () => {
+            const stopId = parseInt(card.dataset.stopId) || card.dataset.stopId;
+            highlightStopOnMap(stopId);
+        });
+    });
+
     // Añadir event listeners a los botones de tiempos
     document.querySelectorAll('.btn-show-arrivals').forEach(button => {
         button.addEventListener('click', async (e) => {
@@ -1028,28 +1038,57 @@ function updateUserMarker() {
     }
 }
 
+function stopMarkerIcon(highlighted) {
+    const size = highlighted ? 40 : 30;
+    const bg = highlighted ? '#6366f1' : '#ec4899';
+    const border = highlighted ? '4px solid #fbbf24' : '3px solid white';
+    const shadow = highlighted ? '0 0 15px rgba(99,102,241,0.6)' : '0 2px 10px rgba(0,0,0,0.3)';
+    const fontSize = highlighted ? '20px' : '16px';
+    return L.divIcon({
+        className: 'stop-marker',
+        html: `<div style="background:${bg}; width:${size}px; height:${size}px; border-radius:50%; border:${border}; box-shadow:${shadow}; display:flex; align-items:center; justify-content:center; font-size:${fontSize}; transition:all 0.3s;">🚌</div>`,
+        iconSize: [size, size],
+        iconAnchor: [size / 2, size / 2]
+    });
+}
+
 function updateMapMarkers() {
-    // Limpiar marcadores anteriores
     state.markers.forEach(marker => state.map.removeLayer(marker));
     state.markers = [];
+    state.markersById = new Map();
+    state.highlightedStopId = null;
 
-    // Añadir marcadores de paradas
     state.filteredStops.forEach(stop => {
         const marker = L.marker([stop.coords.lat, stop.coords.lon], {
-            icon: L.divIcon({
-                className: 'stop-marker',
-                html: '<div style="background: #ec4899; width: 30px; height: 30px; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 10px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; font-size: 16px;">🚌</div>',
-                iconSize: [30, 30]
-            })
+            icon: stopMarkerIcon(false)
         }).addTo(state.map);
 
-        // En lugar de un popup, abrir el Drawer al hacer clic
         marker.on('click', () => {
             openStopDrawer(stop);
         });
 
         state.markers.push(marker);
+        state.markersById.set(stop.id, marker);
     });
+}
+
+function highlightStopOnMap(stopId) {
+    // Quitar highlight anterior
+    if (state.highlightedStopId != null) {
+        const prev = state.markersById.get(state.highlightedStopId);
+        if (prev) prev.setIcon(stopMarkerIcon(false));
+    }
+
+    const marker = state.markersById.get(stopId);
+    if (!marker) return;
+
+    marker.setIcon(stopMarkerIcon(true));
+    state.highlightedStopId = stopId;
+
+    const stop = state.filteredStops.find(s => s.id === stopId);
+    if (stop) {
+        state.map.flyTo([stop.coords.lat, stop.coords.lon], 17, { duration: 0.5 });
+    }
 }
 
 // Función global para cargar tiempos en el popup del mapa
