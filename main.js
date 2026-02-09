@@ -236,7 +236,6 @@ async function initializeApp() {
     console.log(`🔍 Detección de entorno: protocol=${window.location.protocol}, Capacitor=${!!window.Capacitor}, IS_NATIVE=${isNative}`);
 
     if (isNative) {
-        applyNativeUIConfig();
         console.log('📱 Entorno nativo detectado, iniciando checkUpdates...');
         checkUpdates();
     } else {
@@ -629,6 +628,10 @@ async function loadStops() {
 
         state.allStops = allProcessed.filter(stop => hasUsefulLine(stop.lines));
 
+        // Cachear mapa de paradas por ID para acceso rápido en filterAndDisplayStops
+        state.stopsById = new Map();
+        state.allStops.forEach(stop => state.stopsById.set(stop.id, stop));
+
         console.log(`✅ Paradas con líneas útiles: ${state.allStops.length}`);
         if (state.allStops.length > 0) {
             console.log('📋 Ejemplo de parada útil:', state.allStops[0]);
@@ -672,12 +675,6 @@ function filterAndDisplayStops() {
     console.log(`📏 Radio de búsqueda: ${state.selectedRadius}m`);
     console.log(`🏪 Total paradas útiles disponibles: ${state.allStops.length}`);
 
-    // Crear un mapa de paradas de destino para acceso rápido
-    const destinationStopsMap = new Map();
-    state.allStops.forEach(stop => {
-        destinationStopsMap.set(stop.id, stop);
-    });
-
     // Calcular distancias y puntuar paradas
     const stopsWithDistance = state.allStops
         .map(stop => {
@@ -697,7 +694,7 @@ function filterAndDisplayStops() {
             stop.lines.forEach(line => {
                 const destinationStopId = CONFIG.DESTINATION_STOPS[line];
                 if (destinationStopId) {
-                    const destinationStop = destinationStopsMap.get(destinationStopId);
+                    const destinationStop = state.stopsById.get(destinationStopId);
                     if (destinationStop) {
                         const distanceToHome = calculateDistance(
                             destinationStop.coords.lat,
@@ -745,7 +742,6 @@ function filterAndDisplayStops() {
                 score,
                 bestLine,
                 bestDestinationStop,
-                isBackwards: false
             };
         });
 
@@ -1417,7 +1413,7 @@ function mapElements() {
     elements.map = document.getElementById('map');
     elements.stopsList = document.getElementById('stops-list');
     elements.stopsCount = document.getElementById('stops-count');
-    elements.radioBtns = document.querySelectorAll('.radio-btn');
+
     elements.locateBtn = document.getElementById('locate-btn');
     elements.themeToggle = document.getElementById('theme-toggle');
     elements.themeIcon = document.querySelector('.theme-icon');

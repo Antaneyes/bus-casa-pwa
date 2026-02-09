@@ -1,5 +1,5 @@
 # Dockerfile para Bus Casa PWA
-FROM nginx:alpine
+FROM nginx:1.27-alpine
 
 # Copiar archivos de la aplicación
 COPY index.html /usr/share/nginx/html/
