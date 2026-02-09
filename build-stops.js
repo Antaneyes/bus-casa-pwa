@@ -6,6 +6,8 @@
  *
  * Descarga el GTFS ZIP del portal de datos abiertos de Valencia,
  * extrae las paradas con sus líneas y genera un JSON estático.
+ * Determina qué líneas van "hacia casa" en cada parada usando las
+ * terminales de cada shape del GTFS.
  */
 
 const fs = require('fs');
@@ -21,10 +23,18 @@ const OUTPUT_FILE = path.join(__dirname, 'stops-data.json');
 const ZIP_FILE = path.join(TEMP_DIR, 'google_transit.zip');
 
 // Líneas útiles (mismas que CONFIG.USEFUL_LINES en main.js)
-const USEFUL_LINES = ['11', '6', '16', '26', '98', 'C2', 'C3', 'C1', '94', '95', '60', '64', '28', '79', '80', '89', '90', '5'];
+const USEFUL_LINES = ['11', '6', '16', '26', '98', 'C2', 'C3', 'C1', '94', '95', '60', '64', '28'];
 
-// Aliases de líneas (route_short_name en GTFS puede ser diferente)
-const LINE_ALIASES = { '79': 'C2', '80': 'C2', '89': 'C3', '90': 'C3', '5': 'C1' };
+// Paradas de destino cerca de casa por línea (mismas que CONFIG.DESTINATION_STOPS en main.js)
+const DESTINATION_STOPS = {
+    '11': 215, '6': 322, '16': 322, '26': 322, '98': 1808,
+    'C1': 1305, 'C2': 351, 'C3': 1682, '94': 351, '95': 343,
+    '60': 1217, '64': 242, '28': 331
+};
+
+// Distancia máxima (metros) entre cualquier parada del shape y la destination stop
+// para considerar que el shape "pasa por" la destination stop
+const HOMEWARD_THRESHOLD = 300;
 
 function download(url, dest) {
     return new Promise((resolve, reject) => {
@@ -50,7 +60,6 @@ function download(url, dest) {
 function parseCSV(content) {
     const lines = content.split('\n').filter(l => l.trim());
     if (lines.length === 0) return [];
-
     const headers = parseCSVLine(lines[0]);
     const rows = [];
     for (let i = 1; i < lines.length; i++) {
@@ -71,18 +80,12 @@ function parseCSVLine(line) {
     for (let i = 0; i < line.length; i++) {
         const ch = line[i];
         if (ch === '"') {
-            if (inQuotes && line[i + 1] === '"') {
-                current += '"';
-                i++;
-            } else {
-                inQuotes = !inQuotes;
-            }
+            if (inQuotes && line[i + 1] === '"') { current += '"'; i++; }
+            else inQuotes = !inQuotes;
         } else if (ch === ',' && !inQuotes) {
             result.push(current.trim());
             current = '';
-        } else if (ch === '\r') {
-            // skip
-        } else {
+        } else if (ch !== '\r') {
             current += ch;
         }
     }
@@ -90,13 +93,20 @@ function parseCSVLine(line) {
     return result;
 }
 
+function haversineDistance(lat1, lon1, lat2, lon2) {
+    const R = 6371e3;
+    const toRad = v => v * Math.PI / 180;
+    const dLat = toRad(lat2 - lat1);
+    const dLon = toRad(lon2 - lon1);
+    const a = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+
 async function main() {
     console.log('🚌 Build stops-data.json desde GTFS EMT Valencia\n');
 
     // 1. Preparar directorio temporal
-    if (fs.existsSync(TEMP_DIR)) {
-        fs.rmSync(TEMP_DIR, { recursive: true });
-    }
+    if (fs.existsSync(TEMP_DIR)) fs.rmSync(TEMP_DIR, { recursive: true });
     fs.mkdirSync(TEMP_DIR, { recursive: true });
 
     // 2. Descargar GTFS
@@ -106,8 +116,7 @@ async function main() {
 
     // 3. Descomprimir
     console.log('📦 Descomprimiendo...');
-    const platform = process.platform;
-    if (platform === 'win32') {
+    if (process.platform === 'win32') {
         execSync(`powershell -Command "Expand-Archive -Path '${ZIP_FILE}' -DestinationPath '${TEMP_DIR}' -Force"`, { stdio: 'pipe' });
     } else {
         execSync(`unzip -o "${ZIP_FILE}" -d "${TEMP_DIR}"`, { stdio: 'pipe' });
@@ -116,91 +125,164 @@ async function main() {
 
     // 4. Leer archivos GTFS
     console.log('📖 Leyendo archivos GTFS...');
-
-    const stopsRaw = fs.readFileSync(path.join(TEMP_DIR, 'stops.txt'), 'utf-8');
-    const routesRaw = fs.readFileSync(path.join(TEMP_DIR, 'routes.txt'), 'utf-8');
-    const tripsRaw = fs.readFileSync(path.join(TEMP_DIR, 'trips.txt'), 'utf-8');
+    const stops = parseCSV(fs.readFileSync(path.join(TEMP_DIR, 'stops.txt'), 'utf-8'));
+    const routes = parseCSV(fs.readFileSync(path.join(TEMP_DIR, 'routes.txt'), 'utf-8'));
+    const trips = parseCSV(fs.readFileSync(path.join(TEMP_DIR, 'trips.txt'), 'utf-8'));
     const stopTimesRaw = fs.readFileSync(path.join(TEMP_DIR, 'stop_times.txt'), 'utf-8');
-
-    const stops = parseCSV(stopsRaw);
-    const routes = parseCSV(routesRaw);
-    const trips = parseCSV(tripsRaw);
 
     console.log(`   stops.txt: ${stops.length} paradas`);
     console.log(`   routes.txt: ${routes.length} rutas`);
     console.log(`   trips.txt: ${trips.length} viajes`);
 
+    // Mapa de coordenadas de paradas para cálculos de distancia
+    const stopCoords = new Map();
+    stops.forEach(s => stopCoords.set(s.stop_id, { lat: parseFloat(s.stop_lat), lon: parseFloat(s.stop_lon) }));
+
     // 5. Construir mapeos
-    // route_id -> route_short_name
     const routeNameMap = new Map();
     routes.forEach(r => routeNameMap.set(r.route_id, r.route_short_name));
 
-    // trip_id -> route_short_name
-    const tripRouteMap = new Map();
-    trips.forEach(t => tripRouteMap.set(t.trip_id, routeNameMap.get(t.route_id)));
+    // trip_id -> { route (short_name), shape_id }
+    const tripInfoMap = new Map();
+    trips.forEach(t => {
+        tripInfoMap.set(t.trip_id, {
+            route: routeNameMap.get(t.route_id),
+            shape: t.shape_id
+        });
+    });
 
-    // stop_id -> Set de route_short_names
-    console.log('📊 Procesando stop_times.txt (puede tardar unos segundos)...');
-    const stopLines = new Map();
-
-    // Procesar stop_times línea por línea para eficiencia de memoria
+    // 6. Procesar stop_times: recopilar paradas por shape y líneas por parada
+    console.log('📊 Procesando stop_times.txt...');
     const stLines = stopTimesRaw.split('\n');
     const stHeaders = parseCSVLine(stLines[0]);
     const tripIdIdx = stHeaders.indexOf('trip_id');
     const stopIdIdx = stHeaders.indexOf('stop_id');
+    const seqIdx = stHeaders.indexOf('stop_sequence');
+
+    // stop_id -> Set<line> (todas las líneas)
+    const stopAllLines = new Map();
+    // shape_id -> { route, stopSeqs: Map<stop_id, sequence> }
+    const shapeInfo = new Map();
+    // stop_id -> Map<line, Set<shape_id>>
+    const stopLineShapes = new Map();
 
     for (let i = 1; i < stLines.length; i++) {
         const line = stLines[i].trim();
         if (!line) continue;
-        // Optimization: fast split since stop_times has no quoted fields
         const parts = line.split(',');
         const tripId = parts[tripIdIdx]?.trim();
         const stopId = parts[stopIdIdx]?.trim();
+        const seq = parseInt(parts[seqIdx]?.trim());
         if (!tripId || !stopId) continue;
 
-        const routeName = tripRouteMap.get(tripId);
-        if (!routeName) continue;
+        const info = tripInfoMap.get(tripId);
+        if (!info || !info.route) continue;
 
-        if (!stopLines.has(stopId)) stopLines.set(stopId, new Set());
-        stopLines.get(stopId).add(routeName);
+        // Todas las líneas por parada
+        if (!stopAllLines.has(stopId)) stopAllLines.set(stopId, new Set());
+        stopAllLines.get(stopId).add(info.route);
+
+        // Paradas por shape con secuencia (guardar la menor secuencia por stop)
+        if (!shapeInfo.has(info.shape)) {
+            shapeInfo.set(info.shape, { route: info.route, stopSeqs: new Map() });
+        }
+        const si = shapeInfo.get(info.shape);
+        if (!si.stopSeqs.has(stopId) || seq < si.stopSeqs.get(stopId)) {
+            si.stopSeqs.set(stopId, seq);
+        }
+
+        // Shapes por línea por parada
+        if (!stopLineShapes.has(stopId)) stopLineShapes.set(stopId, new Map());
+        const lineShapes = stopLineShapes.get(stopId);
+        if (!lineShapes.has(info.route)) lineShapes.set(info.route, new Set());
+        lineShapes.get(info.route).add(info.shape);
     }
 
-    console.log(`   stop_times procesados: ${stopLines.size} paradas con líneas`);
+    console.log(`   ${stopAllLines.size} paradas con líneas, ${shapeInfo.size} shapes`);
 
-    // 6. Generar output
-    const isUsefulLine = (lineName) => {
-        if (USEFUL_LINES.includes(lineName)) return true;
-        // Check aliases
-        const aliased = LINE_ALIASES[lineName];
-        if (aliased && USEFUL_LINES.includes(aliased)) return true;
-        return false;
-    };
+    // 7. Para cada shape, determinar la secuencia de la destination stop (si existe)
+    // Un shape lleva "hacia casa" a una parada si:
+    //   - La destination stop está en el recorrido del shape (o una parada muy cercana)
+    //   - La destination stop aparece DESPUÉS de la parada candidata en la secuencia
+    console.log('🏠 Determinando dirección de cada shape...');
+
+    // shape_id -> { destSeq: number } para shapes que contienen la destination stop
+    const shapeDestSeq = new Map();
+
+    for (const [shapeId, si] of shapeInfo) {
+        const line = si.route;
+        const destStopId = DESTINATION_STOPS[line];
+        if (!destStopId) continue;
+
+        const destStopIdStr = String(destStopId);
+
+        // Comprobación directa
+        if (si.stopSeqs.has(destStopIdStr)) {
+            shapeDestSeq.set(shapeId, si.stopSeqs.get(destStopIdStr));
+            continue;
+        }
+
+        // Comprobación por proximidad
+        const destCoords = stopCoords.get(destStopIdStr);
+        if (!destCoords) continue;
+
+        for (const [sid, seq] of si.stopSeqs) {
+            const sc = stopCoords.get(sid);
+            if (!sc) continue;
+            if (haversineDistance(sc.lat, sc.lon, destCoords.lat, destCoords.lon) <= HOMEWARD_THRESHOLD) {
+                shapeDestSeq.set(shapeId, seq);
+                break;
+            }
+        }
+    }
+
+    console.log(`   ${shapeDestSeq.size} shapes contienen destination stop (de ${shapeInfo.size} total)`);
+
+    // 8. Para cada parada, determinar linesHomeward
+    const isUsefulLine = (name) => USEFUL_LINES.includes(name);
 
     const outputStops = [];
     stops.forEach(stop => {
         const stopId = stop.stop_id;
-        const lines = stopLines.get(stopId);
-        if (!lines) return;
+        const allLines = stopAllLines.get(stopId);
+        if (!allLines) return;
 
-        const lineArray = Array.from(lines);
+        const lineArray = Array.from(allLines);
         const hasUseful = lineArray.some(l => isUsefulLine(l));
         if (!hasUseful) return;
 
-        // Extraer ID numérico del stop_id (GTFS puede tener prefijos)
-        // EMT Valencia usa IDs numéricos directamente
-        const numericId = parseInt(stopId);
+        // Determinar qué líneas útiles van hacia casa en esta parada
+        // Una línea va hacia casa si hay un shape donde esta parada aparece ANTES de la destination stop
+        const linesHomeward = [];
+        const lineShapes = stopLineShapes.get(stopId);
+        if (lineShapes) {
+            for (const [line, shapes] of lineShapes) {
+                if (!isUsefulLine(line)) continue;
+                for (const shapeId of shapes) {
+                    const destSeq = shapeDestSeq.get(shapeId);
+                    if (destSeq === undefined) continue;
+                    const si = shapeInfo.get(shapeId);
+                    const stopSeq = si?.stopSeqs.get(stopId);
+                    if (stopSeq !== undefined && stopSeq <= destSeq) {
+                        linesHomeward.push(line);
+                        break;
+                    }
+                }
+            }
+        }
 
+        const numericId = parseInt(stopId);
         outputStops.push({
             id: isNaN(numericId) ? stopId : numericId,
             name: stop.stop_name || '',
             lat: parseFloat(stop.stop_lat),
             lon: parseFloat(stop.stop_lon),
             lines: lineArray.sort(),
+            linesHomeward: linesHomeward.sort(),
             arrivalsUrl: `http://www.emtvalencia.es/QR.php?sec=est&p=${isNaN(numericId) ? stopId : numericId}`
         });
     });
 
-    // Ordenar por ID
     outputStops.sort((a, b) => (typeof a.id === 'number' && typeof b.id === 'number') ? a.id - b.id : String(a.id).localeCompare(String(b.id)));
 
     const output = {
@@ -212,24 +294,25 @@ async function main() {
 
     fs.writeFileSync(OUTPUT_FILE, JSON.stringify(output, null, 2), 'utf-8');
 
-    // 7. Stats
-    const allLines = new Set();
-    outputStops.forEach(s => s.lines.forEach(l => allLines.add(l)));
-
+    // 9. Stats
     console.log(`\n✅ Generado ${OUTPUT_FILE}`);
     console.log(`   ${outputStops.length} paradas con líneas útiles`);
-    console.log(`   Líneas encontradas: ${Array.from(allLines).sort().join(', ')}`);
 
-    // Verificación: contar paradas por línea
     const countByLine = {};
-    outputStops.forEach(s => s.lines.forEach(l => { countByLine[l] = (countByLine[l] || 0) + 1; }));
-    console.log('\n📊 Paradas por línea:');
-    Object.keys(countByLine).sort().forEach(l => {
-        const marker = USEFUL_LINES.includes(l) ? '✅' : '  ';
-        console.log(`   ${marker} Línea ${l}: ${countByLine[l]} paradas`);
+    const countHomeward = {};
+    outputStops.forEach(s => {
+        s.lines.forEach(l => { if (isUsefulLine(l)) countByLine[l] = (countByLine[l] || 0) + 1; });
+        s.linesHomeward.forEach(l => { countHomeward[l] = (countHomeward[l] || 0) + 1; });
     });
 
-    // 8. Limpiar
+    console.log('\n📊 Paradas por línea (total / hacia casa):');
+    USEFUL_LINES.forEach(l => {
+        const total = countByLine[l] || 0;
+        const home = countHomeward[l] || 0;
+        console.log(`   Línea ${l.padEnd(3)}: ${String(total).padStart(3)} total | ${String(home).padStart(3)} hacia casa`);
+    });
+
+    // 10. Limpiar
     fs.rmSync(TEMP_DIR, { recursive: true });
     console.log('\n🧹 Archivos temporales eliminados');
 }

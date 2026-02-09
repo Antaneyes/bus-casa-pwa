@@ -21,7 +21,7 @@ const CONFIG = {
         '5': 'C1'
     },
 
-    // Paradas a excluir (vacío: el GTFS oficial tiene datos correctos + isHeadingHome filtra dirección)
+    // Paradas a excluir (vacío: el GTFS oficial tiene datos correctos, linesHomeward filtra dirección)
     EXCLUDED_STOPS: [],
 
     // Paradas de destino cerca de casa por línea
@@ -561,7 +561,7 @@ async function loadStops() {
         console.log(`📦 stops-data.json: ${data.totalStops} paradas (generado: ${data.generated})`);
 
         state.allStops = data.stops
-            .filter(stop => !CONFIG.EXCLUDED_STOPS.includes(stop.id) && hasUsefulLine(stop.lines))
+            .filter(stop => stop.linesHomeward && stop.linesHomeward.length > 0)
             .map(stop => ({
                 ...stop,
                 coords: { lat: stop.lat, lon: stop.lon }
@@ -623,27 +623,6 @@ function calculateDirection(lat1, lon1, lat2, lon2) {
     return directions[Math.round(bearing / 45) % 8];
 }
 
-function isHeadingHome(stop, destinationStop) {
-    const distToDest = calculateDistance(
-        stop.coords.lat, stop.coords.lon,
-        destinationStop.coords.lat, destinationStop.coords.lon
-    );
-    if (distToDest < 300) return true;
-
-    const bearingToDest = calculateBearing(
-        stop.coords.lat, stop.coords.lon,
-        destinationStop.coords.lat, destinationStop.coords.lon
-    );
-    const bearingToHome = calculateBearing(
-        stop.coords.lat, stop.coords.lon,
-        CONFIG.HOME_COORDS.lat, CONFIG.HOME_COORDS.lon
-    );
-
-    let diff = Math.abs(bearingToDest - bearingToHome);
-    if (diff > 180) diff = 360 - diff;
-    return diff < 90;
-}
-
 function filterAndDisplayStops() {
     if (!state.userLocation) return;
 
@@ -658,13 +637,14 @@ function filterAndDisplayStops() {
         }))
         .filter(stop => stop.distanceToStop <= state.selectedRadius);
 
-    // 2. Calcular bestLine, dirección, distanceStopToHome, headingHome
+    // 2. Calcular bestLine (solo de linesHomeward), distanceStopToHome
     const scored = inRadius.map(stop => {
         let minDistanceToHome = Infinity;
         let bestLine = null;
         let bestDestinationStop = null;
 
-        stop.lines.forEach(line => {
+        // Solo considerar líneas que van hacia casa
+        (stop.linesHomeward || []).forEach(line => {
             const destId = CONFIG.DESTINATION_STOPS[line];
             if (!destId) return;
             const destStop = state.stopsById.get(destId);
@@ -684,31 +664,26 @@ function filterAndDisplayStops() {
             ? minDistanceToHome
             : calculateDistance(stop.coords.lat, stop.coords.lon, CONFIG.HOME_COORDS.lat, CONFIG.HOME_COORDS.lon);
 
-        const headingHome = bestDestinationStop ? isHeadingHome(stop, bestDestinationStop) : true;
-
         const direction = calculateDirection(
             state.userLocation.lat, state.userLocation.lon,
             stop.coords.lat, stop.coords.lon
         );
 
-        return { ...stop, distanceStopToHome, direction, bestLine, bestDestinationStop, headingHome };
+        return { ...stop, distanceStopToHome, direction, bestLine, bestDestinationStop };
     });
 
-    // 3. Filtrar por dirección
-    const homeward = scored.filter(s => s.headingHome);
-
-    // 4. Normalizar y calcular score
-    const maxDestDist = Math.max(...homeward.map(s => s.distanceStopToHome), 1);
-    homeward.forEach(s => {
+    // 3. Normalizar y calcular score
+    const maxDestDist = Math.max(...scored.map(s => s.distanceStopToHome), 1);
+    scored.forEach(s => {
         const normalizedDest = s.distanceStopToHome / maxDestDist;
         s.score = s.distanceToStop + (normalizedDest * 150);
     });
 
-    // 5. Ordenar y tomar top 10
-    homeward.sort((a, b) => a.score - b.score);
-    state.filteredStops = homeward.slice(0, 10);
+    // 4. Ordenar y tomar top 10
+    scored.sort((a, b) => a.score - b.score);
+    state.filteredStops = scored.slice(0, 10);
 
-    console.log(`📏 Radio: ${state.selectedRadius}m | En radio: ${inRadius.length} | Hacia casa: ${homeward.length} | Mostradas: ${state.filteredStops.length}`);
+    console.log(`📏 Radio: ${state.selectedRadius}m | En radio: ${inRadius.length} | Mostradas: ${state.filteredStops.length}`);
 
     displayStops();
     updateMapMarkers();
