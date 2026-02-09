@@ -1,7 +1,7 @@
 {
   "generated": "2026-02-09",
-  "source": "GTFS EMT Valencia (opendata.vlci.valencia.es)",
-  "totalStops": 488,
+  "source": "GTFS EMT Valencia + FGV MetroValencia",
+  "totalStops": 490,
   "stops": [
     {
       "id": 7,
@@ -6631,6 +6631,34 @@
       ],
       "linesHomeward": [],
       "arrivalsUrl": "http://www.emtvalencia.es/QR.php?sec=est&p=2418"
+    },
+    {
+      "id": "tram-93",
+      "name": "Sagunt (Tranvía L4)",
+      "lat": 39.4864997864,
+      "lon": -0.3749722242,
+      "lines": [
+        "T4"
+      ],
+      "linesHomeward": [
+        "T4"
+      ],
+      "type": "tram",
+      "arrivalsUrl": "https://www.fgv.es/fgv/app/es/api/v1/V/horarios-prevision-3/93"
+    },
+    {
+      "id": "tram-94",
+      "name": "Reus (Tranvía L4)",
+      "lat": 39.4859657288,
+      "lon": -0.3817070127,
+      "lines": [
+        "T4"
+      ],
+      "linesHomeward": [
+        "T4"
+      ],
+      "type": "tram",
+      "arrivalsUrl": "https://www.fgv.es/fgv/app/es/api/v1/V/horarios-prevision-3/94"
     }
   ]
 }

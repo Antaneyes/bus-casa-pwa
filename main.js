@@ -9,7 +9,7 @@ const CONFIG = {
         lon: window.SECRET_CONFIG?.HOME_LON || -0.377689
     },
 
-    USEFUL_LINES: ['11', '6', '16', '26', '98', 'C2', 'C3', 'C1', '94', '95', '60', '64', '28'],
+    USEFUL_LINES: ['11', '6', '16', '26', '98', 'C2', 'C3', 'C1', '94', '95', '60', '64', '28', 'T4'],
 
     // Mapeo de números internos API de tiempos a nombres comerciales (UI)
     // Nota: El GTFS ya usa C1/C2/C3, pero la web de tiempos EMT sigue usando 79/80/89/90/5
@@ -39,7 +39,11 @@ const CONFIG = {
         '60': 1217,   // Doctor Peset Aleixandre - Felip Rinaldi
         '64': 242,    // Doctor Peset Aleixandre - Guardacostes
         '28': 331,    // Burjassot - Centre Cultural Bombas Gens
+        'T4': 'tram-93', // Sagunt (Tranvía L4, FGV MetroValencia)
     },
+
+    // API FGV para tiempos reales de tranvía
+    FGV_API_BASE: 'https://www.fgv.es/fgv/app/es/api/v1/V/horarios-prevision-3/',
 
     // Radio de búsqueda por defecto (metros)
     DEFAULT_RADIUS: 500,
@@ -55,7 +59,7 @@ const CONFIG = {
     IS_NATIVE: window.location.protocol === 'capacitor:' || !!window.Capacitor,
 
     // Configuración de actualizaciones (v74)
-    CURRENT_VERSION: '0.88.0', // Sincronizado con el footer
+    CURRENT_VERSION: '0.89.0', // Sincronizado con el footer
     UPDATE_URL: 'https://raw.githubusercontent.com/Antaneyes/bus-casa-pwa/android-capacitor/update.json'
 };
 
@@ -716,8 +720,10 @@ function displayStops() {
                 index === 2 ? '🥉 3ª OPCIÓN' : '';
 
         // Información de la mejor línea
+        const stopIsTram = isTramStop(stop);
+        const typeIcon = stopIsTram ? '🚊' : '🚌';
         const bestLineInfo = stop.bestLine && stop.bestDestinationStop ?
-            `<p class="stop-best-line">🚌 Mejor: Línea ${stop.bestLine} → ${stop.bestDestinationStop.name}</p>` : '';
+            `<p class="stop-best-line">${typeIcon} Mejor: Línea ${stop.bestLine} → ${stop.bestDestinationStop.name}</p>` : '';
 
         return `
         <div class="stop-card ${isBestOption ? 'best-option' : ''}" data-stop-id="${stop.id}">
@@ -804,91 +810,24 @@ async function loadArrivalsInline(url, stopId) {
     `;
 
     try {
-        // Hacer fetch a través del proxy si estamos en la web, o nativo si está disponible
-        let html;
-        if (CONFIG.IS_NATIVE && window.Capacitor?.Plugins?.CapacitorHttp) {
-            console.log(`🚀 Usando CapacitorHttp para: ${url}`);
-            const response = await window.Capacitor.Plugins.CapacitorHttp.get({ url: url });
-            html = response.data;
+        let arrivals;
+
+        if (isTramStop(stop)) {
+            // Tranvía FGV: usar API JSON
+            arrivals = await fetchFgvArrivals(url);
+            console.log(`🚊 Parada ${stopId}: ${arrivals.length} llegadas de tranvía`);
         } else {
-            const proxyUrl = url.replace(/^https?:\/\/www\.emtvalencia\.es/, '/api/emt-proxy');
-            console.log(`🌐 Usando Fetch estándar: ${proxyUrl}`);
-            const response = await fetch(proxyUrl);
-            html = await response.text();
-        }
-
-        // Parsear HTML
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(html, 'text/html');
-
-        // Extraer tiempos de los divs con imagenParada (misma lógica que el popup del mapa)
-        const arrivals = [];
-        const allArrivals = []; // Para debugging
-        const divs = doc.querySelectorAll('div[style*="border-bottom"]');
-
-        console.log(`📊 Parada ${stopId}: Encontrados ${divs.length} divs con border-bottom`);
-
-        divs.forEach(div => {
-            const img = div.querySelector('img[title]');
-            const span = div.querySelector('span[style*="position"]');
-
-            if (img && span) {
-                const line = img.getAttribute('title');
-                const text = span.textContent.trim();
-                allArrivals.push({ line, text }); // Guardar para debugging
-
-                // Solo incluir líneas útiles (comparando nombres comerciales para soportar aliases)
-                const commercialLine = CONFIG.LINE_ALIASES[line] || line;
-                const commercialUsefulLines = stop.lines
-                    .filter(l => CONFIG.USEFUL_LINES.includes(l))
-                    .map(l => CONFIG.LINE_ALIASES[l] || l);
-
-                if (commercialUsefulLines.includes(commercialLine)) {
-                    // Extraer destino y tiempo
-                    // El texto suele ser "DESTINO - TIEMPO"
-                    let destination = "Desconocido";
-                    let time = null;
-
-                    // Buscar el patrón de tiempo al final
-                    const timeMatch = text.match(/- (\d{2}:\d{2})$/);
-                    const minMatch = text.match(/- (\d+ min\.?)$/);
-
-                    if (timeMatch) {
-                        time = timeMatch[1];
-                        destination = text.substring(0, text.lastIndexOf(' - ')).trim();
-                    } else if (minMatch) {
-                        time = minMatch[1];
-                        destination = text.substring(0, text.lastIndexOf(' - ')).trim();
-                    } else {
-                        // Fallback: intentar separar por el último guion
-                        const lastDashIndex = text.lastIndexOf(' - ');
-                        if (lastDashIndex !== -1) {
-                            destination = text.substring(0, lastDashIndex).trim();
-                            time = text.substring(lastDashIndex + 3).trim();
-                        }
-                    }
-
-                    if (time) {
-                        arrivals.push({ line, destination, time });
-                    } else {
-                        console.log(`⚠️ Parada ${stopId}: Línea ${line} útil pero no se pudo extraer tiempo de: "${text}"`);
-                    }
-                } else {
-                    console.log(`🚫 Parada ${stopId}: Línea ${line} filtrada (no está en USEFUL_LINES)`);
-                }
-            }
-        });
-
-        console.log(`✅ Parada ${stopId}: ${arrivals.length} llegadas de líneas útiles encontradas`);
-        if (allArrivals.length > 0 && arrivals.length === 0) {
-            console.log(`📋 Parada ${stopId}: Todas las llegadas encontradas:`, allArrivals);
+            // EMT: scraping HTML
+            const usefulLines = stop.lines.filter(l => CONFIG.USEFUL_LINES.includes(l));
+            arrivals = await fetchEmtArrivalsInline(url, stopId, stop, usefulLines);
         }
 
         // Renderizar tiempos
+        const isTram = isTramStop(stop);
         if (arrivals.length > 0) {
             container.innerHTML = `
                 <div class="arrivals-inline-header">
-                    <h4>⏱️ Próximas llegadas</h4>
+                    <h4>${isTram ? '🚊' : '⏱️'} Próximas llegadas</h4>
                     <button class="btn-refresh-inline" onclick="loadArrivalsInline('${url}', '${stopId}')">
                         🔄
                     </button>
@@ -897,7 +836,7 @@ async function loadArrivalsInline(url, stopId) {
                     ${arrivals.map(arrival => `
                         <div class="arrival-inline-item">
                             <div class="arrival-inline-line-group">
-                                <span class="arrival-inline-line">${CONFIG.LINE_ALIASES[arrival.line] || arrival.line}</span>
+                                <span class="arrival-inline-line ${isTram ? 'tram-line' : ''}">${CONFIG.LINE_ALIASES[arrival.line] || arrival.line}</span>
                                 <span class="arrival-inline-dest">${arrival.destination}</span>
                             </div>
                             <span class="arrival-inline-time">${arrival.time}</span>
@@ -906,9 +845,9 @@ async function loadArrivalsInline(url, stopId) {
                 </div>
             `;
         } else {
-            const reason = allArrivals.length === 0 ?
-                'No hay autobuses próximos' :
-                'No hay autobuses de tus líneas útiles';
+            const reason = isTram
+                ? 'No hay tranvías próximos'
+                : 'No hay autobuses próximos';
 
             container.innerHTML = `
                 <div class="arrivals-inline-error">
@@ -931,6 +870,57 @@ async function loadArrivalsInline(url, stopId) {
             </div>
         `;
     }
+}
+
+// Extraer tiempos de llegada de EMT Valencia inline (scraping HTML, con debug)
+async function fetchEmtArrivalsInline(url, stopId, stop, usefulLines) {
+    let html;
+    if (CONFIG.IS_NATIVE && window.Capacitor?.Plugins?.CapacitorHttp) {
+        const response = await window.Capacitor.Plugins.CapacitorHttp.get({ url: url });
+        html = response.data;
+    } else {
+        const proxyUrl = url.replace(/^https?:\/\/www\.emtvalencia\.es/, '/api/emt-proxy');
+        const response = await fetch(proxyUrl);
+        html = await response.text();
+    }
+
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+    const divs = doc.querySelectorAll('div[style*="border-bottom"]');
+
+    const arrivals = [];
+    divs.forEach(div => {
+        const img = div.querySelector('img[title]');
+        const span = div.querySelector('span[style*="position"]');
+        if (img && span) {
+            const line = img.getAttribute('title');
+            const text = span.textContent.trim();
+            const commercialLine = CONFIG.LINE_ALIASES[line] || line;
+            const commercialUsefulLines = usefulLines.map(l => CONFIG.LINE_ALIASES[l] || l);
+
+            if (commercialUsefulLines.includes(commercialLine)) {
+                let destination = "Desconocido";
+                let time = null;
+                const timeMatch = text.match(/- (\d{2}:\d{2})$/);
+                const minMatch = text.match(/- (\d+ min\.?)$/);
+                if (timeMatch) {
+                    time = timeMatch[1];
+                    destination = text.substring(0, text.lastIndexOf(' - ')).trim();
+                } else if (minMatch) {
+                    time = minMatch[1];
+                    destination = text.substring(0, text.lastIndexOf(' - ')).trim();
+                } else {
+                    const lastDashIndex = text.lastIndexOf(' - ');
+                    if (lastDashIndex !== -1) {
+                        destination = text.substring(0, lastDashIndex).trim();
+                        time = text.substring(lastDashIndex + 3).trim();
+                    }
+                }
+                if (time) arrivals.push({ line, destination, time });
+            }
+        }
+    });
+    return arrivals;
 }
 
 function formatDistance(meters) {
@@ -1013,15 +1003,20 @@ function updateUserMarker() {
     }
 }
 
-function stopMarkerIcon(highlighted) {
+function stopMarkerIcon(highlighted, isTram) {
     const size = highlighted ? 40 : 30;
-    const bg = highlighted ? '#6366f1' : '#ec4899';
+    const bg = isTram
+        ? (highlighted ? '#059669' : '#10b981')
+        : (highlighted ? '#6366f1' : '#ec4899');
     const border = highlighted ? '4px solid #fbbf24' : '3px solid white';
-    const shadow = highlighted ? '0 0 15px rgba(99,102,241,0.6)' : '0 2px 10px rgba(0,0,0,0.3)';
+    const shadow = highlighted
+        ? (isTram ? '0 0 15px rgba(16,185,129,0.6)' : '0 0 15px rgba(99,102,241,0.6)')
+        : '0 2px 10px rgba(0,0,0,0.3)';
     const fontSize = highlighted ? '20px' : '16px';
+    const icon = isTram ? '🚊' : '🚌';
     return L.divIcon({
         className: 'stop-marker',
-        html: `<div style="background:${bg}; width:${size}px; height:${size}px; border-radius:50%; border:${border}; box-shadow:${shadow}; display:flex; align-items:center; justify-content:center; font-size:${fontSize}; transition:all 0.3s;">🚌</div>`,
+        html: `<div style="background:${bg}; width:${size}px; height:${size}px; border-radius:50%; border:${border}; box-shadow:${shadow}; display:flex; align-items:center; justify-content:center; font-size:${fontSize}; transition:all 0.3s;">${icon}</div>`,
         iconSize: [size, size],
         iconAnchor: [size / 2, size / 2]
     });
@@ -1035,7 +1030,7 @@ function updateMapMarkers() {
 
     state.filteredStops.forEach(stop => {
         const marker = L.marker([stop.coords.lat, stop.coords.lon], {
-            icon: stopMarkerIcon(false)
+            icon: stopMarkerIcon(false, isTramStop(stop))
         }).addTo(state.map);
 
         marker.on('click', () => {
@@ -1050,17 +1045,18 @@ function updateMapMarkers() {
 function highlightStopOnMap(stopId) {
     // Quitar highlight anterior
     if (state.highlightedStopId != null) {
+        const prevStop = state.filteredStops.find(s => s.id === state.highlightedStopId);
         const prev = state.markersById.get(state.highlightedStopId);
-        if (prev) prev.setIcon(stopMarkerIcon(false));
+        if (prev) prev.setIcon(stopMarkerIcon(false, isTramStop(prevStop)));
     }
 
     const marker = state.markersById.get(stopId);
     if (!marker) return;
 
-    marker.setIcon(stopMarkerIcon(true));
+    const stop = state.filteredStops.find(s => s.id === stopId);
+    marker.setIcon(stopMarkerIcon(true, isTramStop(stop)));
     state.highlightedStopId = stopId;
 
-    const stop = state.filteredStops.find(s => s.id === stopId);
     if (stop) {
         state.map.flyTo([stop.coords.lat, stop.coords.lon], 17, { duration: 0.5 });
     }
@@ -1071,7 +1067,6 @@ window.loadTimesInPopup = async function (url, stopId, usefulLines) {
     const container = document.getElementById(`popup-times-${stopId}`);
     if (!container) return;
 
-    // Mostrar loading al refrescar
     container.innerHTML = `
         <div style="text-align: center; padding: 15px;">
             <div class="loading-spinner-small"></div>
@@ -1080,84 +1075,27 @@ window.loadTimesInPopup = async function (url, stopId, usefulLines) {
     `;
 
     try {
-        // Cargar tiempos (Nativo o Web)
-        let html;
-        if (CONFIG.IS_NATIVE && window.Capacitor?.Plugins?.CapacitorHttp) {
-            const response = await window.Capacitor.Plugins.CapacitorHttp.get({ url: url });
-            html = response.data;
+        const stop = state.allStops.find(s => s.id == stopId);
+        let arrivals;
+
+        if (isTramStop(stop)) {
+            arrivals = await fetchFgvArrivals(url);
         } else {
-            const proxyUrl = url.replace(/^https?:\/\/www\.emtvalencia\.es/, '/api/emt-proxy');
-            const response = await fetch(proxyUrl);
-            html = await response.text();
+            arrivals = await fetchEmtArrivals(url, usefulLines);
         }
 
-        // Parsear HTML
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(html, 'text/html');
+        const isTram = isTramStop(stop);
+        const accentColor = isTram ? '#10b981' : '#6366f1';
+        const gradientBg = isTram
+            ? 'linear-gradient(135deg, #10b981 0%, #059669 100%)'
+            : 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)';
 
-        // Extraer tiempos de los divs con imagenParada
-        const arrivals = [];
-        const allArrivals = []; // Para debugging
-        const divs = doc.querySelectorAll('div[style*="border-bottom"]');
-
-        console.log(`📊 Popup parada ${stopId}: Encontrados ${divs.length} divs`);
-
-        divs.forEach(div => {
-            const img = div.querySelector('img[title]');
-            const span = div.querySelector('span[style*="position"]');
-
-            if (img && span) {
-                const line = img.getAttribute('title');
-                const text = span.textContent.trim();
-                allArrivals.push({ line, text });
-
-                // Normalizar para comparar con aliases
-                const commercialLine = CONFIG.LINE_ALIASES[line] || line;
-                const commercialUsefulLines = usefulLines.map(l => CONFIG.LINE_ALIASES[l] || l);
-
-                if (commercialUsefulLines.includes(commercialLine)) {
-                    // Extraer destino y tiempo
-                    let destination = "Desconocido";
-                    let time = null;
-
-                    const timeMatch = text.match(/- (\d{2}:\d{2})$/);
-                    const minMatch = text.match(/- (\d+ min\.?)$/);
-
-                    if (timeMatch) {
-                        time = timeMatch[1];
-                        destination = text.substring(0, text.lastIndexOf(' - ')).trim();
-                    } else if (minMatch) {
-                        time = minMatch[1];
-                        destination = text.substring(0, text.lastIndexOf(' - ')).trim();
-                    } else {
-                        const lastDashIndex = text.lastIndexOf(' - ');
-                        if (lastDashIndex !== -1) {
-                            destination = text.substring(0, lastDashIndex).trim();
-                            time = text.substring(lastDashIndex + 3).trim();
-                        }
-                    }
-
-                    if (time) {
-                        arrivals.push({ line, destination, time });
-                    } else {
-                        console.log(`⚠️ Popup ${stopId}: Línea ${line} útil pero no se pudo extraer tiempo de: "${text}"`);
-                    }
-                }
-            }
-        });
-
-        console.log(`✅ Popup parada ${stopId}: ${arrivals.length} llegadas útiles encontradas`);
-        if (allArrivals.length > 0 && arrivals.length === 0) {
-            console.log(`📋 Popup ${stopId}: Todas las llegadas:`, allArrivals);
-        }
-
-        // Renderizar tiempos
         if (arrivals.length > 0) {
             container.innerHTML = `
                 <div style="margin-top: 4px; padding-top: 8px; border-top: 1px solid rgba(99, 102, 241, 0.2);">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                        <span style="font-weight: 600; color: #6366f1; font-size: 13px;">⏱️ Próximas llegadas:</span>
-                        <button onclick="loadTimesInPopup('${url}', '${stopId}', ${JSON.stringify(usefulLines)})" 
+                        <span style="font-weight: 600; color: ${accentColor}; font-size: 13px;">${isTram ? '🚊' : '⏱️'} Próximas llegadas:</span>
+                        <button onclick="loadTimesInPopup('${url}', '${stopId}', ${JSON.stringify(usefulLines)})"
                                 style="background: none; border: none; cursor: pointer; font-size: 14px; padding: 2px;">🔄</button>
                     </div>
                     ${arrivals.map(arrival => `
@@ -1167,12 +1105,12 @@ window.loadTimesInPopup = async function (url, stopId, usefulLines) {
                             align-items: center;
                             padding: 6px;
                             margin-top: 4px;
-                            background: rgba(99, 102, 241, 0.1);
+                            background: ${isTram ? 'rgba(16, 185, 129, 0.1)' : 'rgba(99, 102, 241, 0.1)'};
                             border-radius: 6px;
                         ">
                             <div style="display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0;">
                                 <span style="
-                                    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+                                    background: ${gradientBg};
                                     color: white;
                                     padding: 2px 6px;
                                     border-radius: 4px;
@@ -1181,7 +1119,7 @@ window.loadTimesInPopup = async function (url, stopId, usefulLines) {
                                     min-width: 25px;
                                     text-align: center;
                                     flex-shrink: 0;
-                                >${CONFIG.LINE_ALIASES[arrival.line] || arrival.line}</span>
+                                ">${CONFIG.LINE_ALIASES[arrival.line] || arrival.line}</span>
                                 <span style="
                                     font-size: 11px;
                                     color: #4b5563;
@@ -1193,7 +1131,7 @@ window.loadTimesInPopup = async function (url, stopId, usefulLines) {
                             </div>
                             <span style="
                                 font-weight: 700;
-                                color: #6366f1;
+                                color: ${accentColor};
                                 font-size: 12px;
                                 flex-shrink: 0;
                                 margin-left: 8px;
@@ -1203,14 +1141,12 @@ window.loadTimesInPopup = async function (url, stopId, usefulLines) {
                 </div>
             `;
         } else {
-            const reason = allArrivals.length === 0 ?
-                'No hay autobuses próximos' :
-                'No hay autobuses de tus líneas';
+            const reason = isTram ? 'No hay tranvías próximos' : 'No hay autobuses próximos';
             container.innerHTML = `<p style="text-align: center; color: #666; margin-top: 8px; font-size: 12px;">${reason}</p>`;
         }
 
     } catch (error) {
-        console.error(`❌ Error cargando tiempos popup parada ${stopId}:`, error);
+        console.error(`Error cargando tiempos popup parada ${stopId}:`, error);
         container.innerHTML = '<p style="text-align: center; color: #ef4444; margin-top: 8px; font-size: 12px;">Error al cargar tiempos</p>';
     }
 };
@@ -1359,7 +1295,7 @@ function openStopDrawer(stop) {
     elements.drawerArrivals.innerHTML = `
         <div style="text-align: center; padding: 40px 20px;">
             <div class="loading-spinner-small" style="width: 30px; height: 30px; margin: 0 auto; border-width: 4px;"></div>
-            <p style="margin-top: 15px; color: #666; font-size: 14px;">Consultando tiempos en tiempo real...</p>
+            <p style="margin-top: 15px; color: #666; font-size: 14px;">${isTramStop(stop) ? 'Consultando tiempos del tranvía...' : 'Consultando tiempos en tiempo real...'}</p>
         </div>
     `;
 
@@ -1404,67 +1340,64 @@ function closeStopDrawer() {
     document.body.style.overflow = '';
 }
 
+// Función para cargar tiempos reales desde la API FGV (tranvía)
+async function fetchFgvArrivals(url) {
+    let data;
+    if (CONFIG.IS_NATIVE && window.Capacitor?.Plugins?.CapacitorHttp) {
+        const response = await window.Capacitor.Plugins.CapacitorHttp.get({
+            url: url,
+            headers: { 'Accept': 'application/json' }
+        });
+        data = typeof response.data === 'string' ? JSON.parse(response.data) : response.data;
+    } else {
+        // En web, usar proxy nginx para evitar CORS
+        const proxyUrl = url.replace(/^https?:\/\/www\.fgv\.es\/fgv\/app\/es\/api\/v1\/V\//, '/api/fgv-proxy/');
+        const response = await fetch(proxyUrl, { headers: { 'Accept': 'application/json' } });
+        data = await response.json();
+    }
+
+    const arrivals = [];
+    if (data.previsiones) {
+        data.previsiones.forEach(prev => {
+            const lineName = 'T' + prev.line;
+            (prev.trains || []).forEach(train => {
+                const mins = Math.round(train.seconds / 60);
+                arrivals.push({
+                    line: lineName,
+                    time: mins <= 0 ? 'En parada' : `${mins} min`,
+                    destination: train.destino || 'Desconocido',
+                    seconds: train.seconds
+                });
+            });
+        });
+    }
+    return arrivals;
+}
+
+function isTramStop(stop) {
+    return stop && (stop.type === 'tram' || String(stop.id).startsWith('tram-'));
+}
+
 async function loadArrivalsInDrawer(url, stopId, usefulLines, bestLine) {
     try {
-        let html;
-        if (CONFIG.IS_NATIVE && window.Capacitor?.Plugins?.CapacitorHttp) {
-            const response = await window.Capacitor.Plugins.CapacitorHttp.get({ url: url });
-            html = response.data;
+        const stop = state.allStops.find(s => s.id == stopId);
+        let arrivals;
+
+        if (isTramStop(stop)) {
+            // Tranvía FGV: usar API JSON
+            arrivals = await fetchFgvArrivals(url);
         } else {
-            const proxyUrl = url.replace(/^https?:\/\/www\.emtvalencia\.es/, '/api/emt-proxy');
-            const response = await fetch(proxyUrl);
-            html = await response.text();
+            // EMT: scraping HTML
+            arrivals = await fetchEmtArrivals(url, usefulLines);
         }
 
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(html, 'text/html');
-        const divs = doc.querySelectorAll('div[style*="border-bottom"]');
-
-        const arrivals = [];
-        divs.forEach(div => {
-            const img = div.querySelector('img[title]');
-            const span = div.querySelector('span[style*="position"]');
-
-            if (img && span) {
-                const line = img.getAttribute('title');
-                const text = span.textContent.trim();
-
-                // Normalizar para comparar con aliases
-                const commercialLine = CONFIG.LINE_ALIASES[line] || line;
-                const commercialUsefulLines = usefulLines.map(l => CONFIG.LINE_ALIASES[l] || l);
-
-                if (commercialUsefulLines.includes(commercialLine)) {
-                    // Extraer destino y tiempo de forma robusta igual que en la lista
-                    let destination = "Desconocido";
-                    let time = text; // Fallback
-
-                    const timeMatch = text.match(/- (\d{2}:\d{2})$/);
-                    const minMatch = text.match(/- (\d+ min\.?)$/);
-
-                    if (timeMatch) {
-                        time = timeMatch[1];
-                        destination = text.substring(0, text.lastIndexOf(' - ')).trim();
-                    } else if (minMatch) {
-                        time = minMatch[1];
-                        destination = text.substring(0, text.lastIndexOf(' - ')).trim();
-                    } else {
-                        // Intentar separar por el último guion si no hay match claro
-                        const lastDashIndex = text.lastIndexOf(' - ');
-                        if (lastDashIndex !== -1) {
-                            destination = text.substring(0, lastDashIndex).trim();
-                            time = text.substring(lastDashIndex + 3).trim();
-                        }
-                    }
-
-                    arrivals.push({ line, time, destination });
-                }
-            }
-        });
-
         if (arrivals.length === 0) {
+            const noServiceMsg = isTramStop(stop)
+                ? 'No hay tranvías próximos en esta parada.'
+                : 'No hay llegadas próximas para las líneas guardadas.';
             elements.drawerArrivals.innerHTML = `
                 <div style="text-align: center; padding: 30px; color: #666;">
-                    <p>No hay llegadas próximas para las líneas guardadas.</p>
+                    <p>${noServiceMsg}</p>
                 </div>
             `;
             return;
@@ -1474,13 +1407,15 @@ async function loadArrivalsInDrawer(url, stopId, usefulLines, bestLine) {
             const commercialLine = CONFIG.LINE_ALIASES[arrival.line] || arrival.line;
             const commercialBestLine = CONFIG.LINE_ALIASES[bestLine] || bestLine;
             const isBestLine = commercialLine === commercialBestLine;
-            const accentColor = isBestLine ? '#ec4899' : '#6366f1';
+            const isTram = commercialLine.startsWith('T');
+            const accentColor = isTram ? '#10b981' : (isBestLine ? '#ec4899' : '#6366f1');
+            const typeIcon = isTram ? '🚊' : '';
 
             return `
                 <div class="drawer-arrival-item" style="border-left-color: ${accentColor}">
                     <div class="drawer-arrival-info">
                         <div class="drawer-arrival-line-row">
-                            <span class="line-badge" style="margin:0; min-width: 40px; background: ${accentColor}">${commercialLine}</span>
+                            <span class="line-badge" style="margin:0; min-width: 40px; background: ${accentColor}">${typeIcon} ${commercialLine}</span>
                             <span style="font-weight: 600; font-size: 14px; margin-left: 8px; color: var(--color-text);">${arrival.destination}</span>
                         </div>
                     </div>
@@ -1493,6 +1428,62 @@ async function loadArrivalsInDrawer(url, stopId, usefulLines, bestLine) {
         console.error('Error cargando tiempos en drawer:', error);
         elements.drawerArrivals.innerHTML = '<p style="text-align: center; padding: 20px; color: #ef4444;">Error al cargar tiempos</p>';
     }
+}
+
+// Extraer tiempos de llegada de EMT Valencia (scraping HTML)
+async function fetchEmtArrivals(url, usefulLines) {
+    let html;
+    if (CONFIG.IS_NATIVE && window.Capacitor?.Plugins?.CapacitorHttp) {
+        const response = await window.Capacitor.Plugins.CapacitorHttp.get({ url: url });
+        html = response.data;
+    } else {
+        const proxyUrl = url.replace(/^https?:\/\/www\.emtvalencia\.es/, '/api/emt-proxy');
+        const response = await fetch(proxyUrl);
+        html = await response.text();
+    }
+
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+    const divs = doc.querySelectorAll('div[style*="border-bottom"]');
+
+    const arrivals = [];
+    divs.forEach(div => {
+        const img = div.querySelector('img[title]');
+        const span = div.querySelector('span[style*="position"]');
+
+        if (img && span) {
+            const line = img.getAttribute('title');
+            const text = span.textContent.trim();
+
+            const commercialLine = CONFIG.LINE_ALIASES[line] || line;
+            const commercialUsefulLines = usefulLines.map(l => CONFIG.LINE_ALIASES[l] || l);
+
+            if (commercialUsefulLines.includes(commercialLine)) {
+                let destination = "Desconocido";
+                let time = text;
+
+                const timeMatch = text.match(/- (\d{2}:\d{2})$/);
+                const minMatch = text.match(/- (\d+ min\.?)$/);
+
+                if (timeMatch) {
+                    time = timeMatch[1];
+                    destination = text.substring(0, text.lastIndexOf(' - ')).trim();
+                } else if (minMatch) {
+                    time = minMatch[1];
+                    destination = text.substring(0, text.lastIndexOf(' - ')).trim();
+                } else {
+                    const lastDashIndex = text.lastIndexOf(' - ');
+                    if (lastDashIndex !== -1) {
+                        destination = text.substring(0, lastDashIndex).trim();
+                        time = text.substring(lastDashIndex + 3).trim();
+                    }
+                }
+
+                arrivals.push({ line, time, destination });
+            }
+        }
+    });
+    return arrivals;
 }
 
 // ========================================

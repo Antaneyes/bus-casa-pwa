@@ -23,14 +23,42 @@ const OUTPUT_FILE = path.join(__dirname, 'stops-data.json');
 const ZIP_FILE = path.join(TEMP_DIR, 'google_transit.zip');
 
 // Líneas útiles (mismas que CONFIG.USEFUL_LINES en main.js)
-const USEFUL_LINES = ['11', '6', '16', '26', '98', 'C2', 'C3', 'C1', '94', '95', '60', '64', '28'];
+const USEFUL_LINES = ['11', '6', '16', '26', '98', 'C2', 'C3', 'C1', '94', '95', '60', '64', '28', 'T4'];
 
 // Paradas de destino cerca de casa por línea (mismas que CONFIG.DESTINATION_STOPS en main.js)
 const DESTINATION_STOPS = {
     '11': 215, '6': 322, '16': 322, '26': 322, '98': 1808,
     'C1': 1305, 'C2': 351, 'C3': 1682, '94': 351, '95': 343,
-    '60': 1217, '64': 242, '28': 331
+    '60': 1217, '64': 242, '28': 331,
+    'T4': 'tram-93' // Sagunt (más cercana a casa)
 };
+
+// Paradas de tranvía FGV MetroValencia (no provienen del GTFS de EMT)
+// API: https://www.fgv.es/fgv/app/es/api/v1/V/horarios-prevision-3/{estacion_id_FGV}
+const FGV_TRAM_STOPS = [
+    {
+        id: 'tram-93',
+        name: 'Sagunt (Tranvía L4)',
+        lat: 39.4864997864,
+        lon: -0.3749722242,
+        lines: ['T4'],
+        linesHomeward: ['T4'],
+        type: 'tram',
+        fgvStationId: 93,
+        arrivalsUrl: 'https://www.fgv.es/fgv/app/es/api/v1/V/horarios-prevision-3/93'
+    },
+    {
+        id: 'tram-94',
+        name: 'Reus (Tranvía L4)',
+        lat: 39.4859657288,
+        lon: -0.3817070127,
+        lines: ['T4'],
+        linesHomeward: ['T4'],
+        type: 'tram',
+        fgvStationId: 94,
+        arrivalsUrl: 'https://www.fgv.es/fgv/app/es/api/v1/V/horarios-prevision-3/94'
+    }
+];
 
 // Distancia máxima (metros) entre cualquier parada del shape y la destination stop
 // para considerar que el shape "pasa por" la destination stop
@@ -374,11 +402,26 @@ async function main() {
         });
     });
 
+    // Añadir paradas de tranvía FGV
+    FGV_TRAM_STOPS.forEach(tram => {
+        outputStops.push({
+            id: tram.id,
+            name: tram.name,
+            lat: tram.lat,
+            lon: tram.lon,
+            lines: tram.lines,
+            linesHomeward: tram.linesHomeward,
+            type: tram.type,
+            arrivalsUrl: tram.arrivalsUrl
+        });
+    });
+    console.log(`\n🚊 Añadidas ${FGV_TRAM_STOPS.length} paradas de tranvía FGV`);
+
     outputStops.sort((a, b) => (typeof a.id === 'number' && typeof b.id === 'number') ? a.id - b.id : String(a.id).localeCompare(String(b.id)));
 
     const output = {
         generated: new Date().toISOString().split('T')[0],
-        source: 'GTFS EMT Valencia (opendata.vlci.valencia.es)',
+        source: 'GTFS EMT Valencia + FGV MetroValencia',
         totalStops: outputStops.length,
         stops: outputStops
     };

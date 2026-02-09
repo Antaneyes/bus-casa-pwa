@@ -1,6 +1,6 @@
 {
     "name": "bus-casa-pwa",
-    "version": "0.88.0",
+    "version": "0.89.0",
     "description": "App para consultar paradas de EMT Valencia",
     "main": "main.js",
     "scripts": {
