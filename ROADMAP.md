@@ -1,10 +1,11 @@
-# TODO - Bus Casa
+# ROADMAP - Bus Casa
 
 ## ✅ Resuelto en v0.91
 
 ### 7.-Paradas de tranvía sin mostrar llegadas - ✅ RESUELTO
 - Neptú(126) devolvía `line: 8` (no L6) → eliminada de paradas L6
-- Tossal del Rei(132) eliminada (parada destino, no útil para ir a casa)
+- Tossal del Rei(132) mantenida como destination-only (`linesHomeward: []`) para lookup de destino
+- `stopsById` ahora incluye TODAS las paradas (no solo homeward) para que `getArrivalDestInfo()` funcione
 - Logging debug añadido en `fetchFgvArrivals()` para diagnosticar futuros problemas
 - Marítim y Canyamelar mantenidas (sin datos era timing, son paradas válidas L6)
 
@@ -21,11 +22,7 @@
 ### 10.-Verificar paradas L6 - ✅ RESUELTO
 - Neptú(126) confirmado como línea 8 → eliminada
 - Resto de paradas L6 verificadas con API real → funcionan correctamente
-- 8 paradas L6-only finales
-
-## 🔴 Prioridad Alta (Funcionalidad Crítica)
-
-*(Vacío - todos resueltos)*
+- 9 paradas L6-only finales (8 activas + Tossal del Rei como destination-only)
 
 ## 🟡 Prioridad Media (UX y Precisión)
 
@@ -42,6 +39,17 @@
 - Los chips de líneas útiles (en tarjetas interactivas del mapa y lista de abajo) muestran al hover "Bajarse en: X #ID"
 - Falta añadir también la distancia a casa, igual que ya se muestra en las subtarjetas de llegadas (ej: "Bajarse en: Sagunt #tram-93 · 🏠 350m")
 - Afecta a `buildUsefulLineChips()` en `main.js`
+
+### 11.-Service Worker cachea respuestas de API
+- `sw.js` usa Cache First para TODO el tráfico, incluyendo API de EMT y FGV
+- Los tiempos de llegada quedan cacheados indefinidamente → datos obsoletos
+- Debería usar Network First para peticiones a API (EMT/FGV) y Cache First solo para assets estáticos
+- Afecta a `sw.js` (fetch event handler)
+
+### 12.-Configuración duplicada entre main.js y build-stops.js
+- `USEFUL_LINES`, `DESTINATION_STOPS` y `LINE_ALIASES` están definidos en ambos archivos
+- Si se modifica uno hay que recordar cambiar el otro → propenso a errores
+- Mover a un fichero compartido (ej: `config.shared.json`) que ambos importen
 
 ## 🟢 Prioridad Baja (Mejoras y Mantenimiento)
 
@@ -61,3 +69,17 @@
 - Implementar cron/scheduled task que lo regenere periódicamente (ej: cada madrugada)
 - Opciones: GitHub Actions scheduled workflow, cron en Docker, o script en el servidor
 - El GTFS de EMT se actualiza con poca frecuencia pero conviene mantenerlo al día
+
+### 13.-Limpiar CSS muerto
+- Selectores `.stop-lines`, `.line-badge.best-line`, `.stop-home-distance`, `.stop-best-line` no se usan
+- Quedaron de refactorizaciones anteriores → eliminar para reducir tamaño
+
+### 14.-nginx: gzip no comprime JSON
+- `gzip_types` en `nginx.conf` no incluye `application/json`
+- `stops-data.json` (~230KB) se sirve sin comprimir → más lento en primera carga
+- Añadir `application/json` a la lista de tipos comprimidos
+
+### 15.-Memory leaks en event listeners de tarjetas
+- `displayStops()` añade event listeners con `querySelectorAll('.stop-card').forEach()` cada vez que renderiza
+- Los listeners anteriores no se limpian → se acumulan en memoria
+- Usar event delegation en el contenedor padre en vez de listeners individuales
