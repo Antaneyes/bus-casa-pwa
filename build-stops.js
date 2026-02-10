@@ -98,6 +98,7 @@ const FGV_L6_ONLY_STOPS = [
     { id: 'tram-129', name: 'Orriols',                      lat: 39.4931488037, lon: -0.3676636219, fgvId: 129 },
     { id: 'tram-130', name: 'Estadi Ciutat de València',    lat: 39.4949188232, lon: -0.3655419946, fgvId: 130 },
     { id: 'tram-131', name: 'Sant Miquel dels Reis',        lat: 39.4972190857, lon: -0.3684949875, fgvId: 131 },
+    { id: 'tram-132', name: 'Tossal del Rei',               lat: 39.4959526062, lon: -0.3725369871, fgvId: 132, isDestinationOnly: true },
     // Zona Sur/Marítim (exclusivas L6)
     { id: 'tram-127', name: 'Canyamelar',                   lat: 39.4665222168, lon: -0.3279320002, fgvId: 127 },
     { id: 'tram-122', name: 'Francesc Cubells',             lat: 39.4632453918, lon: -0.3339729905, fgvId: 122 },
@@ -106,7 +107,9 @@ const FGV_L6_ONLY_STOPS = [
 ].map(s => ({
     id: s.id, name: s.name + ' (Tranvía L6)',
     lat: s.lat, lon: s.lon,
-    lines: ['T6'], linesHomeward: ['T6'],
+    lines: ['T6'],
+    // Tossal del Rei: solo destino, no útil para coger (ya estás en casa)
+    linesHomeward: s.isDestinationOnly ? [] : ['T6'],
     type: 'tram', arrivalsUrl: FGV_API_BASE + s.fgvId
 }));
 

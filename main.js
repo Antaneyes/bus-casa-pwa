@@ -40,7 +40,7 @@ const CONFIG = {
         '64': 242,    // Doctor Peset Aleixandre - Guardacostes
         '28': 331,    // Burjassot - Centre Cultural Bombas Gens
         'T4': 'tram-93', // Sagunt (Tranvía L4, FGV MetroValencia)
-        'T6': 'tram-131', // Sant Miquel dels Reis (Tranvía L6, FGV MetroValencia)
+        'T6': 'tram-132', // Tossal del Rei (Tranvía L6, FGV MetroValencia)
     },
 
     // API FGV para tiempos reales de tranvía
