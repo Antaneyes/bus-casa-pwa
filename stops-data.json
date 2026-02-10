@@ -1,7 +1,7 @@
 {
-  "generated": "2026-02-09",
+  "generated": "2026-02-10",
   "source": "GTFS EMT Valencia + FGV MetroValencia",
-  "totalStops": 531,
+  "totalStops": 529,
   "stops": [
     {
       "id": 7,
@@ -6859,20 +6859,6 @@
       "arrivalsUrl": "https://www.fgv.es/fgv/app/es/api/v1/V/horarios-prevision-3/123"
     },
     {
-      "id": "tram-126",
-      "name": "Neptú (Tranvía L6)",
-      "lat": 39.4632530212,
-      "lon": -0.3258508444,
-      "lines": [
-        "T6"
-      ],
-      "linesHomeward": [
-        "T6"
-      ],
-      "type": "tram",
-      "arrivalsUrl": "https://www.fgv.es/fgv/app/es/api/v1/V/horarios-prevision-3/126"
-    },
-    {
       "id": "tram-127",
       "name": "Canyamelar (Tranvía L6)",
       "lat": 39.4665222168,
@@ -6941,20 +6927,6 @@
       ],
       "type": "tram",
       "arrivalsUrl": "https://www.fgv.es/fgv/app/es/api/v1/V/horarios-prevision-3/131"
-    },
-    {
-      "id": "tram-132",
-      "name": "Tossal del Rei (Tranvía L6)",
-      "lat": 39.4959526062,
-      "lon": -0.3725369871,
-      "lines": [
-        "T6"
-      ],
-      "linesHomeward": [
-        "T6"
-      ],
-      "type": "tram",
-      "arrivalsUrl": "https://www.fgv.es/fgv/app/es/api/v1/V/horarios-prevision-3/132"
     },
     {
       "id": "tram-55",

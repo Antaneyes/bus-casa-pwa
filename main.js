@@ -75,7 +75,7 @@ const CONFIG = {
     IS_NATIVE: window.location.protocol === 'capacitor:' || !!window.Capacitor,
 
     // Configuración de actualizaciones (v74)
-    CURRENT_VERSION: '0.90.0', // Sincronizado con el footer
+    CURRENT_VERSION: '0.91.0', // Sincronizado con el footer
     UPDATE_URL: 'https://raw.githubusercontent.com/Antaneyes/bus-casa-pwa/android-capacitor/update.json'
 };
 
@@ -882,6 +882,9 @@ async function loadArrivalsInline(url, stopId) {
     }
 }
 
+// Hacer loadArrivalsInline global para el onclick del HTML
+window.loadArrivalsInline = loadArrivalsInline;
+
 // Extraer tiempos de llegada de EMT Valencia inline (scraping HTML, con debug)
 async function fetchEmtArrivalsInline(url, stopId, stop, usefulLines) {
     let html;
@@ -1371,28 +1374,47 @@ async function fetchFgvArrivals(url, stopLon) {
         data = await response.json();
     }
 
+    // Debug: log raw API response
+    const allLines = data.previsiones ? data.previsiones.map(p => `T${p.line}`).join(', ') : 'ninguna';
+    const totalTrains = data.previsiones ? data.previsiones.reduce((sum, p) => sum + (p.trains?.length || 0), 0) : 0;
+    console.log(`🚊 FGV API → ${data.previsiones?.length || 0} previsiones, ${totalTrains} trenes, líneas: [${allLines}]`);
+
     // L4: Determinar dirección según posición este/oeste de Sagunt
     const isEastOfHome = stopLon !== undefined && stopLon > CONFIG.L4_HOME_LON;
     const isWestOfHome = stopLon !== undefined && stopLon < CONFIG.L4_HOME_LON;
 
     const arrivals = [];
+    let filteredByLine = 0;
+    let filteredByDirection = 0;
     if (data.previsiones) {
         data.previsiones.forEach(prev => {
             const lineName = 'T' + prev.line;
-            if (!CONFIG.USEFUL_LINES.includes(lineName)) return;
+            if (!CONFIG.USEFUL_LINES.includes(lineName)) {
+                filteredByLine += (prev.trains || []).length;
+                return;
+            }
             (prev.trains || []).forEach(train => {
                 const destino = train.destino || '';
                 const destinoUp = destino.toUpperCase();
 
                 // L6: solo mostrar trenes con dirección Tossal del Rei
-                if (lineName === 'T6' && !destinoUp.includes('TOSSAL')) return;
+                if (lineName === 'T6' && !destinoUp.includes('TOSSAL')) {
+                    filteredByDirection++;
+                    return;
+                }
 
                 // L4: filtrar trenes que se alejan de casa
                 if (lineName === 'T4') {
                     const destKey = Object.keys(CONFIG.L4_DEST_DIRECTION).find(k => destinoUp.includes(k));
                     const direction = destKey ? CONFIG.L4_DEST_DIRECTION[destKey] : null;
-                    if (isEastOfHome && direction === 'east') return;
-                    if (isWestOfHome && direction === 'west') return;
+                    if (isEastOfHome && direction === 'east') {
+                        filteredByDirection++;
+                        return;
+                    }
+                    if (isWestOfHome && direction === 'west') {
+                        filteredByDirection++;
+                        return;
+                    }
                 }
                 const mins = Math.round(train.seconds / 60);
                 arrivals.push({
@@ -1404,6 +1426,7 @@ async function fetchFgvArrivals(url, stopLon) {
             });
         });
     }
+    console.log(`🚊 FGV filtrado → ${arrivals.length} llegadas útiles (filtradas: ${filteredByLine} por línea, ${filteredByDirection} por dirección)`);
     return arrivals;
 }
 

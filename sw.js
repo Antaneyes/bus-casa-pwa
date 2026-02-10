@@ -1,5 +1,5 @@
 // Service Worker para Bus Casa PWA
-const CACHE_NAME = 'bus-casa-v22';
+const CACHE_NAME = 'bus-casa-v23';
 const ASSETS_TO_CACHE = [
     './',
     './index.html',
