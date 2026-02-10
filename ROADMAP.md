@@ -2,6 +2,16 @@
 
 ## ✅ Resuelto en v0.91
 
+### 4.-Añadir distancia a casa en tooltips de chips de líneas - ✅ RESUELTO (commit d63111a)
+- Los chips ahora muestran "Bajarse en: X #ID · 🏠 Xm" con distancia calculada
+- `buildUsefulLineChips()` usa `calculateDistance()` igual que `getArrivalDestInfo()`
+- Afecta a tarjetas del mapa y lista de abajo
+
+### 5.-Líneas de tranvía no se destacan como mejor opción - ✅ RESUELTO (commit d63111a)
+- Cambio prioridad en `accentColor`: `isBestLine` antes de `isTram`
+- Si T4/T6 es bestLine → rosa #ec4899 (highlight), no siempre verde
+- Fix en `loadArrivalsInDrawer()` línea 1535
+
 ### 7.-Paradas de tranvía sin mostrar llegadas - ✅ RESUELTO
 - Neptú(126) devolvía `line: 8` (no L6) → eliminada de paradas L6
 - Tossal del Rei(132) mantenida como destination-only (`linesHomeward: []`) para lookup de destino
@@ -24,27 +34,17 @@
 - Resto de paradas L6 verificadas con API real → funcionan correctamente
 - 9 paradas L6-only finales (8 activas + Tossal del Rei como destination-only)
 
+### 11.-Service Worker cachea respuestas de API - ✅ PARCIALMENTE RESUELTO (commit c97ffd7)
+- Fix: cambio a Network First para HTML/JS/CSS propios (antes Cache First para TODO)
+- Cache First solo para CDN/fonts y assets externos
+- ⚠️ Pendiente: requests a `/api/*` todavía usan Cache First (deberían usar Network First)
+
 ## 🟡 Prioridad Media (UX y Precisión)
 
 ### 6.-Revisar sistema de puntuación de paradas
 - La puntuación actual es `distanciaUsuarioAParada + distanciaParadaACasa`
 - En pruebas reales no siempre marca como mejor la parada que el usuario considera óptima
 - Posibles mejoras: ponderar factores (frecuencia, tiempo espera, transbordos), ajustar pesos, considerar ETA real
-
-### 5.-Líneas de tranvía no se destacan como mejor opción
-- En las tarjetas, las líneas de bus marcan la mejor en otro color pero las de tranvía no
-- Revisar lógica de `bestLine` / destacado de línea óptima para que también aplique a T4/T6
-
-### 4.-Añadir distancia a casa en tooltips de chips de líneas
-- Los chips de líneas útiles (en tarjetas interactivas del mapa y lista de abajo) muestran al hover "Bajarse en: X #ID"
-- Falta añadir también la distancia a casa, igual que ya se muestra en las subtarjetas de llegadas (ej: "Bajarse en: Sagunt #tram-93 · 🏠 350m")
-- Afecta a `buildUsefulLineChips()` en `main.js`
-
-### 11.-Service Worker cachea respuestas de API
-- `sw.js` usa Cache First para TODO el tráfico, incluyendo API de EMT y FGV
-- Los tiempos de llegada quedan cacheados indefinidamente → datos obsoletos
-- Debería usar Network First para peticiones a API (EMT/FGV) y Cache First solo para assets estáticos
-- Afecta a `sw.js` (fetch event handler)
 
 ### 12.-Configuración duplicada entre main.js y build-stops.js
 - `USEFUL_LINES`, `DESTINATION_STOPS` y `LINE_ALIASES` están definidos en ambos archivos
