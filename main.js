@@ -1472,7 +1472,11 @@ function buildUsefulLineChips(stop) {
         ) || displayName;
         const destId = CONFIG.DESTINATION_STOPS[rawLine];
         const destStop = destId ? state.stopsById?.get(destId) : null;
-        const tooltip = destStop ? `Bajarse en: ${destStop.name} #${destId}` : '';
+        const dist = destStop ? Math.round(calculateDistance(
+            destStop.coords.lat, destStop.coords.lon,
+            CONFIG.HOME_COORDS.lat, CONFIG.HOME_COORDS.lon
+        )) : 0;
+        const tooltip = destStop ? `Bajarse en: ${destStop.name} #${destId} · 🏠 ${dist}m` : '';
         return `<span class="useful-line-chip" title="${tooltip}" data-dest="${tooltip}">${displayName}</span>`;
     }).join('');
 
@@ -1528,7 +1532,7 @@ async function loadArrivalsInDrawer(url, stopId, usefulLines, bestLine) {
             const commercialBestLine = CONFIG.LINE_ALIASES[bestLine] || bestLine;
             const isBestLine = commercialLine === commercialBestLine;
             const isTram = commercialLine.startsWith('T');
-            const accentColor = isTram ? '#10b981' : (isBestLine ? '#ec4899' : '#6366f1');
+            const accentColor = isBestLine ? '#ec4899' : (isTram ? '#10b981' : '#6366f1');
             const typeIcon = isTram ? '🚊' : '';
             const destInfo = getArrivalDestInfo(arrival.line);
 
