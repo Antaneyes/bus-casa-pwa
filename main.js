@@ -580,15 +580,20 @@ async function loadStops() {
 
         console.log(`📦 stops-data.json: ${data.totalStops} paradas (generado: ${data.generated})`);
 
+        // Mapa con TODAS las paradas (incluye destination-only como Tossal del Rei)
+        state.stopsById = new Map();
+        data.stops.forEach(stop => {
+            const s = { ...stop, coords: { lat: stop.lat, lon: stop.lon } };
+            state.stopsById.set(s.id, s);
+        });
+
+        // Solo paradas con líneas homeward para mostrar al usuario
         state.allStops = data.stops
             .filter(stop => stop.linesHomeward && stop.linesHomeward.length > 0)
             .map(stop => ({
                 ...stop,
                 coords: { lat: stop.lat, lon: stop.lon }
             }));
-
-        state.stopsById = new Map();
-        state.allStops.forEach(stop => state.stopsById.set(stop.id, stop));
 
         console.log(`✅ Paradas con líneas útiles: ${state.allStops.length}`);
 
