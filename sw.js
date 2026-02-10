@@ -1,5 +1,5 @@
 // Service Worker para Bus Casa PWA
-const CACHE_NAME = 'bus-casa-v23';
+const CACHE_NAME = 'bus-casa-v24';
 const ASSETS_TO_CACHE = [
     './',
     './index.html',
@@ -44,29 +44,56 @@ self.addEventListener('activate', (event) => {
     );
 });
 
-// Fetch - Estrategia Network First para API, Cache First para assets
+// Fetch - Estrategia Network First para assets propios, Cache First para CDN
 self.addEventListener('fetch', (event) => {
     const { request } = event;
     const url = new URL(request.url);
 
-    // Cache First para assets locales
-    event.respondWith(
-        caches.match(request)
-            .then(cachedResponse => {
-                if (cachedResponse) {
-                    return cachedResponse;
-                }
+    // Network First para archivos propios (HTML, JS, CSS) - siempre intenta actualizar
+    const isOwnAsset = url.origin === self.location.origin &&
+                       (url.pathname.endsWith('.html') ||
+                        url.pathname.endsWith('.js') ||
+                        url.pathname.endsWith('.css') ||
+                        url.pathname === '/' || url.pathname === './');
 
-                return fetch(request).then(response => {
-                    // Cachear nuevos recursos
-                    if (request.method === 'GET') {
+    if (isOwnAsset) {
+        event.respondWith(
+            fetch(request)
+                .then(response => {
+                    // Cachear la nueva versión
+                    if (request.method === 'GET' && response.status === 200) {
                         const responseClone = response.clone();
                         caches.open(CACHE_NAME).then(cache => {
                             cache.put(request, responseClone);
                         });
                     }
                     return response;
-                });
-            })
-    );
+                })
+                .catch(() => {
+                    // Si falla la red, usar cache como fallback
+                    return caches.match(request);
+                })
+        );
+    } else {
+        // Cache First para CDN/fonts y otros assets (imágenes, JSON)
+        event.respondWith(
+            caches.match(request)
+                .then(cachedResponse => {
+                    if (cachedResponse) {
+                        return cachedResponse;
+                    }
+
+                    return fetch(request).then(response => {
+                        // Cachear nuevos recursos
+                        if (request.method === 'GET' && response.status === 200) {
+                            const responseClone = response.clone();
+                            caches.open(CACHE_NAME).then(cache => {
+                                cache.put(request, responseClone);
+                            });
+                        }
+                        return response;
+                    });
+                })
+        );
+    }
 });
